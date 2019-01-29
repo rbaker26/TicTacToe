@@ -1,10 +1,15 @@
 package cs4b.proj1;
 
-
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * A Board class the holds the data necessary to display a board.
+ * This class contains no "win/lose" logic. It is simply a Data-Storage Object with
+ * access rule-methods.
+ * @class Board
+ * @author Bob Baker
+ */
 public class Board {
 
     //***************************************************************************
@@ -14,14 +19,17 @@ public class Board {
     final int BOARD_SIZE_Y = 3;
     final char DEFAULT_VALUE = ' ';
     private char boardArray[][] = new char[BOARD_SIZE_X][BOARD_SIZE_Y];
-
     //***************************************************************************
-
 
 
     //***************************************************************************
     // Constructors
     //***************************************************************************
+    /**
+     * Default Board Constructor
+     * Makes a Board Object with all positions set to ' '.
+     * @author Bob Baker
+     */
     public Board() {
         // Set Default-Board to all spaces
         for(int i = 0; i < BOARD_SIZE_X; ++i) {
@@ -30,7 +38,12 @@ public class Board {
             }
         }
     }
-
+    //***************************************************************************
+    /**
+     * Makes a Board Object from a 2D Array of a Board.
+     * @param boardArray
+     * @author Bob Baker
+     */
     public Board(char[][] boardArray) {
         this.boardArray = boardArray;
     }
@@ -38,6 +51,11 @@ public class Board {
 
 
     //***************************************************************************
+    /**
+     * Returns a 2D array of the board data.
+     * @return boardArray
+     * @author Bob Baker
+     */
     public char[][] getBoardArray() {
         return boardArray;
     }
@@ -45,9 +63,17 @@ public class Board {
 
 
     //***************************************************************************
+    /**
+     * Sets the value of one position on the Board.
+     * @param x
+     * @param y
+     * @param c
+     * @throws IllegalArgumentException
+     * @author Bob Baker
+     */
     public void setPos(int x, int y, char c) {
         // Check Bounds - Throw RT-Expt if not in bounds
-        if(x > BOARD_SIZE_X || y > BOARD_SIZE_Y) {
+        if((x > BOARD_SIZE_X || y > BOARD_SIZE_Y) || (x < 0 || y < 0))  {
             String error = String.format("INVALID XY CHORD (%d,%d): Must be bounded by " +
                     "(BOARD_SIZE_X,BOARD_SIZE_Y)(%d,%d)",x,y,BOARD_SIZE_X,BOARD_SIZE_Y);
             throw new IllegalArgumentException(error);
@@ -58,10 +84,19 @@ public class Board {
     }
     //***************************************************************************
 
+
     //***************************************************************************
+    /**
+     * Returns the char value at a given position on the Board.
+     * @param x
+     * @param y
+     * @return (char) value
+     * @throws IllegalArgumentException
+     * @author Bob Baker
+     */
     public char getPos(int x, int y) {
         // Check Bounds - Throw RT-Expt if not in bounds
-        if (x > BOARD_SIZE_X || y > BOARD_SIZE_Y) {
+        if ((x > BOARD_SIZE_X || y > BOARD_SIZE_Y) || (x < 0 || y < 0)) {
             String error = String.format("INVALID XY CHORD (%d,%d): Must be bounded by " +
                     "(BOARD_SIZE_X,BOARD_SIZE_Y)(%d,%d)", x, y, BOARD_SIZE_X, BOARD_SIZE_Y);
             throw new IllegalArgumentException(error);
@@ -73,6 +108,11 @@ public class Board {
 
 
     //***************************************************************************
+    /**
+     * Returns the hashCode reference of a Board Object
+     * @return hashCode
+     * @author Bob Baker
+     */
     @Override
     public int hashCode() {
         return Objects.hash(boardArray,DEFAULT_VALUE,BOARD_SIZE_X,BOARD_SIZE_Y);
@@ -81,6 +121,12 @@ public class Board {
 
 
     //***************************************************************************
+    /**
+     * Compares two Board objects
+     * @param obj
+     * @return (bool) isEqual
+     * @author Bob Baker
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Board) {
@@ -99,6 +145,11 @@ public class Board {
 
     //***************************************************************************
     @Override
+    /**
+     * Returns a formatted string representing the Board View.
+     * @return (String) toString
+     * @author Bob Baker
+     */
     // not for dev, only for testing.
     // prints with formatting
     public String toString() {
@@ -114,6 +165,5 @@ public class Board {
         return sb.toString();
     }
     //***************************************************************************
-
 
 }

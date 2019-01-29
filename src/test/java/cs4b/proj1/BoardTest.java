@@ -61,4 +61,79 @@ public class BoardTest {
         assertFalse(b1.equals(b2));
     }
     //***************************************************************************
+
+
+    //***************************************************************************
+    @Test public void testThrowOnSetGetPos() {
+        Board b = new Board();
+
+        final int TEST_INDEX_X = b.BOARD_SIZE_X*2;
+        final int TEST_INDEX_Y = b.BOARD_SIZE_Y*2;
+        final char TEST_VAL = 'X';
+
+        // setPos()
+        boolean caught = false;
+        try {
+            b.setPos(TEST_INDEX_X,TEST_INDEX_Y,TEST_VAL);
+            fail();
+        }
+        catch (IllegalArgumentException iae) {
+            assertNotNull(iae.getMessage());
+            caught = true;
+            assertTrue(caught);
+        }
+
+        caught = false;
+        try {
+            b.setPos(-TEST_INDEX_X,-TEST_INDEX_Y,TEST_VAL);
+            fail();
+        }
+        catch (IllegalArgumentException iae) {
+            assertNotNull(iae.getMessage());
+            caught = true;
+            assertTrue(caught);
+        }
+
+        // getPos()
+        caught = false;
+        try {
+            b.getPos(-TEST_INDEX_X,-TEST_INDEX_Y);
+            fail();
+        }
+        catch (IllegalArgumentException iae) {
+            assertNotNull(iae.getMessage());
+            caught = true;
+            assertTrue(caught);
+        }
+
+        caught = false;
+        try {
+            b.getPos(-TEST_INDEX_X,-TEST_INDEX_Y);
+            fail();
+        }
+        catch (IllegalArgumentException iae) {
+            assertNotNull(iae.getMessage());
+            caught = true;
+            assertTrue(caught);
+        }
+    }
+    //***************************************************************************
+
+
+    //***************************************************************************
+    @Test public void testToString() {
+        Board b = new Board();
+        final char TEST_VAL = 'X';
+
+        for(int i = 0; i < b.BOARD_SIZE_X; ++i) {
+            for(int j = 0; j < b.BOARD_SIZE_Y; ++j) {
+                b.setPos(i,j,TEST_VAL);
+            }
+        }
+        System.out.println(b.toString());
+    }
+    //***************************************************************************
+
+
+
 }
