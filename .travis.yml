@@ -11,7 +11,7 @@ branches:
     - master
 
 script:
-    - ls -l
+    - ls -l 
 #   - chmod +x ./gradlew
 #   - chmod +x gradlew
 #   - chmod +x gradle/wrapper/gradle-wrapper.jar
