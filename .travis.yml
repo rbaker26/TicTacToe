@@ -1,10 +1,4 @@
 language: java
-sudo: required
-before_install:
- - sudo apt install gradle
- - chmod +x gradlew
- 
- - echo ggggggggggggggggggggggggggggggggg
 jdk:
   - oraclejdk11
 os:
@@ -15,14 +9,5 @@ os:
 #     - master
 
 script:
- - echo jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
-  - ./gradlew clean build -i --continue
-  - echo ****************************************************
-#script:
-#    - ls -l 
-# #   - chmod +x ./gradlew
-# #   - chmod +x gradlew
-# #   - chmod +x gradle/wrapper/gradle-wrapper.jar
-#   - ./gradlew check
-#   - ./gradlew test
-#   - ./gradlew run
+  - gradle build
+  - gradle test
