@@ -9,6 +9,7 @@ branches:
     - master
 
 script:
+  - chmod +x gradle/wrapper/gradle-wrapper.jar
   - ./gradlew check
   - ./gradlew test
   - ./gradlew run
