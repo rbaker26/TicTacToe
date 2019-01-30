@@ -1,4 +1,3 @@
-install: gradle wrapper --gradle-version 4.2
 language: java
 jdk:
   - oraclejdk11
@@ -10,6 +9,8 @@ branches:
     - master
 
 script:
+  - chmod +x ./gradlew
+  - chmod +x gradlew
   - chmod +x gradle/wrapper/gradle-wrapper.jar
   - ./gradlew check
   - ./gradlew test
