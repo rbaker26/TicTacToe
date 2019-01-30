@@ -1,7 +1,9 @@
 language: java
 sudo: required
 before_install:
+ - sudo apt install gradle
  - chmod +x gradlew
+ 
  - echo ggggggggggggggggggggggggggggggggg
 jdk:
   - oraclejdk11
