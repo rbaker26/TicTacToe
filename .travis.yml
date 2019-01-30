@@ -1,6 +1,9 @@
 language: java
 jdk:
   - oraclejdk11
+before_install:
+  - pwd
+  - ls -l
 # os:
 #   - linux
 # branches:
