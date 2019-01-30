@@ -13,6 +13,7 @@ os:
 
 script:
   - ./gradlew clean build -i --continue
+  - echo ****************************************************
 #script:
 #    - ls -l 
 # #   - chmod +x ./gradlew
