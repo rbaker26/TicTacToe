@@ -1,6 +1,7 @@
 language: java
-# before_install:
-#  - chmod +x ./gradlew
+sudo: required
+before_install:
+ - chmod +x gradlew
 jdk:
   - oraclejdk11
 os:
