@@ -13,6 +13,7 @@ os:
 #     - master
 
 script:
+ - echo jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
   - ./gradlew clean build -i --continue
   - echo ****************************************************
 #script:
