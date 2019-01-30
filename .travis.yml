@@ -7,11 +7,13 @@ jdk:
 os:
   - linux
 
-branches:
-  only:
-    - master
+# branches:
+#   only:
+#     - master
 
 script:
+  - ./gradlew clean build -i --continue
+#script:
 #    - ls -l 
 # #   - chmod +x ./gradlew
 # #   - chmod +x gradlew
