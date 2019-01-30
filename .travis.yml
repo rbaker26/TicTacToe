@@ -1,6 +1,6 @@
 language: java
 before_install:
- - chmod +x gradlew
+ - chmod +x ./gradlew
 jdk:
   - oraclejdk11
 os:
@@ -11,6 +11,7 @@ branches:
     - master
 
 script:
+    - ls -l
 #   - chmod +x ./gradlew
 #   - chmod +x gradlew
 #   - chmod +x gradle/wrapper/gradle-wrapper.jar
