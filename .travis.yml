@@ -7,6 +7,6 @@ jdk:
 #   only:
 #     - master
 
-script:
-  - gradle build
-  - gradle test
+# script:
+#   - gradle build
+#   - gradle test
