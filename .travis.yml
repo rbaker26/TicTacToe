@@ -1,17 +1,9 @@
 language: java
 jdk:
   - oraclejdk8
- 
-./gradlew assmble
-./gradlew check
 
-# before_cache:
-#   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-#   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-# cache:
-#   directories:
-#     - $HOME/.gradle/caches/
-#     - $HOME/.gradle/wrapper/
-    
-./gradlew test
-./gradlew run
+script:
+  - ./gradlew assmble
+  - ./gradlew check
+  - ./gradlew test
+  - ./gradlew run
