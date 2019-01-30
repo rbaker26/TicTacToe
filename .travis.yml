@@ -2,6 +2,7 @@ language: java
 sudo: required
 before_install:
  - chmod +x gradlew
+ - echo ggggggggggggggggggggggggggggggggg
 jdk:
   - oraclejdk11
 os:
