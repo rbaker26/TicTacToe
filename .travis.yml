@@ -1,9 +1,8 @@
 language: java
 jdk:
   - oraclejdk11
-os:
-  - linux
-
+# os:
+#   - linux
 # branches:
 #   only:
 #     - master
