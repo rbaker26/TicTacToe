@@ -10,7 +10,6 @@ jobs:
                 keys:
                     - gradle-{{ checksum "build.gradle" }}
             - run: gradle assemble
-            - run: gradle run
             - run: gradle test
             - save_cache:
                 paths:
