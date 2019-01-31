@@ -1,17 +1,8 @@
 language: java
+install: true
+
 jdk:
   - oraclejdk8
-before_install:
-#   - gradle wrapper
-  - pwd
-  - ls -l
-  - ./gradlew build --verbose
-# os:
-#   - linux
-# branches:
-#   only:
-#     - master
 
-before_script:
-  - ./gradlew build
-  - ./gradlew test
+script:
+  - ./gradlew build --scan -s
