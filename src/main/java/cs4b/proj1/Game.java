@@ -19,6 +19,9 @@ public class Game {
         this.board = new Board();
     }
 
+    void makePlay(Player player) {
+        makePlay(Player player,0, 0)
+    }
     void makePlay(Player player, int x, int y) {
         // If we use this implamentation, we have to do it this way because board is not in the scope of PlayerBehavior
         // If the Type is NPC, the xy values will be discarded.
@@ -32,17 +35,22 @@ public class Game {
         }
         else if(player.pb instanceof NPCHard) {
             // Use AI
-            Pair<Integer,Integer> pair= minimax(board);
+            Pair<Integer,Integer> pair= minimax_helper(board);
             board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
 
         }
     }
 
-    private Pair<Integer,Integer> minimax (Board b) {
+    private Pair<Integer,Integer> minimax_helper (Board b) {
 
+        minimax();
         return new Pair<>(1,1);
     }
 
+    private Pair<Integer,Integer> minimax(){
+        //TODO
+        // write the minimax
+    }
     private Pair<Integer,Integer> random (Board b) {
 
         return new Pair<>(1,1);
