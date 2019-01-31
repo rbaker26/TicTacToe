@@ -8,6 +8,7 @@ public class BoardTest {
     //***************************************************************************
     @Test public void testBoardInitialValues() {
         Board b = new Board();
+        fail();
         for(int i = 0; i < b.BOARD_SIZE_X; ++i) {
             for(int j = 0; j < b.BOARD_SIZE_Y; ++j) {
                 assertEquals(b.getPos(i,j), b.DEFAULT_VALUE);
