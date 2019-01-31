@@ -19,9 +19,9 @@ public class Game {
         this.board = new Board();
     }
 
-    void makePlay(Player player) {
-        makePlay(Player player,0, 0)
-    }
+//    void makePlay(Player player) {
+//        makePlay(player,0, 0);
+//    }
     void makePlay(Player player, int x, int y) {
         // If we use this implamentation, we have to do it this way because board is not in the scope of PlayerBehavior
         // If the Type is NPC, the xy values will be discarded.
@@ -50,6 +50,7 @@ public class Game {
     private Pair<Integer,Integer> minimax(){
         //TODO
         // write the minimax
+        return new Pair<>(1,1);
     }
     private Pair<Integer,Integer> random (Board b) {
 
