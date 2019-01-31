@@ -4,6 +4,7 @@
 build
 
 .idea/
+.gradle/
 *.iml
 out/
 # Ignore Gradle GUI config
