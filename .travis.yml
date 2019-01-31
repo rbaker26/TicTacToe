@@ -1,10 +1,10 @@
 language: java
 jdk:
-  - oraclejdk9
-before_install:
-  - gradle wrapper
-  - pwd
-  - ls -l
+  - oraclejdk11
+# before_install:
+#   - gradle wrapper
+#   - pwd
+#   - ls -l
 # os:
 #   - linux
 # branches:
