@@ -12,8 +12,7 @@ plugins {
 
     // Apply the application plugin to add support for building an application
     id 'application'
-
-    id 'org.openjfx.javafxplugin' version '0.0.5'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
 repositories {
@@ -24,6 +23,7 @@ repositories {
 
 javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
+    version = "11.0.1"
 }
 
 dependencies {
