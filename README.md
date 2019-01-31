@@ -1,2 +1,2 @@
 # TicTacToe
-[![Build Status](https://travis-ci.org/rbaker26/TicTacToe.svg?branch=master)](https://travis-ci.org/rbaker26/TicTacToe)
+[![CircleCI](https://circleci.com/gh/rbaker26/TicTacToe.svg?style=svg)](https://circleci.com/gh/rbaker26/TicTacToe)
