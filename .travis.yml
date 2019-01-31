@@ -11,6 +11,6 @@ before_install:
 #   only:
 #     - master
 
-script:
+before_script:
   - ./gradlew build
   - ./gradlew test
