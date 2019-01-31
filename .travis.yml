@@ -5,6 +5,7 @@ before_install:
 #   - gradle wrapper
   - pwd
   - ls -l
+  - ./gradlew build --verbose
 # os:
 #   - linux
 # branches:
