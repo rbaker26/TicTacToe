@@ -65,8 +65,8 @@ public class Game {
         int x;
         int y;
         do {
-            x = rand.nextInt(3);
-            y = rand.nextInt(3);
+            x = rand.nextInt(board.BOARD_SIZE_X);
+            y = rand.nextInt(board.BOARD_SIZE_Y);
         }while(board.getPos(x,y) != board.DEFAULT_VALUE/*board.getPos(x,y) == p1 || board.getPos(x,y) == p2*/);
 
         return new Pair<>(x,y);

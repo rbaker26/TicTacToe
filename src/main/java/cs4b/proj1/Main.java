@@ -7,10 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import cs4b.music.MusicPlayer;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        MusicPlayer mp = MusicPlayer.getInstance();
+
 		URL url = getClass().getResource("sample.fxml");
 		System.out.println(url);
         Parent root = FXMLLoader.load(url);
