@@ -13,7 +13,7 @@ public class MusicPlayer {
     }
     MediaPlayer mediaPlayer;
     private MusicPlayer() {
-        String path = "src/main/resources/music/01 A Night Of Dizzy Spells.mp3";
+        String path = "src/main/resources/music/Cave_Story.mp3";
         Media hit = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(hit);
         mediaPlayer.play();
