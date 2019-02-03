@@ -2,10 +2,13 @@ package cs4b.proj1;
 
 import javafx.util.Pair;
 
-public abstract class HPC extends PlayerBehavior {
+public abstract class HPC implements PlayerBehavior {
 
     public HPC() {
-        super();
     }
 
+    @Override
+    public Pair<Integer, Integer> getMove(Board b) {
+        return null;
+    }
 }
