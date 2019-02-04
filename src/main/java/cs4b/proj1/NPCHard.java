@@ -8,9 +8,9 @@ public class NPCHard implements PlayerBehavior {
     }
 
     @Override
-    public Pair<Integer, Integer> getMove(Board b) {
+    public void getMove(Board b) {
 
-        return null;
+        //return null;
     }
 
 //    // idk if i like this. I might make this makeMove(Board b)
