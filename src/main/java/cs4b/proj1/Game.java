@@ -25,6 +25,7 @@ public class Game {
         makePlay(player,0, 0);
     }
     void makePlay(Player player, int x, int y) {
+
         // If we use this implamentation, we have to do it this way because board is not in the scope of PlayerBehavior
         // If the Type is NPC, the xy values will be discarded.
         if(player.pb instanceof HPC) {
@@ -41,6 +42,7 @@ public class Game {
             board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
 
         }
+
     }
 
     Pair<Integer,Integer> minimax_helper (Board b) {
