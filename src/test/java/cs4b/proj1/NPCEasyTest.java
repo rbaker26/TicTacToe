@@ -24,6 +24,25 @@ public class NPCEasyTest {
         return matches;
     }
 
+    private Pair<Integer, Integer> findSelectedSpace(Board b, char token) {
+
+        Pair<Integer, Integer> selection = null;
+
+        // Yes, I'm putting more than one check inside the loop.
+        // I'm not sorry.
+        for(int x = 0; x < b.BOARD_SIZE_X && selection == null; x++) {
+            for(int y = 0; y < b.BOARD_SIZE_Y && selection == null; y++) {
+
+                if(b.getPos(x, y) == token) {
+                    b.setPos(x, y, b.DEFAULT_VALUE);
+                    selection = new Pair<>(x, y);
+                }
+            }
+        }
+
+        return selection;
+    }
+
 
     @Test public void testRange() {
 
@@ -50,12 +69,15 @@ public class NPCEasyTest {
 
         PlayerBehavior behavior = new NPCEasy();
         Board testBoard = new Board();
+        char token = 'X';
 
 
         HashMap<Pair<Integer,Integer>, Integer> matches = prepareMatchMap(testBoard);
 
         for(int i = 0; i < MAX_TESTS; i++) {
-            Pair<Integer, Integer> selection = behavior.getMove(testBoard);
+            //Pair<Integer, Integer> selection = behavior.getMove(testBoard);
+            behavior.getMove(testBoard, token);
+            Pair<Integer, Integer> selection = findSelectedSpace(testBoard, token);
 
             int matchCount = matches.getOrDefault(selection, 0);
             matches.put(selection, matchCount + 1);
@@ -72,11 +94,12 @@ public class NPCEasyTest {
         matches.forEach((Pair<Integer,Integer> k, Integer v) -> assertTrue(v > 0));
 
 
-        testBoard.setPos(1, 1, 'X');
+        testBoard.setPos(1, 1, 'O');
         matches = prepareMatchMap(testBoard);
 
         for(int i = 0; i < MAX_TESTS; i++) {
-            Pair<Integer, Integer> selection = behavior.getMove(testBoard);
+            behavior.getMove(testBoard, token);
+            Pair<Integer, Integer> selection = findSelectedSpace(testBoard, token);
 
             int matchCount = matches.getOrDefault(selection, 0);
             matches.put(selection, matchCount + 1);

@@ -8,7 +8,7 @@ public class HPC implements PlayerBehavior {
     }
 
     @Override
-    public void getMove(Board b) {
+    public void getMove(Board b, char token) {
 
     }
 }

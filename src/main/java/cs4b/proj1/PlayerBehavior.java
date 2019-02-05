@@ -4,5 +4,5 @@ import javafx.util.Pair;
 
 public abstract interface PlayerBehavior {
     //PlayerBehavior(){}
-    public void getMove(Board b);
+    public void getMove(Board b, char token);
 }
