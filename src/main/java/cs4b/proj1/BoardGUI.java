@@ -73,8 +73,10 @@ public class BoardGUI extends GridPane {
         ObservableList<Node> nodes = this.getChildren();
         ImageView image;
         for(Node node : nodes) {
-            image = (ImageView)((Pane)node).getChildren().get(0);
-            image.setImage(emptyImg);
+            if(node instanceof Pane) {
+                image = (ImageView) ((Pane) node).getChildren().get(0);
+                image.setImage(emptyImg);
+            }
         }
     }
 }
