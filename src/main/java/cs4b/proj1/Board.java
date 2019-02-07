@@ -2,6 +2,7 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.IObserver;
 import cs4b.proj1.observer.ISubject;
+import cs4b.proj1.observer.SubjectAssistant;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -80,7 +81,8 @@ public class Board implements ISubject<Board.SubjectMode> {
         changed;
     }
 
-    private HashMap<SubjectMode, ArrayList<IObserver>> observers;
+    //private HashMap<SubjectMode, ArrayList<IObserver>> observers;
+    private SubjectAssistant<Board.SubjectMode> subjAssist;
     //***************************************************************************
 
     //***************************************************************************
@@ -109,12 +111,9 @@ public class Board implements ISubject<Board.SubjectMode> {
             }
         }
 
-        //boardChangedSignal = new Signal<>();
-
-        // Create the HashMap and a TreeSet for each of our subject modes.
-        observers = new HashMap<>();
-        EnumSet.allOf(SubjectMode.class).forEach(mode -> observers.put(mode, new ArrayList<>()));
+        subjAssist = new SubjectAssistant<>(EnumSet.allOf(SubjectMode.class));
     }
+
     //***************************************************************************
     /**
      * Makes a Board Object from a 2D Array of a Board.
@@ -142,23 +141,17 @@ public class Board implements ISubject<Board.SubjectMode> {
     //** ISubject ***************************************************************
     @Override
     public void subscribe(IObserver newObserver, SubjectMode mode) {
-        ArrayList list = observers.get(mode);
-
-        if(!list.contains(newObserver)) {
-            list.add(newObserver);
-        }
+        subjAssist.subscribe(newObserver, mode);
     }
 
     @Override
     public void unsubscribe(IObserver oldObserver, SubjectMode mode) {
-        observers.get(mode).remove(oldObserver);
+        subjAssist.unsubscribe(oldObserver, mode);
     }
 
     @Override
     public void unsubscribeAll(IObserver oldObserver) {
-        observers.forEach(
-                (SubjectMode mode, ArrayList<IObserver> set) -> set.remove(oldObserver)
-        );
+        subjAssist.unsubscribeAll(oldObserver);
     }
     //***************************************************************************
 
@@ -182,9 +175,7 @@ public class Board implements ISubject<Board.SubjectMode> {
         else {
             boardArray[x][y] = c;
 
-            observers.get( SubjectMode.changed).forEach(
-                    (IObserver o) -> o.update(new ChangedInfo(x, y, c) )
-            );
+            subjAssist.triggerUpdate(SubjectMode.changed, new ChangedInfo(x, y, c));
         }
     }
     //***************************************************************************

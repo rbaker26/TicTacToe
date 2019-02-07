@@ -37,4 +37,5 @@ public interface ISubject<T> {
      * @author Daniel Edwards
      */
     void unsubscribeAll(IObserver observer);
+
 }

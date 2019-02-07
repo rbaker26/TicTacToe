@@ -11,6 +11,12 @@ import java.util.*;
  *
  */
 public class Game implements ISubject {
+
+    // TODO There needs to be some concrete way of tracking the current player.
+    //      Otherwise, when we go to serialize/deserialize, there won't be any
+    //      way of checking who's turn it is.
+
+
     private Player player1;
     private Player player2;
     Board board;
@@ -91,6 +97,8 @@ public class Game implements ISubject {
     }
 
     void makePlay(Player currentPlayer, int x, int y) {
+
+        // TODO This will need to end the game if the spaces fill up.
 
         board.setPos(x, y, currentPlayer.getSymbol());
 
