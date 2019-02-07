@@ -1,8 +1,10 @@
 package cs4b.proj1;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import java.io.FileInputStream;
@@ -18,6 +20,8 @@ public class BoardGUI extends GridPane {
     private Image oImg;
     private Image emptyImg;
 
+    private boolean xTurn = true;
+
     BoardGUI() {
         try {
             xImg = new Image(new FileInputStream("src/main/resources/cs4b/proj1/img/X.png"));
@@ -32,14 +36,20 @@ public class BoardGUI extends GridPane {
             for (int col = 0; col < MAX_SIZE; col++) {
                 Pane space = new Pane();
                 ImageView token = new ImageView();
-                token.setImage(xImg);
+                token.setImage(emptyImg);
                 token.setPreserveRatio(true);
                 token.setFitHeight(100);
                 space.getChildren().add(token);
                 space.setOnMouseClicked(event -> {
-                    this.toggleToken((Node)event.getSource());
+                    System.out.println(event.getButton());
+                    if(event.getButton() == MouseButton.SECONDARY) {
+                        this.resetBoard();
+                    } else {
+                        this.toggleToken((Node)event.getSource());
+                        //TODO Daniel, here is where your signal goes.
 //                    GridPane.getRowIndex((Node)event.getSource());
 //                    GridPane.getColumnIndex((Node)event.getSource());
+                    }
                 });
                 this.add(space, col, row);
             }
@@ -50,11 +60,22 @@ public class BoardGUI extends GridPane {
     public void toggleToken(Node node) {
         ImageView token = (ImageView)((Pane)node).getChildren().get(0);
         if(token.getImage().equals(emptyImg)) {
-            token.setImage(xImg);
-        } else if(token.getImage().equals(xImg)) {
-            token.setImage(oImg);
-        } else {
-            token.setImage(emptyImg);
+            if(xTurn) {
+                token.setImage(xImg);
+                xTurn = false;
+            } else {
+                token.setImage(oImg);
+                xTurn = true;
+            }
+        }
+    }
+
+    public void resetBoard() {
+        ObservableList<Node> nodes = this.getChildren();
+        ImageView image;
+        for(Node node : nodes) {
+            image = (ImageView)((Pane)node).getChildren().get(0);
+            image.setImage(emptyImg);
         }
     }
 }
