@@ -2,12 +2,16 @@ package cs4b.proj1;
 
 import javafx.util.Pair;
 
-public class NPCHard extends PlayerBehavior {
+public class NPCHard implements PlayerBehavior {
 
-    NPCHard() {
-        super();
+    NPCHard(){
     }
 
+    @Override
+    public void getMove(Board b, char token) {
+
+        //return null;
+    }
 
 //    // idk if i like this. I might make this makeMove(Board b)
 //    @Override
