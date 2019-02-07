@@ -46,6 +46,7 @@ public class BoardGUI extends GridPane {
                         this.resetBoard();
                     } else {
                         this.toggleToken((Node)event.getSource());
+                        //TODO Daniel, here is where your signal goes.
 //                    GridPane.getRowIndex((Node)event.getSource());
 //                    GridPane.getColumnIndex((Node)event.getSource());
                     }
