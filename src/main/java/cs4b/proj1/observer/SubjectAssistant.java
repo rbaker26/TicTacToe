@@ -1,9 +1,7 @@
 package cs4b.proj1.observer;
 
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /** SubjectAssistant
  * Helps objects implement ISubject. This provides functions which fulfill the
@@ -21,7 +19,7 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
 
     // TODO Try EnumMap again
     // We are NOT using a Set because the sets require the
-    private HashMap<T, List<IObserver>> observers;
+    private HashMap<T, Set<IObserver>> observers;
 
     //***************************************************************************
     /** SubjectAssistant
@@ -45,7 +43,7 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
      * @author Daniel Edwards
      */
     public void triggerUpdate(T mode, Object eventInfo) {
-        getSubscriberList(mode).forEach((IObserver o) -> o.update(eventInfo));
+        getSubscribers(mode).forEach((IObserver o) -> o.update(eventInfo));
     }
     //***************************************************************************
 
@@ -58,18 +56,18 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
      */
     @Override
     public void subscribe(IObserver newObserver, T mode) {
-        List<IObserver> list = getSubscriberList(mode);
+        //Set<IObserver> list = getSubscribers(mode);
+        getSubscribers(mode).add(newObserver);
 
-        if(!list.contains(newObserver)) {
-            list.add(newObserver);
-        }
+        //if(!list.contains(newObserver)) {
+        //}
     }
     //***************************************************************************
 
     //***************************************************************************
     @Override
     public void unsubscribe(IObserver oldObserver, T mode) {
-        getSubscriberList(mode).remove(oldObserver);
+        getSubscribers(mode).remove(oldObserver);
     }
     //***************************************************************************
 
@@ -79,21 +77,22 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
         // We want to run through every list we have so that we can
         // prune all references to oldObserver.
         observers.forEach(
-                (T mode, List<IObserver> obsList) -> obsList.remove(oldObserver)
+                (T mode, Collection<IObserver> obsList) -> obsList.remove(oldObserver)
         );
     }
     //***************************************************************************
 
 
     //***************************************************************************
-    private List<IObserver> getSubscriberList(T mode) {
-        List<IObserver> obsList = observers.get(mode);
+    private Set<IObserver> getSubscribers(T mode) {
+        Set<IObserver> observerSet = observers.get(mode);
 
-        if(obsList == null) {
-            obsList = observers.put(mode, new LinkedList<>());
+        if(observerSet == null) {
+            observerSet = new HashSet<>();
+            observers.put(mode, observerSet);
         }
 
-        return obsList;
+        return observerSet;
     }
     //***************************************************************************
 }

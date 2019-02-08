@@ -111,7 +111,7 @@ public class Board implements ISubject<Board.SubjectMode> {
             }
         }
 
-        subjAssist = new SubjectAssistant<>(EnumSet.allOf(SubjectMode.class));
+        subjAssist = new SubjectAssistant<>();
     }
 
     //***************************************************************************
