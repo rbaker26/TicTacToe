@@ -49,22 +49,33 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
 
     //***************************************************************************
     /** subscribe
-     * Adds a new observer to the list.
+     * Adds a new observer to the list. Duplicates are ignored, and null
+     * observers aren't allowed.
      *
-     * @param newObserver
+     * @param newObserver Observer to be added.
      * @param mode The subject-specific mode.
+     * @throws NullPointerException If newObserver is null.
+     * @author Daniel Edwards
      */
     @Override
     public void subscribe(IObserver newObserver, T mode) {
-        //Set<IObserver> list = getSubscribers(mode);
-        getSubscribers(mode).add(newObserver);
+        if(newObserver == null) {
+            throw new NullPointerException("Can't have a null observer.");
+        }
 
-        //if(!list.contains(newObserver)) {
-        //}
+        getSubscribers(mode).add(newObserver);
     }
     //***************************************************************************
 
     //***************************************************************************
+    /** unsubscribe
+     * Removes an old observer. Does nothing if the observer isn't already
+     * subscribed for the current mode.
+     *
+     * @param oldObserver Observer to attempt to remove.
+     * @param mode The subject-specific mode.
+     * @author Daniel Edwards
+     */
     @Override
     public void unsubscribe(IObserver oldObserver, T mode) {
         getSubscribers(mode).remove(oldObserver);
