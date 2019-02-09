@@ -2,7 +2,7 @@ package cs4b.proj1.observer;
 
 public interface ISubject<T> {
 
-    /** subscribe
+    /**
      * Subscribes the given observer, causing its update function to be called
      * for the given event. As there can be a variety of modes, subjects are
      * expected to implement some kind of object (e.g. an enum) to allow
@@ -18,7 +18,7 @@ public interface ISubject<T> {
      */
     void subscribe(IObserver observer, T mode);
 
-    /** unsubscribe
+    /**
      * Unsubscribes the given observer so that they will no longer receive
      * updates for the given event. Nothing should happen if the observer
      * isn't subscribed.
@@ -29,7 +29,7 @@ public interface ISubject<T> {
      */
     void unsubscribe(IObserver observer, T mode);
 
-    /** unsubscribeAll
+    /**
      * Unsubcribes the given observer entirely, causing them to no longer
      * recieve any updates from the subject.
      *

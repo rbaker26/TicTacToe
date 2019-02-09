@@ -3,7 +3,7 @@ package cs4b.proj1.observer;
 
 import java.util.*;
 
-/** SubjectAssistant
+/**
  * Helps objects implement ISubject. This provides functions which fulfill the
  * ISubject interface, and then a helper function to call the update functions
  * on each of the subscribed observers.
@@ -18,11 +18,13 @@ import java.util.*;
 public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
 
     // TODO Try EnumMap again
-    // We are NOT using a Set because the sets require the
+    /**
+     * Do not reference this directly; use the private getObserverSet method.
+     */
     private HashMap<T, Set<IObserver>> observers;
 
     //***************************************************************************
-    /** SubjectAssistant
+    /**
      * Construct a new assistant.
      *
      * @author Daniel Edwards
@@ -34,7 +36,7 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
     //***************************************************************************
 
     //***************************************************************************
-    /** triggerUpdate
+    /**
      * Calls the update function on each of the observers which have subscribed
      * using the given mode.
      *
@@ -43,12 +45,12 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
      * @author Daniel Edwards
      */
     public void triggerUpdate(T mode, Object eventInfo) {
-        getSubscribers(mode).forEach((IObserver o) -> o.update(eventInfo));
+        getObserverSet(mode).forEach((IObserver o) -> o.update(eventInfo));
     }
     //***************************************************************************
 
     //***************************************************************************
-    /** subscribe
+    /**
      * Adds a new observer to the list. Duplicates are ignored, and null
      * observers aren't allowed.
      *
@@ -63,26 +65,39 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
             throw new NullPointerException("Can't have a null observer.");
         }
 
-        getSubscribers(mode).add(newObserver);
+        getObserverSet(mode).add(newObserver);
     }
     //***************************************************************************
 
     //***************************************************************************
-    /** unsubscribe
+    /**
      * Removes an old observer. Does nothing if the observer isn't already
-     * subscribed for the current mode.
+     * subscribed for the current mode. The oldObserver must not be null.
      *
-     * @param oldObserver Observer to attempt to remove.
+     * @param oldObserver Observer to unsubscribe.
      * @param mode The subject-specific mode.
+     * @throws NullPointerException If newObserver is null.
      * @author Daniel Edwards
      */
     @Override
     public void unsubscribe(IObserver oldObserver, T mode) {
-        getSubscribers(mode).remove(oldObserver);
+        if(oldObserver == null) {
+            throw new NullPointerException("Can't have a null observer.");
+        }
+
+        getObserverSet(mode).remove(oldObserver);
     }
     //***************************************************************************
 
     //***************************************************************************
+    /**
+     * Removes an old observer from all update modes. Does nothing if the
+     * observer is unsubscribed. The oldObserver must not be null.
+     *
+     * @param oldObserver Observer to unsubscribe.
+     * @throws NullPointerException If newObserver is null.
+     * @author Daniel Edwards
+     */
     @Override
     public void unsubscribeAll(IObserver oldObserver) {
         // We want to run through every list we have so that we can
@@ -95,7 +110,15 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
 
 
     //***************************************************************************
-    private Set<IObserver> getSubscribers(T mode) {
+    /**
+     * Gets the set of observers associated with the given mode. The set
+     * within the observers HashMap created if it doesn't already exist.
+     *
+     * @param mode The mode to get the set from.
+     * @return The set of observers listening on the given mode.
+     * @author Daniel Edwards
+     */
+    private Set<IObserver> getObserverSet(T mode) {
         Set<IObserver> observerSet = observers.get(mode);
 
         if(observerSet == null) {
