@@ -100,6 +100,11 @@ public final class SubjectAssistant<T extends Enum<T>> implements ISubject<T> {
      */
     @Override
     public void unsubscribeAll(IObserver oldObserver) {
+
+        if(oldObserver == null) {
+            throw new NullPointerException("Can't have a null observer.");
+        }
+
         // We want to run through every list we have so that we can
         // prune all references to oldObserver.
         observers.forEach(

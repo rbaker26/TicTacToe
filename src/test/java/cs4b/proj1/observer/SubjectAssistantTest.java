@@ -179,5 +179,25 @@ public class SubjectAssistantTest {
 
         // This should not crash...
         sa.triggerUpdate(Modes.mode1, 10);
+
+        try {
+            sa.unsubscribe(nullObs, Modes.mode1);
+
+            // This should NOT happen. It should throw an exception and skip past this.
+            fail();
+        }
+        catch(NullPointerException ex) {
+            // All is good!
+        }
+
+        try {
+            sa.unsubscribeAll(nullObs);
+
+            // This should NOT happen. It should throw an exception and skip past this.
+            fail();
+        }
+        catch(NullPointerException ex) {
+            // All is good!
+        }
     }
 }
