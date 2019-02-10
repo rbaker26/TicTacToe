@@ -164,7 +164,6 @@ public class SubjectAssistantTest {
     public void subscribeNull() {
         SubjectAssistant<Modes> sa = new SubjectAssistant<>();
         TestObs nullObs = null;
-        assertTrue(false);
 
         try {
             sa.subscribe(nullObs, Modes.mode1);
