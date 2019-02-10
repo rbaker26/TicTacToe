@@ -182,7 +182,8 @@ public class Game implements ISubject<Game.SubjectMode> {
     public enum SubjectMode {
         /**
          * Triggered when the turn changes. Is triggered at the very beginning
-         * of the game, as well as upon the final move of the game.
+         * of the game, as well as upon the final move of the game. Intended
+         * for objects which are responsible for turns.
          * <p>
          * This passes along a Game.TurnInfo object.
          *
@@ -192,7 +193,9 @@ public class Game implements ISubject<Game.SubjectMode> {
 
         /**
          * Triggered when a player makes a move. Doesn't trigger at the start
-         * of the game, since no move has been made yet.
+         * of the game, since no move has been made yet. Intended for those
+         * which watch as the game progresses and care about each individual
+         * move.
          * <p>
          * This passes along a Game.MoveInfo object.
          *
