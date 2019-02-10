@@ -162,6 +162,7 @@ public class SubjectAssistantTest {
         assertEquals(o3.val, 1);
     }
 
+
     @Test
     public void subscribeNull() {
         SubjectAssistant<Modes> sa = new SubjectAssistant<>();
