@@ -1,5 +1,13 @@
 package cs4b.proj1.observer;
 
+/**
+ * Implementors of this can be observed by those who implement the IObserver class.
+ *
+ * @param <T> Some means of identifying types of events which can be fired.
+ *            Usually an enum but not necessarily one.
+ * @see IObserver
+ * @author Daniel Edwards
+ */
 public interface ISubject<T> {
 
     /**
@@ -7,7 +15,7 @@ public interface ISubject<T> {
      * for the given event. As there can be a variety of modes, subjects are
      * expected to implement some kind of object (e.g. an enum) to allow
      * subscribers to select what kind of events they are interested in.
-     *
+     * <p>
      * If an observer attempts to subscribe itself more than once, the first
      * subscription should be replaced. (Unless they are with differenct
      * modes, of course.)

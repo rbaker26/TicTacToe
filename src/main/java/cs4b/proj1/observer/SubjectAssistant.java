@@ -7,7 +7,7 @@ import java.util.*;
  * Helps objects implement ISubject. This provides functions which fulfill the
  * ISubject interface, and then a helper function to call the update functions
  * on each of the subscribed observers.
- *
+ * <p>
  * This has been marked final as it makes no sense to inherit from it. It can
  * be treated as a subject itself, so the owner could observe it, but that
  * seems overly convoluted.
