@@ -1,13 +1,10 @@
 package cs4b.proj1.observer;
 
-import javafx.util.Pair;
 import org.junit.Test;
-
-import cs4b.proj1.observer.*;
 import static org.junit.Assert.*;
-import static junit.framework.TestCase.fail;
 
 public class SubjectAssistantTest {
+
 
     private enum Modes {
         mode1, mode2;
@@ -172,7 +169,8 @@ public class SubjectAssistantTest {
             sa.subscribe(nullObs, Modes.mode1);
 
             // This should NOT happen. It should throw an exception and skip past this.
-            fail();
+            //fail();
+            assertTrue(false);
         }
         catch(NullPointerException ex) {
             // All is good!
@@ -185,7 +183,8 @@ public class SubjectAssistantTest {
             sa.unsubscribe(nullObs, Modes.mode1);
 
             // This should NOT happen. It should throw an exception and skip past this.
-            fail();
+            //fail();
+            assertTrue(false);
         }
         catch(NullPointerException ex) {
             // All is good!
@@ -195,7 +194,8 @@ public class SubjectAssistantTest {
             sa.unsubscribeAll(nullObs);
 
             // This should NOT happen. It should throw an exception and skip past this.
-            fail();
+            //fail();
+            assertTrue(false);
         }
         catch(NullPointerException ex) {
             // All is good!
