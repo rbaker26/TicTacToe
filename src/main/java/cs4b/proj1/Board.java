@@ -47,7 +47,13 @@ public class Board {
      * @author Bob Baker
      */
     public Board(char[][] boardArray) {
-        this.boardArray = boardArray;
+        this.boardArray = new char[this.BOARD_SIZE_X][this.BOARD_SIZE_Y];
+        for(int i = 0; i < this.BOARD_SIZE_X; i++) {
+            for( int j = 0; j < this.BOARD_SIZE_Y; j++) {
+                this.boardArray[i][j] = boardArray[i][j];
+            }
+        }
+        //this.boardArray = boardArray;
     }
     //***************************************************************************
 

@@ -172,7 +172,7 @@ public class NPCHard implements PlayerBehavior {
     //***************************************************************************
 
     //***************************************************************************
-    private Integer evalBoard(Board b) {
+    Integer evalBoard(Board b) {
         Integer rowWim = checkRowWin(b);
         if (rowWim != null) return rowWim;
         Integer colWin = checkColWin(b);
