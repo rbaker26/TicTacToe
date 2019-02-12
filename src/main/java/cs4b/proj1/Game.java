@@ -374,6 +374,11 @@ public class Game implements ISubject<Game.SubjectMode> {
      */
     @Override
     public void subscribe(IObserver observer, SubjectMode mode) {
+        // TODO Maybe needed for serializable?
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant<>();
+        }
+
         subjAssist.subscribe(observer, mode);
     }
 
@@ -388,6 +393,11 @@ public class Game implements ISubject<Game.SubjectMode> {
      */
     @Override
     public void unsubscribe(IObserver observer, SubjectMode mode) {
+        // TODO Maybe needed for serializable?
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant<>();
+        }
+
         subjAssist.unsubscribe(observer, mode);
     }
 
@@ -400,6 +410,11 @@ public class Game implements ISubject<Game.SubjectMode> {
      */
     @Override
     public void unsubscribeAll(IObserver observer) {
+        // TODO Maybe needed for serializable?
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant<>();
+        }
+
         subjAssist.unsubscribeAll(observer);
     }
 
