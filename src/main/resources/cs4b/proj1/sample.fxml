@@ -1,8 +1,50 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="cs4b.proj1.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane id="MainScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="500.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="151.0" layoutY="298.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" text="Against Computer - Easy" textFill="#252ce1">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font></Button>
+      <Button layoutX="151.0" layoutY="365.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" text="Against Computer - Hard" textFill="#d31f1f">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font></Button>
+      <Button layoutX="151.0" layoutY="233.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" text="Against Another Player" textFill="#951ee3">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font></Button>
+      <MenuBar layoutY="1.0" prefHeight="32.0" prefWidth="500.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Info">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About Our Game" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Text fill="#0e3fe5" layoutX="216.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TAC">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Text>
+      <Text fill="#e81818" layoutX="293.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOE">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Text>
+      <Text fill="#e81818" layoutX="151.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TIC">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
