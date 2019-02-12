@@ -17,7 +17,7 @@ public class Game implements ISubject<Game.SubjectMode> {
     // region below this comment called "Event info containers".
     // I typically put type definitions near the top of my code, but
     // it they've gotten long this time around. So do yourself a favor,
-    // and fold this region. Come back here if you need to check something.
+    // and fold this region.
 
 
     //region Event info containers **********************************************
@@ -356,7 +356,7 @@ public class Game implements ISubject<Game.SubjectMode> {
     }
 
 
-    //** ISubject ***************************************************************
+    //region ISubject *************************************************************
 
     /**
      * Subscribes the given observer, causing its update function to be called
@@ -403,5 +403,5 @@ public class Game implements ISubject<Game.SubjectMode> {
         subjAssist.unsubscribeAll(observer);
     }
 
-    //***************************************************************************
+    //endregion ISubject ***********************************************************
 }
