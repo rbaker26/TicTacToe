@@ -55,14 +55,16 @@ public class NPCHardTest {
         ArrayList<Board> boards = getFinishedBoards();
         ArrayList<Integer> scores = getFinishedBoardsScores();
 
+        System.out.println("--------------------------------------------");
         System.out.println("Board Winner Evaluation Test");
+        System.out.println("--------------------------------------------");
         System.out.println("Actual\tExpected");
         npcHard = new NPCHard(p1[0],p2[0]);
         for(int i = 0; i < numRounds[0]; i++) {
            assertEquals( npcHard.evalBoard(boards.get(i)),scores.get(i));
            System.out.println("" + npcHard.evalBoard(boards.get(i)) + "\t" +  scores.get(i));
         }
-
+        System.out.println("--------------------------------------------\n\n");
     }
     //***************************************************************************
 
@@ -169,6 +171,8 @@ public class NPCHardTest {
     //***************************************************************************
 
     //***************************************************************************
+    // Redundant
+    // Covered by evalBoardTest()
     @Test public void checkDig() {
         NPCHard npcHard = new NPCHard('X','O');
         char[][] tempBoard = {
@@ -196,4 +200,49 @@ public class NPCHardTest {
     }
     //***************************************************************************
 
+
+
+    //***************************************************************************
+    @Test public void isBoardFullTest() {
+        ArrayList<Board> boards = new ArrayList<>();
+        NPCHard npcHard = new NPCHard('X', 'Y');
+
+
+        char tempBoard[][] = null;
+        tempBoard = new char[][] {
+                {'X', 'O', 'O'},
+                {'O', 'O', 'X'},
+                {'O', ' ', 'X'}
+        };
+        boards.add(new Board(tempBoard));
+        tempBoard = new char[][] {
+                {'X', 'O', 'O'},
+                {'O', 'O', 'X'},
+                {'O', 'X', 'X'}
+        };
+        boards.add(new Board(tempBoard));
+        tempBoard = new char[][] {
+                {' ', ' ', ' '},
+                {' ', ' ', ' '},
+                {' ', ' ', ' '}
+        };
+        boards.add(new Board(tempBoard));
+
+        assertFalse(npcHard.isBoardFull(boards.get(0)));
+        assertTrue (npcHard.isBoardFull(boards.get(1)));
+        assertFalse(npcHard.isBoardFull(boards.get(0)));
+
+        System.out.println("--------------------------------------------");
+        System.out.println("isBoardFull Test");
+        System.out.println("--------------------------------------------");
+
+        for(int i = 0; i < 3; i++) {
+            System.out.println("Board " + i+1 + ":\t Is Full?\t" +
+                    npcHard.isBoardFull(boards.get(i)));
+            System.out.println(boards.get(i));
+        }
+        System.out.println("--------------------------------------------\n\n");
+    }
+    //***************************************************************************
 }
+

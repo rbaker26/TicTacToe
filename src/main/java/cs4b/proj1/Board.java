@@ -161,15 +161,15 @@ public class Board {
     // not for dev, only for testing.
     // prints with formatting
     public String toString() {
+        char delim = ' ';
         StringBuffer sb = new StringBuffer();
         for(int i = 0; i < BOARD_SIZE_X; ++i) {
             for(int j = 0; j < BOARD_SIZE_Y; ++j) {
                 sb.append(boardArray[i][j]);
-                sb.append(' ');
+                //sb.append(delim);
             }
             sb.append('\n');
         }
-        sb.append('\n');
         return sb.toString();
     }
     //***************************************************************************
