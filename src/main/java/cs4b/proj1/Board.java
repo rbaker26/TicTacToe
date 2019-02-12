@@ -1,9 +1,12 @@
 package cs4b.proj1;
 
+import cs4b.proj1.observer.IObserver;
+import cs4b.proj1.observer.ISubject;
+import cs4b.proj1.observer.SubjectAssistant;
 import javafx.util.Pair;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * A Board class the holds the data necessary to display a board.
@@ -12,7 +15,75 @@ import java.util.Objects;
  * @class Board
  * @author Bob Baker
  */
-public class Board {
+public class Board implements ISubject<Board.SubjectMode> {
+
+    //***************************************************************************
+    // Signals
+    //***************************************************************************
+    static public class ChangedInfo {
+        public ChangedInfo(int x, int y, char token) {
+            this.x = x;
+            this.y = y;
+            this.token = token;
+        }
+
+        public ChangedInfo() {
+            this(0, 0, '\0');
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public char getToken() {
+            return token;
+        }
+
+        /*
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
+        public void setToken(char token) {
+            this.token = token;
+        }
+        */
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ChangedInfo that = (ChangedInfo) o;
+            return getX() == that.getX() &&
+                    getY() == that.getY() &&
+                    getToken() == that.getToken();
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getX(), getY(), getToken());
+        }
+
+        private int x;
+        private int y;
+        private char token;
+    }
+
+    public enum SubjectMode {
+        changed;
+    }
+
+    //private HashMap<SubjectMode, ArrayList<IObserver>> observers;
+    private SubjectAssistant<Board.SubjectMode> subjAssist;
+    //***************************************************************************
 
     //***************************************************************************
     // Data
@@ -20,7 +91,7 @@ public class Board {
     final int BOARD_SIZE_X = 3;
     final int BOARD_SIZE_Y = 3;
     final char DEFAULT_VALUE = ' ';
-    private char boardArray[][] = new char[BOARD_SIZE_X][BOARD_SIZE_Y];
+    private char[][] boardArray = new char[BOARD_SIZE_X][BOARD_SIZE_Y];
     //***************************************************************************
 
 
@@ -39,7 +110,10 @@ public class Board {
                 boardArray[i][j] = DEFAULT_VALUE;
             }
         }
+
+        subjAssist = new SubjectAssistant<>();
     }
+
     //***************************************************************************
     /**
      * Makes a Board Object from a 2D Array of a Board.
@@ -64,6 +138,24 @@ public class Board {
     //***************************************************************************
 
 
+    //** ISubject ***************************************************************
+    @Override
+    public void subscribe(IObserver newObserver, SubjectMode mode) {
+        subjAssist.subscribe(newObserver, mode);
+    }
+
+    @Override
+    public void unsubscribe(IObserver oldObserver, SubjectMode mode) {
+        subjAssist.unsubscribe(oldObserver, mode);
+    }
+
+    @Override
+    public void unsubscribeAll(IObserver oldObserver) {
+        subjAssist.unsubscribeAll(oldObserver);
+    }
+    //***************************************************************************
+
+
     //***************************************************************************
     /**
      * Sets the value of one position on the Board.
@@ -82,6 +174,8 @@ public class Board {
         }
         else {
             boardArray[x][y] = c;
+
+            subjAssist.triggerUpdate(SubjectMode.changed, new ChangedInfo(x, y, c));
         }
     }
     //***************************************************************************

@@ -1,4 +1,5 @@
 package cs4b.proj1;
+import cs4b.proj1.observer.IObserver;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -35,6 +36,39 @@ public class BoardTest {
     }
     //***************************************************************************
 
+    //***************************************************************************
+    private class TestObserver implements IObserver {
+        public Board.ChangedInfo actualInfo;
+
+        public TestObserver() {
+        }
+
+        @Override
+        public void update(Object eventInfo) {
+            if(eventInfo instanceof Board.ChangedInfo) {
+                actualInfo = (Board.ChangedInfo) eventInfo;
+            }
+        }
+    }
+
+    @Test public void testBoardChangedSignal() {
+        Board b = new Board();
+        TestObserver observer = new TestObserver();
+
+        b.subscribe(observer, Board.SubjectMode.changed);
+
+        b.setPos(0, 0, 'a');
+        assertEquals(observer.actualInfo, new Board.ChangedInfo(0, 0, 'a'));
+
+        b.setPos(2, 2, 'm');
+        assertEquals(observer.actualInfo, new Board.ChangedInfo(2, 2, 'm'));
+
+        b.unsubscribe(observer, Board.SubjectMode.changed);
+
+        b.setPos(0, 1, 'n');
+        assertEquals(observer.actualInfo, new Board.ChangedInfo(2, 2, 'm'));
+    }
+    //***************************************************************************
 
     //***************************************************************************
     @Test public void testGetBoardArray() {
