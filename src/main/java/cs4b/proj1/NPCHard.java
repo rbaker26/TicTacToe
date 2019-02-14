@@ -48,7 +48,6 @@ public class NPCHard implements PlayerBehavior {
 
         for(int i = 0; i < b.BOARD_SIZE_X; i++) {
             for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
-                System.out.println("Test");
                 if(b.getPos(i,j) == b.DEFAULT_VALUE ) {
                     char tempChar;
                     if(isPlayer1sTurn) {
@@ -75,7 +74,7 @@ public class NPCHard implements PlayerBehavior {
             }
         }
 
-        System.out.println("" + xPos + " " + yPos );
+        System.out.println("Best Move:\t" + xPos + " " + yPos );
 
     }
     //***************************************************************************
@@ -118,14 +117,17 @@ public class NPCHard implements PlayerBehavior {
     private int minimize(Board b, int depth, boolean isMax) {
         // minimize
         int worst = Integer.MAX_VALUE;
-        Board temp = new Board(b.getBoardArray()); //TODO make sure this is a deep copy
-        for(int i = 0; i < temp.BOARD_SIZE_X; i++) {
-            for(int j = 0; j < temp.BOARD_SIZE_Y; j++) {
-                if(temp.getPos(i,j) == temp.DEFAULT_VALUE){
-                    
-                    temp.setPos(i,j,player2Char);
-                    worst = Integer.min(worst, minimax(temp,depth+1,!isMax));
-                    temp.setPos(i,j,temp.DEFAULT_VALUE);
+//        Board temp = new Board(b.getBoardArray()); //TODO make sure this is a deep copy
+        
+        for(int i = 0; i < b.BOARD_SIZE_X; i++) {
+            for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                if(b.getPos(i,j) == b.DEFAULT_VALUE){
+                    b.setPos(i,j,player2Char);
+//                    System.out.println("***************");
+//                    System.out.print(temp.toString());
+//                    System.out.println("***************\n");
+                    worst = Integer.min(worst, minimax(b,depth+1,!isMax));
+                    b.setPos(i,j,b.DEFAULT_VALUE);
                 }
             }
         }
@@ -138,13 +140,16 @@ public class NPCHard implements PlayerBehavior {
     private int maximize(Board b, int depth, boolean isMax) {
         // maximize
         int best = Integer.MIN_VALUE;
-        Board temp = new Board(b.getBoardArray()); //TODO make sure this is a deep copy
-        for(int i = 0; i < temp.BOARD_SIZE_X; i++) {
-            for(int j = 0; j < temp.BOARD_SIZE_Y; j++) {
-                if(temp.getPos(i,j) == temp.DEFAULT_VALUE){
-                    temp.setPos(i,j,player1Char);
-                    best = Integer.max(best, minimax(temp,depth+1,!isMax));
-                    temp.setPos(i,j,temp.DEFAULT_VALUE);
+        //Board temp = new Board(b.getBoardArray()); //TODO make sure this is a deep copy
+        for(int i = 0; i < b.BOARD_SIZE_X; i++) {
+            for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                if(b.getPos(i,j) == b.DEFAULT_VALUE){
+                    b.setPos(i,j,player1Char);
+//                    System.out.println("***************");
+//                    System.out.print(temp.toString());
+//                    System.out.println("***************\n");
+                    best = Integer.max(best, minimax(b,depth+1,!isMax));
+                    b.setPos(i,j,b.DEFAULT_VALUE);
                 }
             }
         }
@@ -180,7 +185,7 @@ public class NPCHard implements PlayerBehavior {
         if (colWin != null) return colWin;
         Integer digWin = checkDig(b);
         if (digWin != null) return digWin;
-        return null;
+        return 0;
     }
     //***************************************************************************
 
