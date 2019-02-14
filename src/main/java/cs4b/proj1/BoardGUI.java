@@ -18,20 +18,9 @@ import cs4b.proj1.observer.*;
  * The constructor iterates through each cell of the gridpane placing a pane with an ImageView.
  * Each pane is set up with an on click event to handle the toggling the tokens in the space
  */
-public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>, IObserver {
+public class BoardGUI extends GridPane implements ISubject, IObserver {
 
     //region Event info containers **********************************************
-    public enum SubjectMode {
-        /**
-         * Triggered when the player clicks on a space.
-         * <p>
-         * This passes along BoardGUI.SelectedSpaceInfo.
-         * </p>
-         * @see BoardGUI.SelectedSpaceInfo
-         */
-        SelectedSpace;
-    }
-
     public static class SelectedSpaceInfo {
         private int x;
         private int y;
@@ -83,7 +72,7 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
     private Image xImg;
     private Image oImg;
     private Image emptyImg;
-    private SubjectAssistant<BoardGUI.SubjectMode> subjAssist;
+    private SubjectAssistant subjAssist;
 
     private boolean xTurn = true;
 
@@ -97,7 +86,7 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
             System.out.println("File not found");
         }
 
-        subjAssist = new SubjectAssistant<>();
+        subjAssist = new SubjectAssistant();
 
         for (int row = 0; row < MAX_SIZE; row++) {
             for (int col = 0; col < MAX_SIZE; col++) {
@@ -114,7 +103,6 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
                     } else {
                         //this.toggleToken((Node)event.getSource());
                         subjAssist.triggerUpdate(
-                            SubjectMode.SelectedSpace,
                             new SelectedSpaceInfo(
                                 GridPane.getColumnIndex((Node)event.getSource()),
                                 GridPane.getRowIndex((Node)event.getSource())
@@ -212,12 +200,11 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
      * modes, of course.)
      *
      * @param observer The observer which will be subscribed.
-     * @param mode     The subject-specific mode.
      * @author Daniel Edwards
      */
     @Override
-    public void subscribe(IObserver observer, BoardGUI.SubjectMode mode) {
-        subjAssist.subscribe(observer, mode);
+    public void subscribe(IObserver observer) {
+        subjAssist.subscribe(observer);
     }
 
     /**
@@ -226,24 +213,11 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
      * isn't subscribed.
      *
      * @param observer Observer to be unsubscribed.
-     * @param mode     The subject-specific mode.
      * @author Daniel Edwards
      */
     @Override
-    public void unsubscribe(IObserver observer, BoardGUI.SubjectMode mode) {
-        subjAssist.unsubscribe(observer, mode);
-    }
-
-    /**
-     * Unsubcribes the given observer entirely, causing them to no longer
-     * recieve any updates from the subject.
-     *
-     * @param observer Observer to be unsubscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void unsubscribeAll(IObserver observer) {
-        subjAssist.unsubscribeAll(observer);
+    public void unsubscribe(IObserver observer) {
+        subjAssist.unsubscribe(observer);
     }
 
     //endregion ISubject ***********************************************************

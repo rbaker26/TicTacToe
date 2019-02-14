@@ -15,75 +15,7 @@ import java.util.function.Consumer;
  * @class Board
  * @author Bob Baker
  */
-public class Board implements ISubject<Board.SubjectMode> {
-
-    //***************************************************************************
-    // Signals
-    //***************************************************************************
-    static public class ChangedInfo {
-        public ChangedInfo(int x, int y, char token) {
-            this.x = x;
-            this.y = y;
-            this.token = token;
-        }
-
-        public ChangedInfo() {
-            this(0, 0, '\0');
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public char getToken() {
-            return token;
-        }
-
-        /*
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public void setToken(char token) {
-            this.token = token;
-        }
-        */
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            ChangedInfo that = (ChangedInfo) o;
-            return getX() == that.getX() &&
-                    getY() == that.getY() &&
-                    getToken() == that.getToken();
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(getX(), getY(), getToken());
-        }
-
-        private int x;
-        private int y;
-        private char token;
-    }
-
-    public enum SubjectMode {
-        changed;
-    }
-
-    //private HashMap<SubjectMode, ArrayList<IObserver>> observers;
-    private SubjectAssistant<Board.SubjectMode> subjAssist;
-    //***************************************************************************
+public class Board {
 
     //***************************************************************************
     // Data
@@ -110,8 +42,6 @@ public class Board implements ISubject<Board.SubjectMode> {
                 boardArray[i][j] = DEFAULT_VALUE;
             }
         }
-
-        subjAssist = new SubjectAssistant<>();
     }
 
     //***************************************************************************
@@ -138,24 +68,6 @@ public class Board implements ISubject<Board.SubjectMode> {
     //***************************************************************************
 
 
-    //** ISubject ***************************************************************
-    @Override
-    public void subscribe(IObserver newObserver, SubjectMode mode) {
-        subjAssist.subscribe(newObserver, mode);
-    }
-
-    @Override
-    public void unsubscribe(IObserver oldObserver, SubjectMode mode) {
-        subjAssist.unsubscribe(oldObserver, mode);
-    }
-
-    @Override
-    public void unsubscribeAll(IObserver oldObserver) {
-        subjAssist.unsubscribeAll(oldObserver);
-    }
-    //***************************************************************************
-
-
     //***************************************************************************
     /**
      * Sets the value of one position on the Board.
@@ -174,8 +86,6 @@ public class Board implements ISubject<Board.SubjectMode> {
         }
         else {
             boardArray[x][y] = c;
-
-            subjAssist.triggerUpdate(SubjectMode.changed, new ChangedInfo(x, y, c));
         }
     }
     //***************************************************************************

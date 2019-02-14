@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * The Game Engine
  */
-public class Game implements ISubject<Game.SubjectMode> {
+public class Game implements ISubject {
 
     // HEY, YOU!
     //
@@ -194,41 +194,6 @@ public class Game implements ISubject<Game.SubjectMode> {
         }
     }
 
-    public enum SubjectMode {
-        /**
-         * Triggered when the turn changes. Is triggered at the very beginning
-         * of the game, as well as upon the final move of the game. Intended
-         * for objects which are responsible for turns.
-         * <p>
-         * This passes along a Game.TurnInfo object.
-         *
-         * @see Game.TurnInfo
-         */
-        TurnChange,
-
-        /**
-         * Triggered when a player makes a move. Doesn't trigger at the start
-         * of the game, since no move has been made yet. Intended for those
-         * which watch as the game progresses and care about each individual
-         * move.
-         * <p>
-         * This passes along a Game.MoveInfo object.
-         *
-         * @see Game.MoveInfo
-         */
-        MoveMade,
-
-        /**
-         * Triggered when a move is made which ends the game, whether by
-         * causing a player to win or by causing a tie.
-         * <p>
-         * This passes along a Game.ResultInfo object.
-         *
-         * @see Game.ResultInfo
-         */
-        GameEnd;
-    }
-
 
     /**
      * Subscribes the given observer, causing its update function to be called
@@ -241,17 +206,16 @@ public class Game implements ISubject<Game.SubjectMode> {
      * modes, of course.)
      *
      * @param observer The observer which will be subscribed.
-     * @param mode     The subject-specific mode.
      * @author Daniel Edwards
      */
     @Override
-    public void subscribe(IObserver observer, SubjectMode mode) {
+    public void subscribe(IObserver observer) {
         // TODO Maybe needed for serializable?
         if(subjAssist == null) {
-            subjAssist = new SubjectAssistant<>();
+            subjAssist = new SubjectAssistant();
         }
 
-        subjAssist.subscribe(observer, mode);
+        subjAssist.subscribe(observer);
     }
 
     /**
@@ -260,34 +224,16 @@ public class Game implements ISubject<Game.SubjectMode> {
      * isn't subscribed.
      *
      * @param observer Observer to be unsubscribed.
-     * @param mode     The subject-specific mode.
      * @author Daniel Edwards
      */
     @Override
-    public void unsubscribe(IObserver observer, SubjectMode mode) {
+    public void unsubscribe(IObserver observer) {
         // TODO Maybe needed for serializable?
         if(subjAssist == null) {
-            subjAssist = new SubjectAssistant<>();
+            subjAssist = new SubjectAssistant();
         }
 
-        subjAssist.unsubscribe(observer, mode);
-    }
-
-    /**
-     * Unsubcribes the given observer entirely, causing them to no longer
-     * recieve any updates from the subject.
-     *
-     * @param observer Observer to be unsubscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void unsubscribeAll(IObserver observer) {
-        // TODO Maybe needed for serializable?
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant<>();
-        }
-
-        subjAssist.unsubscribeAll(observer);
+        subjAssist.unsubscribe(observer);
     }
 
     //endregion ISubject ***********************************************************
@@ -304,7 +250,7 @@ public class Game implements ISubject<Game.SubjectMode> {
 
     private Player currentPlayer;       // Used to track who's turn it is.
 
-    private SubjectAssistant<SubjectMode> subjAssist;
+    private SubjectAssistant subjAssist;
 
 
 
@@ -314,8 +260,6 @@ public class Game implements ISubject<Game.SubjectMode> {
         this.player2 = new Player(player2Behavior);
 
         this.board = new Board();
-
-        subjAssist = new SubjectAssistant<>();
     }
 
     /**
@@ -326,7 +270,7 @@ public class Game implements ISubject<Game.SubjectMode> {
     public void startGame() {
         currentPlayer = player1;
 
-        subjAssist.triggerUpdate(SubjectMode.TurnChange, new TurnInfo(currentPlayer, null, board));
+        subjAssist.triggerUpdate(new TurnInfo(currentPlayer, null, board));
     }
 
     @Deprecated
@@ -373,11 +317,9 @@ public class Game implements ISubject<Game.SubjectMode> {
         currentPlayer = nextPlayer;
 
         subjAssist.triggerUpdate(
-                SubjectMode.MoveMade,
                 new MoveInfo(x, y, nextPlayer, movingPlayer, board)
         );
         subjAssist.triggerUpdate(
-                SubjectMode.TurnChange,
                 new TurnInfo(nextPlayer, movingPlayer, board)
         );
 
