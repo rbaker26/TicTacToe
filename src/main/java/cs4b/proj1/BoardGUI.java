@@ -18,7 +18,7 @@ import cs4b.proj1.observer.*;
  * The constructor iterates through each cell of the gridpane placing a pane with an ImageView.
  * Each pane is set up with an on click event to handle the toggling the tokens in the space
  */
-public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode> {
+public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>, IObserver {
 
     //region Event info containers **********************************************
     public enum SubjectMode {
@@ -112,10 +112,7 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
                     if(event.getButton() == MouseButton.SECONDARY) {
                         this.resetBoard();
                     } else {
-                        this.toggleToken((Node)event.getSource());
-                        //TODO Daniel, here is where your signal goes.
-//                    GridPane.getRowIndex((Node)event.getSource());
-//                    GridPane.getColumnIndex((Node)event.getSource());
+                        //this.toggleToken((Node)event.getSource());
                         subjAssist.triggerUpdate(
                             SubjectMode.SelectedSpace,
                             new SelectedSpaceInfo(
@@ -155,6 +152,52 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
         }
     }
 
+    public void drawBoard(Board currentBoard) {
+        ObservableList<Node> nodes = this.getChildren();
+        ImageView image;
+        for(Node node : nodes) {
+
+            if(node instanceof Pane) {
+                image = (ImageView) ((Pane) node).getChildren().get(0);
+                int x = GridPane.getColumnIndex(node);
+                int y = GridPane.getRowIndex(node);
+
+                // TODO This is terrible. Characters are garbage.
+                switch(currentBoard.getPos(x, y)) {
+                    case 'X':
+                        image.setImage(xImg);
+                        break;
+                    case 'O':
+                        image.setImage(oImg);
+                        break;
+                    case ' ':
+                        image.setImage(emptyImg);
+                        break;
+                    default:
+                        throw new RuntimeException("Invalid board");
+                }
+            }
+        }
+    }
+
+    /**
+     * Let the observer know that something happened with one of its subjects.
+     *
+     * @param eventInfo Whatever the subject decides to share about the event.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void update(Object eventInfo) {
+        Board currentBoard = null;
+
+        if(eventInfo instanceof Game.TurnInfo) {
+            currentBoard = ((Game.TurnInfo) eventInfo).getCurrentBoard();
+        }
+
+        if(currentBoard != null) {
+            drawBoard(currentBoard);
+        }
+    }
 
     //region ISubject *************************************************************
 

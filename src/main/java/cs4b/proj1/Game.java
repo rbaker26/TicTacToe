@@ -20,7 +20,8 @@ public class Game implements ISubject<Game.SubjectMode> {
     // and fold this region.
 
 
-    //region Event info containers **********************************************
+    //region ISubject *************************************************************
+
     /**
      * Contains info on the current turn, including the previous move.
      * @see TurnInfo
@@ -31,15 +32,17 @@ public class Game implements ISubject<Game.SubjectMode> {
         private int y;
         private Player nextPlayer;
         private Player previousPlayer;
+        private Board currentBoard;
 
         public MoveInfo() {
         }
 
-        public MoveInfo(int x, int y, Player nextPlayer, Player previousPlayer) {
+        public MoveInfo(int x, int y, Player nextPlayer, Player previousPlayer, Board currentBoard) {
             this.x = x;
             this.y = y;
             this.nextPlayer = nextPlayer;
             this.previousPlayer = previousPlayer;
+            this.currentBoard = currentBoard;
         }
 
         public int getX() {
@@ -71,6 +74,10 @@ public class Game implements ISubject<Game.SubjectMode> {
             return previousPlayer;
         }
 
+        public Board getCurrentBoard() {
+            return currentBoard;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -79,12 +86,13 @@ public class Game implements ISubject<Game.SubjectMode> {
             return getX() == that.getX() &&
                     getY() == that.getY() &&
                     getPreviousPlayer() == that.getPreviousPlayer() &&
-                    Objects.equals(getNextPlayer(), that.getNextPlayer());
+                    Objects.equals(getNextPlayer(), that.getNextPlayer()) &&
+                    Objects.equals(getCurrentBoard(), that.getCurrentBoard());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getX(), getY(), getNextPlayer(), getPreviousPlayer());
+            return Objects.hash(getX(), getY(), getNextPlayer(), getPreviousPlayer(), getCurrentBoard());
         }
     }
 
@@ -97,12 +105,14 @@ public class Game implements ISubject<Game.SubjectMode> {
     static public class TurnInfo {
         private Player nextPlayer;
         private Player previousPlayer;
+        private Board currentBoard;
 
         public TurnInfo() {};
 
-        public TurnInfo(Player nextPlayer, Player previousPlayer) {
+        public TurnInfo(Player nextPlayer, Player previousPlayer, Board currentBoard) {
             this.nextPlayer = nextPlayer;
             this.previousPlayer = previousPlayer;
+            this.currentBoard = currentBoard;
         }
 
         /**
@@ -125,18 +135,23 @@ public class Game implements ISubject<Game.SubjectMode> {
             return previousPlayer;
         }
 
+        public Board getCurrentBoard() {
+            return currentBoard;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             TurnInfo turnInfo = (TurnInfo) o;
             return Objects.equals(getNextPlayer(), turnInfo.getNextPlayer()) &&
-                    Objects.equals(getPreviousPlayer(), turnInfo.getPreviousPlayer());
+                    Objects.equals(getPreviousPlayer(), turnInfo.getPreviousPlayer()) &&
+                    Objects.equals(getCurrentBoard(), turnInfo.getCurrentBoard());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getNextPlayer(), getPreviousPlayer());
+            return Objects.hash(getNextPlayer(), getPreviousPlayer(), getCurrentBoard());
         }
     }
 
@@ -214,149 +229,6 @@ public class Game implements ISubject<Game.SubjectMode> {
         GameEnd;
     }
 
-    //endregion Event info containers *******************************************
-
-
-    // TODO There needs to be some concrete way of tracking the current player.
-    //      Otherwise, when we go to serialize/deserialize, there won't be any
-    //      way of checking who's turn it is.
-
-
-    private Player player1;
-    private Player player2;
-    Board board;
-
-    private Player currentPlayer;       // Used to track who's turn it is.
-
-    private SubjectAssistant<SubjectMode> subjAssist;
-
-
-
-    public Game(PlayerBehavior player1Behavior, PlayerBehavior player2Behavior) {
-        // Init Player Behaviors
-        this.player1 = new Player(player1Behavior);
-        this.player2 = new Player(player2Behavior);
-
-        this.board = new Board();
-
-        subjAssist = new SubjectAssistant<>();
-    }
-
-    /**
-     * Call this once everything is set up. This may get deprecated/deleted
-     * if we force everything to be properly configured in the constructor.
-     * @author Daniel Edwards
-     */
-    public void startGame() {
-        currentPlayer = player1;
-
-        subjAssist.triggerUpdate(SubjectMode.TurnChange, new TurnInfo(currentPlayer, null));
-    }
-
-    @Deprecated
-    void makePlay(Player player) {
-        // For AI Plays.  Calls the same makePlay(Player player, int x, int y)
-        makePlay(player,0, 0);
-    }
-
-    /**
-     * Puts down the given player's symbol.
-     *
-     * @param movingPlayer
-     * @param x
-     * @param y
-     */
-    void makePlay(Player movingPlayer, int x, int y) {
-
-        // TODO This needs some tests.
-        //      However, none have been written because this method
-        //      is in a super nebulous state right now.
-
-        // TODO This should check for game over.
-        //      When the game does end, SubjectMode.GameEnd should be triggered.
-
-        // TODO This should probably safeguard against overriding other spaces.
-
-        // TODO Either call a function on nextPlayer or make sure that
-        //      the players are hooked up correctly with the events.
-
-        if(movingPlayer == null) {
-            throw new NullPointerException("movingPlayer must not be null!");
-        }
-        else if(movingPlayer != currentPlayer) {
-            throw new IllegalArgumentException(
-                    movingPlayer.toString() + " isn't the same as " + currentPlayer.toString()
-                    + ", yet " + movingPlayer.toString() + " attempted to make a move."
-            );
-        }
-
-        board.setPos(x, y, movingPlayer.getSymbol());
-
-        // TODO If the game is over, nextPlayer should become null.
-        Player nextPlayer = (movingPlayer != player1 ? player1 : player2);
-        currentPlayer = nextPlayer;
-
-        subjAssist.triggerUpdate(
-                SubjectMode.MoveMade,
-                new MoveInfo(x, y, nextPlayer, movingPlayer));
-        subjAssist.triggerUpdate(
-                SubjectMode.TurnChange,
-                new TurnInfo(nextPlayer, movingPlayer)
-        );
-
-
-        /*
-        // If we use this implamentation, we have to do it this way because board is not in the scope of PlayerBehavior
-        // If the Type is NPC, the xy values will be discarded.
-        if(player.pb instanceof HPC) {
-            board.setPos(x,y,player.getSymbol());
-        }
-        else if(player.pb instanceof NPCEasy) {
-            // Some random choice function
-            Pair<Integer,Integer> pair = random();
-            board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
-        }
-        else if(player.pb instanceof NPCHard) {
-            // Use AI
-            Pair<Integer,Integer> pair= minimax_helper(board);
-            board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
-
-        }
-        */
-
-    }
-
-    Pair<Integer,Integer> minimax_helper (Board b) {
-
-        minimax();
-        return new Pair<>(1,1);
-    }
-
-    private Pair<Integer,Integer> minimax(){
-        //TODO
-        // write the minimax
-        return new Pair<>(1,1);
-    }
-//    private void staticEvaluator() {
-//
-//    }
-
-    Pair<Integer,Integer> random (/*Board b*/) {
-        Random rand = new Random();
-        char p1 = player1.getSymbol();
-        char p2 = player2.getSymbol();
-        int x;
-        int y;
-        do {
-            x = rand.nextInt(3);
-            y = rand.nextInt(3);
-        }while(board.getPos(x,y) != board.DEFAULT_VALUE/*board.getPos(x,y) == p1 || board.getPos(x,y) == p2*/);
-
-        return new Pair<>(x,y);
-    }
-
-
-    //region ISubject *************************************************************
 
     /**
      * Subscribes the given observer, causing its update function to be called
@@ -419,4 +291,159 @@ public class Game implements ISubject<Game.SubjectMode> {
     }
 
     //endregion ISubject ***********************************************************
+
+
+    // TODO There needs to be some concrete way of tracking the current player.
+    //      Otherwise, when we go to serialize/deserialize, there won't be any
+    //      way of checking who's turn it is.
+
+
+    private Player player1;
+    private Player player2;
+    Board board;
+
+    private Player currentPlayer;       // Used to track who's turn it is.
+
+    private SubjectAssistant<SubjectMode> subjAssist;
+
+
+
+    public Game(PlayerBehavior player1Behavior, PlayerBehavior player2Behavior) {
+        // Init Player Behaviors
+        this.player1 = new Player(player1Behavior);
+        this.player2 = new Player(player2Behavior);
+
+        this.board = new Board();
+
+        subjAssist = new SubjectAssistant<>();
+    }
+
+    /**
+     * Call this once everything is set up. This may get deprecated/deleted
+     * if we force everything to be properly configured in the constructor.
+     * @author Daniel Edwards
+     */
+    public void startGame() {
+        currentPlayer = player1;
+
+        subjAssist.triggerUpdate(SubjectMode.TurnChange, new TurnInfo(currentPlayer, null, board));
+    }
+
+    @Deprecated
+    void makePlay(Player player) {
+        // For AI Plays.  Calls the same makePlay(Player player, int x, int y)
+        makePlay(player,0, 0);
+    }
+
+    /**
+     * Puts down the given player's symbol.
+     *
+     * @param movingPlayer
+     * @param x
+     * @param y
+     */
+    void makePlay(Player movingPlayer, int x, int y) {
+
+        // TODO This needs some tests.
+        //      However, none have been written because this method
+        //      is in a super nebulous state right now.
+
+        // TODO This should check for game over.
+        //      When the game does end, SubjectMode.GameEnd should be triggered.
+
+        // TODO This should probably safeguard against overriding other spaces.
+
+        // TODO Either call a function on nextPlayer or make sure that
+        //      the players are hooked up correctly with the events.
+
+        if(movingPlayer == null) {
+            throw new NullPointerException("movingPlayer must not be null!");
+        }
+        else if(movingPlayer != currentPlayer) {
+            throw new IllegalArgumentException(
+                    movingPlayer.toString() + " isn't the same as " + currentPlayer.toString()
+                    + ", yet " + movingPlayer.toString() + " attempted to make a move."
+            );
+        }
+
+        board.setPos(x, y, movingPlayer.getSymbol());
+
+        // TODO If the game is over, nextPlayer should become null.
+        Player nextPlayer = (movingPlayer != player1 ? player1 : player2);
+        currentPlayer = nextPlayer;
+
+        subjAssist.triggerUpdate(
+                SubjectMode.MoveMade,
+                new MoveInfo(x, y, nextPlayer, movingPlayer, board)
+        );
+        subjAssist.triggerUpdate(
+                SubjectMode.TurnChange,
+                new TurnInfo(nextPlayer, movingPlayer, board)
+        );
+
+
+
+        /*
+        // If we use this implamentation, we have to do it this way because board is not in the scope of PlayerBehavior
+        // If the Type is NPC, the xy values will be discarded.
+        if(player.pb instanceof HPC) {
+            board.setPos(x,y,player.getSymbol());
+        }
+        else if(player.pb instanceof NPCEasy) {
+            // Some random choice function
+            Pair<Integer,Integer> pair = random();
+            board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
+        }
+        else if(player.pb instanceof NPCHard) {
+            // Use AI
+            Pair<Integer,Integer> pair= minimax_helper(board);
+            board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
+
+        }
+        */
+
+    }
+
+    Pair<Integer,Integer> minimax_helper (Board b) {
+
+        minimax();
+        return new Pair<>(1,1);
+    }
+
+    private Pair<Integer,Integer> minimax(){
+        //TODO
+        // write the minimax
+        return new Pair<>(1,1);
+    }
+//    private void staticEvaluator() {
+//
+//    }
+
+    Pair<Integer,Integer> random (/*Board b*/) {
+        Random rand = new Random();
+        char p1 = player1.getSymbol();
+        char p2 = player2.getSymbol();
+        int x;
+        int y;
+        do {
+            x = rand.nextInt(3);
+            y = rand.nextInt(3);
+        }while(board.getPos(x,y) != board.DEFAULT_VALUE/*board.getPos(x,y) == p1 || board.getPos(x,y) == p2*/);
+
+        return new Pair<>(x,y);
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "player1=" + player1 +
+                ", player2=" + player2 +
+                ", board=" + board +
+                ", currentPlayer=" + currentPlayer +
+                ", subjAssist=" + subjAssist +
+                '}';
+    }
+
+
+
 }

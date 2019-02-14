@@ -17,6 +17,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        // This will just set up a basic, AI v. AI mode. In the end, this setup will be handled
+        // by Naomi's main menu.
 		BoardGUI board = new BoardGUI();
 		board.subscribe(new DebugObserver("BoardGUI"), BoardGUI.SubjectMode.SelectedSpace);
 
