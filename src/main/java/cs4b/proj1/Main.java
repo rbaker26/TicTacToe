@@ -21,6 +21,8 @@ public class Main extends Application {
         // by Naomi's main menu.
 		BoardGUI board = new BoardGUI();
 		board.subscribe(new DebugObserver("BoardGUI"));
+		board.subscribe(new HPCLocal());
+
 
         primaryStage.setTitle("Hello World");
         board.requestFocus();

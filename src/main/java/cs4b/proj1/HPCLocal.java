@@ -2,7 +2,7 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.*;
 
-public class HPCLocal implements PlayerBehavior, ISubject {
+public class HPCLocal implements PlayerBehavior, ISubject, IObserver {
 
     //region ISubject *************************************************************
     private SubjectAssistant subjAssist;
@@ -54,5 +54,21 @@ public class HPCLocal implements PlayerBehavior, ISubject {
     @Override
     public void getMove(Board b, char token) {
         //subjAssist.triggerUpdate();
+    }
+
+    /**
+     * Let the observer know that something happened with one of its subjects.
+     *
+     * @param eventInfo Whatever the subject decides to share about the event.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void update(Object eventInfo) {
+        if(eventInfo instanceof BoardGUI.SelectedSpaceInfo) {
+            BoardGUI.SelectedSpaceInfo info = (BoardGUI.SelectedSpaceInfo) eventInfo;
+
+            System.out.println(info.toString());
+        }
+
     }
 }
