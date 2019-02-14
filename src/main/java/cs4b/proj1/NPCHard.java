@@ -122,6 +122,7 @@ public class NPCHard implements PlayerBehavior {
         for(int i = 0; i < temp.BOARD_SIZE_X; i++) {
             for(int j = 0; j < temp.BOARD_SIZE_Y; j++) {
                 if(temp.getPos(i,j) == temp.DEFAULT_VALUE){
+                    
                     temp.setPos(i,j,player2Char);
                     worst = Integer.min(worst, minimax(temp,depth+1,!isMax));
                     temp.setPos(i,j,temp.DEFAULT_VALUE);

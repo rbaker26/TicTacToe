@@ -18,21 +18,24 @@ public class NPCHardTest {
 
     //***************************************************************************
     @Test public void getMoveTest() {
-//        Player p1 = new Player('X', new NPCEasy());
-////        Player p2 = new Player('O', new NPCEasy());
-////
-////
-////        NPCHard npcHard = new NPCHard(p1.getSymbol(), p2.getSymbol());
-////
-////        char[][] tempBoard = {
-////                {'X', 'O', 'X'},
-////                {'O', 'O', 'X'},
-////                {' ', ' ', ' '}
-////        };
-////        Board b = new Board(tempBoard);
-////        npcHard.getMove(b,p2.getSymbol());
-////
-////        System.out.println("End Test");
+        Player p1 = new Player('X', new NPCEasy());
+        Player p2 = new Player('O', new NPCEasy());
+
+
+        NPCHard npcHard = new NPCHard(p1.getSymbol(), p2.getSymbol());
+
+        char[][] tempBoard = {
+                {'X', 'O', 'X'},
+                {' ', 'O', ' '},
+                {' ', ' ', ' '}
+        };
+
+        Board b = new Board(tempBoard);
+        System.out.println(b.toString());
+        npcHard.getMove(b,p2.getSymbol());
+        System.out.println(b.toString());
+
+        System.out.println("End Test");
     }
     //***************************************************************************
 
@@ -237,7 +240,7 @@ public class NPCHardTest {
         System.out.println("--------------------------------------------");
 
         for(int i = 0; i < 3; i++) {
-            System.out.println("Board " + i+1 + ":\t Is Full?\t" +
+            System.out.println("Board " + i + ":\t Is Full?\t" +
                     npcHard.isBoardFull(boards.get(i)));
             System.out.println(boards.get(i));
         }
