@@ -4,25 +4,32 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane id="MainScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="500.0" style="-fx-background-image: url(&quot;/src/main/resources/cs4b/proj1/img/gameImage.jpg&quot;);" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="MainScreen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="460.0" prefWidth="360.0" style="-fx-background-image: url(&quot;/src/main/resources/cs4b/proj1/img/gameImage.jpg&quot;);" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="151.0" layoutY="298.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" text="Against Computer - Easy" textFill="#252ce1">
+      <ImageView fitHeight="460.0" fitWidth="360.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/gameImage.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="104.0" layoutY="249.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Computer - Easy" textFill="#2686e0">
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>
-      <Button layoutX="151.0" layoutY="365.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" text="Against Computer - Hard" textFill="#d31f1f">
+      <Button layoutX="104.0" layoutY="318.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Computer - Hard" textFill="#d11f1f">
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>
-      <Button layoutX="151.0" layoutY="233.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" text="Against Another Player" textFill="#951ee3">
+      <Button layoutX="104.0" layoutY="179.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Another Player" textFill="#e38120">
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>
-      <MenuBar layoutY="1.0" prefHeight="32.0" prefWidth="500.0">
+      <MenuBar layoutY="-2.0" prefHeight="32.0" prefWidth="362.0">
         <menus>
           <Menu mnemonicParsing="false" text="Info">
             <items>
@@ -31,19 +38,19 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Text fill="#0e3fe5" layoutX="216.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TAC">
+      <Text fill="#108be3" layoutX="159.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TAC">
          <font>
-            <Font name="System Bold" size="36.0" />
+            <Font name="Impact" size="36.0" />
          </font>
       </Text>
-      <Text fill="#e81818" layoutX="293.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOE">
+      <Text fill="#e57b19" layoutX="224.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOE">
          <font>
-            <Font name="System Bold" size="36.0" />
+            <Font name="Impact" size="36.0" />
          </font>
       </Text>
-      <Text fill="#e81818" layoutX="151.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TIC">
+      <Text fill="#e57b19" layoutX="103.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TIC">
          <font>
-            <Font name="System Bold" size="36.0" />
+            <Font name="Impact" size="36.0" />
          </font>
       </Text>
    </children>
