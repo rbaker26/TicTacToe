@@ -20,14 +20,25 @@ public class Main extends Application {
         // This will just set up a basic, AI v. AI mode. In the end, this setup will be handled
         // by Naomi's main menu.
 		BoardGUI board = new BoardGUI();
-		board.subscribe(new DebugObserver("BoardGUI"));
-		board.subscribe(new HPCLocal());
+		//board.subscribe(new DebugObserver("BoardGUI"));
+		//board.subscribe(new HPCLocal());
+
+        Player p1 = new Player('X', "Human1", new HPCLocal());
+        Player p2 = new Player('O', "AI1", new NPCEasy());
+
+        p1.getPb().subscribe(board);
+        board.subscribe((HPCLocal) p1.getPb());
+
+        Game g = new Game(p1, p2);
+        board.subscribe(g);
 
 
         primaryStage.setTitle("Hello World");
         board.requestFocus();
         primaryStage.setScene(new Scene(board, 300, 300));
         primaryStage.show();
+
+        g.startGame();
     }
 
 

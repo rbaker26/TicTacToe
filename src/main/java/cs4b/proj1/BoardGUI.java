@@ -141,6 +141,8 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
     }
 
     public void drawBoard(Board currentBoard) {
+        System.out.println("Drawing board");
+
         ObservableList<Node> nodes = this.getChildren();
         ImageView image;
         for(Node node : nodes) {
@@ -178,8 +180,11 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
     public void update(Object eventInfo) {
         Board currentBoard = null;
 
-        if(eventInfo instanceof Game.TurnInfo) {
-            currentBoard = ((Game.TurnInfo) eventInfo).getCurrentBoard();
+        System.out.println("BoardGUI recieved an update: " + eventInfo);
+
+        if(eventInfo instanceof Game.MoveInfo) {
+            System.out.println("BoardGUI recieved an update: " + eventInfo);
+            currentBoard = ((Game.MoveInfo) eventInfo).getCurrentBoard();
         }
 
         if(currentBoard != null) {

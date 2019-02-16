@@ -12,6 +12,8 @@ import java.util.ArrayList;
 /**
  * This is a stupid NPC which just selects a space randomly. Garunteed to
  * pick an empty space, though.
+ *
+ * @author Daniel Edwards
  */
 public class NPCEasy implements PlayerBehavior {
 

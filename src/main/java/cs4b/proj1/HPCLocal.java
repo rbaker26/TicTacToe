@@ -77,7 +77,6 @@ public class HPCLocal implements PlayerBehavior, ISubject, IObserver {
         if(eventInfo instanceof BoardGUI.SelectedSpaceInfo) {
             BoardGUI.SelectedSpaceInfo info = (BoardGUI.SelectedSpaceInfo) eventInfo;
 
-            //System.out.println(info.toString());
             subjAssist.triggerUpdate(
                     new PlayerBehavior.MoveInfo(info.getX(), info.getY())
             );

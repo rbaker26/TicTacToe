@@ -84,27 +84,6 @@ public final class SubjectAssistant implements ISubject {
     }
     //***************************************************************************
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SubjectAssistant that = (SubjectAssistant) o;
-        return Objects.equals(observers, that.observers);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(observers);
-    }
-
-    @Override
-    public String toString() {
-        // Note that we do NOT want to print out observers' toString,
-        // because this can potentially result in an infinite recursion
-        // if we have objects which are chained together.
-        return "SubjectAssistant{" +
-                observers.size() + " observers" +
-                '}';
-    }
+    // We do NOT want to override equals, toString, and hashCode for this class.
+    // Weird things happen... such as stack overflows.
 }

@@ -2,14 +2,13 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.*;
 import javafx.util.Pair;
-import org.w3c.dom.ranges.RangeException;
 
 import java.util.*;
 
 /**
  * The Game Engine
  */
-public class Game implements ISubject {
+public class Game implements ISubject, IObserver {
 
     // HEY, YOU!
     //
@@ -248,18 +247,20 @@ public class Game implements ISubject {
     private Player player2;
     Board board;
 
-    private Player currentPlayer;       // Used to track who's turn it is.
+    private Player nextPlayer;       // Used to track who's turn it is.
 
     private SubjectAssistant subjAssist;
 
 
-
-    public Game(PlayerBehavior player1Behavior, PlayerBehavior player2Behavior) {
-        // Init Player Behaviors
-        this.player1 = new Player(player1Behavior);
-        this.player2 = new Player(player2Behavior);
+    public Game(Player p1, Player p2) {
+        player1 = p1;
+        player2 = p2;
 
         this.board = new Board();
+    }
+
+    public Game(PlayerBehavior player1Behavior, PlayerBehavior player2Behavior) {
+        this(new Player(player1Behavior), new Player(player2Behavior));
     }
 
     /**
@@ -268,9 +269,13 @@ public class Game implements ISubject {
      * @author Daniel Edwards
      */
     public void startGame() {
-        currentPlayer = player1;
+        subscribe(player1);
+        subscribe(player2);
 
-        subjAssist.triggerUpdate(new TurnInfo(currentPlayer, null, board));
+        nextPlayer = player1;
+
+        subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
+        nextPlayer.makeMove(board);
     }
 
     @Deprecated
@@ -303,47 +308,52 @@ public class Game implements ISubject {
         if(movingPlayer == null) {
             throw new NullPointerException("movingPlayer must not be null!");
         }
-        else if(movingPlayer != currentPlayer) {
+        /*
+        else if(movingPlayer != nextPlayer) {
             throw new IllegalArgumentException(
-                    movingPlayer.toString() + " isn't the same as " + currentPlayer.toString()
+                    movingPlayer.toString() + " isn't the same as " + nextPlayer.toString()
                     + ", yet " + movingPlayer.toString() + " attempted to make a move."
             );
         }
-
-        board.setPos(x, y, movingPlayer.getSymbol());
-
-        // TODO If the game is over, nextPlayer should become null.
-        Player nextPlayer = (movingPlayer != player1 ? player1 : player2);
-        currentPlayer = nextPlayer;
-
-        subjAssist.triggerUpdate(
-                new MoveInfo(x, y, nextPlayer, movingPlayer, board)
-        );
-        subjAssist.triggerUpdate(
-                new TurnInfo(nextPlayer, movingPlayer, board)
-        );
-
-
-
-        /*
-        // If we use this implamentation, we have to do it this way because board is not in the scope of PlayerBehavior
-        // If the Type is NPC, the xy values will be discarded.
-        if(player.pb instanceof HPC) {
-            board.setPos(x,y,player.getSymbol());
-        }
-        else if(player.pb instanceof NPCEasy) {
-            // Some random choice function
-            Pair<Integer,Integer> pair = random();
-            board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
-        }
-        else if(player.pb instanceof NPCHard) {
-            // Use AI
-            Pair<Integer,Integer> pair= minimax_helper(board);
-            board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
-
-        }
         */
+        else if(movingPlayer != nextPlayer) {
+            System.out.println("For some reason, " + movingPlayer.getName() + " tried to move, " +
+                    "even though it's " + nextPlayer.getName() + "'s turn.");
+        }
+        else {
 
+            board.setPos(x, y, movingPlayer.getSymbol());
+
+            // TODO If the game is over, nextPlayer should become null.
+            nextPlayer = (movingPlayer != player1 ? player1 : player2);
+
+            subjAssist.triggerUpdate(
+                    new Game.TurnInfo(nextPlayer, movingPlayer, board)
+            );
+            subjAssist.triggerUpdate(
+                    new Game.MoveInfo(x, y, nextPlayer, movingPlayer, board)
+            );
+
+
+            nextPlayer.makeMove(board);
+        }
+    }
+
+    /**
+     * Let the observer know that something happened with one of its subjects.
+     *
+     * @param eventInfo Whatever the subject decides to share about the event.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void update(Object eventInfo) {
+        if(eventInfo instanceof Player.MoveInfo) {
+            Player.MoveInfo info = (Player.MoveInfo) eventInfo;
+
+            System.out.println(info.getSource().getName());
+
+            makePlay(info.getSource(), info.getX(), info.getY());
+        }
     }
 
     Pair<Integer,Integer> minimax_helper (Board b) {
@@ -381,7 +391,7 @@ public class Game implements ISubject {
                 "player1=" + player1 +
                 ", player2=" + player2 +
                 ", board=" + board +
-                ", currentPlayer=" + currentPlayer +
+                ", nextPlayer=" + nextPlayer +
                 ", subjAssist=" + subjAssist +
                 '}';
     }

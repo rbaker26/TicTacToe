@@ -6,6 +6,13 @@ import cs4b.proj1.observer.SubjectAssistant;
 
 import java.util.Objects;
 
+/**
+ * This object represents a Tic-Tac-Toe player. It tracks things like the
+ * player's name, symbol, and behavior pattern.
+ *
+ * @author Daniel Edwards
+ * @author Bob Baker
+ */
 public class Player implements IObserver, ISubject {
 
     //region ISubject *************************************************************
@@ -15,37 +22,51 @@ public class Player implements IObserver, ISubject {
      * specifically wraps PlayerBehavioor.MoveInfo; hence, it must be
      * constructed using an instance of PlayerBehavior.MoveInfo.
      */
-    public static class MoveInfo extends PlayerBehavior.MoveInfo {
+    public static class MoveInfo {
 
         private Player source;
+        private int x;
+        private int y;
 
-        public MoveInfo(PlayerBehavior.MoveInfo original, Player source) {
-            super(original.getX(), original.getY());
+        public MoveInfo(Player source, int x, int y) {
             this.source = source;
+            this.x = x;
+            this.y = y;
         }
 
         public Player getSource() {
             return source;
         }
 
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            if (!super.equals(o)) return false;
             MoveInfo moveInfo = (MoveInfo) o;
-            return Objects.equals(source, moveInfo.source);
+            return getX() == moveInfo.getX() &&
+                    getY() == moveInfo.getY() &&
+                    Objects.equals(getSource(), moveInfo.getSource());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(super.hashCode(), source);
+            return Objects.hash(getSource(), getX(), getY());
         }
 
         @Override
         public String toString() {
             return "MoveInfo{" +
                     "source=" + source +
+                    ", x=" + x +
+                    ", y=" + y +
                     '}';
         }
     }
@@ -157,9 +178,15 @@ public class Player implements IObserver, ISubject {
      */
     @Override
     public void update(Object eventInfo) {
+
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant();
+        }
+
         if(eventInfo instanceof PlayerBehavior.MoveInfo) {
+
             PlayerBehavior.MoveInfo origMoveInfo = (PlayerBehavior.MoveInfo) eventInfo;
-            subjAssist.triggerUpdate(new Player.MoveInfo(origMoveInfo, this));
+            subjAssist.triggerUpdate(new Player.MoveInfo(this, origMoveInfo.getX(), origMoveInfo.getY()));
         }
     }
 
