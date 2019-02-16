@@ -5,6 +5,7 @@ import cs4b.proj1.observer.SubjectAssistant;
 import javafx.util.Pair;
 
 import java.io.InvalidObjectException;
+import java.util.Objects;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -92,4 +93,24 @@ public class NPCEasy implements PlayerBehavior {
 
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NPCEasy npcEasy = (NPCEasy) o;
+        return Objects.equals(subjAssist, npcEasy.subjAssist);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(subjAssist);
+    }
+
+    @Override
+    public String toString() {
+        return "NPCEasy{" +
+                "subjAssist=" + subjAssist +
+                '}';
+    }
 }

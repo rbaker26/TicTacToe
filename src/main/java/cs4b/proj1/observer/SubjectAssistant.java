@@ -83,4 +83,25 @@ public final class SubjectAssistant implements ISubject {
         observers.remove(oldObserver);
     }
     //***************************************************************************
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubjectAssistant that = (SubjectAssistant) o;
+        return Objects.equals(observers, that.observers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(observers);
+    }
+
+    @Override
+    public String toString() {
+        return "SubjectAssistant{" +
+                observers.size() + " observers" +
+                '}';
+    }
 }

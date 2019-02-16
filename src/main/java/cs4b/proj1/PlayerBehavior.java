@@ -11,7 +11,8 @@ public interface PlayerBehavior extends ISubject {
 
     /**
      * When this player behavior comes up with a move, this gets sent
-     * to observers.
+     * to observers. This has no default constructor because this object
+     * makes no sense without x and y values.
      */
     class MoveInfo {
         private int x;
