@@ -9,6 +9,10 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.ArrayList;
 
+/**
+ * This is a stupid NPC which just selects a space randomly. Garunteed to
+ * pick an empty space, though.
+ */
 public class NPCEasy implements PlayerBehavior {
 
     //region ISubject *************************************************************

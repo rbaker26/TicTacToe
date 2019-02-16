@@ -100,6 +100,9 @@ public final class SubjectAssistant implements ISubject {
 
     @Override
     public String toString() {
+        // Note that we do NOT want to print out observers' toString,
+        // because this can potentially result in an infinite recursion
+        // if we have objects which are chained together.
         return "SubjectAssistant{" +
                 observers.size() + " observers" +
                 '}';

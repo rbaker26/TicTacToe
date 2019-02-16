@@ -5,7 +5,12 @@ import cs4b.proj1.observer.ISubject;
 import java.util.Objects;
 
 /**
+ * This represents the behavior for a player. To request a move, call
+ * the getMove function. However, depending on the player's behavior, this
+ * may not be able to return a move immediately. To recieve the final result,
+ * subscribe to the PlayerBehavior and listen for its MoveInfo object.
  *
+ * @author Daniel Edwards
  */
 public interface PlayerBehavior extends ISubject {
 
@@ -54,5 +59,11 @@ public interface PlayerBehavior extends ISubject {
         }
     }
 
-    public void getMove(Board b, char token);
+    /**
+     * Puts in the request for a move. This will eventually result
+     * in MoveInfo getting sent out to all observers.
+     * @param b The current board state.
+     * @param token Player's token or symbol.
+     */
+    void getMove(Board b, char token);
 }
