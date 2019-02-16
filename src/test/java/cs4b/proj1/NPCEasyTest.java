@@ -1,7 +1,10 @@
 package cs4b.proj1;
 
+import cs4b.proj1.observer.IObserver;
 import javafx.util.Pair;
 import org.junit.Test;
+
+import java.io.InvalidClassException;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -43,6 +46,23 @@ public class NPCEasyTest {
         return selection;
     }
 
+    private static class NPCEasyObserver implements IObserver {
+
+        // These are public because, tbh, we don't care because this is a private class.
+        Pair<Integer, Integer> location;
+
+        @Override
+        public void update(Object eventInfo) {
+            if(eventInfo instanceof PlayerBehavior.MoveInfo) {
+                PlayerBehavior.MoveInfo mInfo = (PlayerBehavior.MoveInfo) eventInfo;
+
+                location = new Pair<>(mInfo.getX(), mInfo.getY());
+            }
+            else {
+                throw new ClassCastException("NPCEasy class should not emit any other objects");
+            }
+        }
+    }
 
     @Test public void testRange() {
 
@@ -67,9 +87,13 @@ public class NPCEasyTest {
         final int MAX_TESTS = 500;
         final boolean VERBOSE = true;
 
-        PlayerBehavior behavior = new NPCEasy();
         Board testBoard = new Board();
+
+        PlayerBehavior behavior = new NPCEasy();
+        NPCEasyObserver observer = new NPCEasyObserver();
         char token = 'X';
+
+        behavior.subscribe(observer);
 
 
         HashMap<Pair<Integer,Integer>, Integer> matches = prepareMatchMap(testBoard);
@@ -77,7 +101,7 @@ public class NPCEasyTest {
         for(int i = 0; i < MAX_TESTS; i++) {
             //Pair<Integer, Integer> selection = behavior.getMove(testBoard);
             behavior.getMove(testBoard, token);
-            Pair<Integer, Integer> selection = findSelectedSpace(testBoard, token);
+            Pair<Integer, Integer> selection = observer.location;
 
             int matchCount = matches.getOrDefault(selection, 0);
             matches.put(selection, matchCount + 1);
@@ -99,7 +123,7 @@ public class NPCEasyTest {
 
         for(int i = 0; i < MAX_TESTS; i++) {
             behavior.getMove(testBoard, token);
-            Pair<Integer, Integer> selection = findSelectedSpace(testBoard, token);
+            Pair<Integer, Integer> selection = observer.location;
 
             int matchCount = matches.getOrDefault(selection, 0);
             matches.put(selection, matchCount + 1);

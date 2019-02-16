@@ -5,6 +5,13 @@ import cs4b.proj1.observer.*;
 public class HPCLocal implements PlayerBehavior, ISubject, IObserver {
 
     //region ISubject *************************************************************
+
+    /**
+     * Gets sent out to observers when it's this player's turn.
+     */
+    public static class TurnBegin {
+    }
+
     private SubjectAssistant subjAssist;
 
     /**
@@ -54,6 +61,9 @@ public class HPCLocal implements PlayerBehavior, ISubject, IObserver {
     @Override
     public void getMove(Board b, char token) {
         //subjAssist.triggerUpdate();
+
+        // It's up to whatever is in charge of input to deal with this.
+        subjAssist.triggerUpdate(new TurnBegin());
     }
 
     /**
