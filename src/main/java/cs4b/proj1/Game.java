@@ -308,17 +308,11 @@ public class Game implements ISubject, IObserver {
         // TODO Either call a function on nextPlayer or make sure that
         //      the players are hooked up correctly with the events.
 
+        boolean gameIsOver = gameOver();
+
         if(movingPlayer == null) {
             throw new NullPointerException("movingPlayer must not be null!");
         }
-        /*
-        else if(movingPlayer != nextPlayer) {
-            throw new IllegalArgumentException(
-                    movingPlayer.toString() + " isn't the same as " + nextPlayer.toString()
-                    + ", yet " + movingPlayer.toString() + " attempted to make a move."
-            );
-        }
-        */
         else if(movingPlayer != nextPlayer) {
             System.out.println("For some reason, " + movingPlayer.getName() + " tried to move, " +
                     "even though it's " + nextPlayer.getName() + "'s turn.");
@@ -328,11 +322,19 @@ public class Game implements ISubject, IObserver {
                     "but this space is already taken!");
         }
         else {
-
             board.setPos(x, y, movingPlayer.getSymbol());
 
-            // TODO If the game is over, nextPlayer should become null.
-            nextPlayer = (movingPlayer != player1 ? player1 : player2);
+            gameIsOver = gameOver();
+
+            // Save the result of the gameOver method; we need to use it a few times
+            // and it would be wasteful to call it several times.
+
+            if(gameIsOver) {
+                nextPlayer = null;
+            }
+            else {
+                nextPlayer = (movingPlayer != player1 ? player1 : player2);
+            }
 
             subjAssist.triggerUpdate(
                     new Game.TurnInfo(nextPlayer, movingPlayer, board)
@@ -341,8 +343,14 @@ public class Game implements ISubject, IObserver {
                     new Game.MoveInfo(x, y, nextPlayer, movingPlayer, board)
             );
 
-
-            nextPlayer.makeMove(board);
+            if(!gameIsOver) {
+                nextPlayer.makeMove(board);
+            }
+            else {
+                subjAssist.triggerUpdate(
+                        new Game.ResultInfo(null)
+                );
+            }
         }
     }
 
@@ -361,6 +369,22 @@ public class Game implements ISubject, IObserver {
 
             makePlay(info.getSource(), info.getX(), info.getY());
         }
+    }
+
+    private boolean gameOver() {
+        // Note that this is pretty hackish, and is more of a "is board full" function.
+
+        for(int x = 0; x < board.BOARD_SIZE_X; x++) {
+            for(int y = 0; y < board.BOARD_SIZE_Y; y++) {
+                // If any of the spaces are empty, we can just abort.
+                if(board.getPos(x, y) == board.DEFAULT_VALUE) {
+                    return false;
+                }
+            }
+        }
+
+        // If we make it this far, all spaces are taken and the game really is over.
+        return true;
     }
 
     Pair<Integer,Integer> minimax_helper (Board b) {

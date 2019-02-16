@@ -15,19 +15,16 @@ public class Main extends Application {
 		//board.addSubscriber(new HPCLocal());
 
         Player p1 = new Player('X', "Human1", new HPCLocal());
+        //Player p1 = new Player('X', "AI2", new NPCEasy());
         Player p2 = new Player('O', "AI1", new NPCEasy());
         //Player p2 = new Player('O', "AI1", new HPCLocal());
+        Game game = new Game(p1, p2);
 
-        //p1.getPb().addSubscriber(board);
-
-        // The board must be able to let
+        // The board must be able to let the player behavior know what has been clicked.
         board.addSubscriber((HPCLocal) p1.getPb());
 
-        //p2.getPb().addSubscriber(board);
-        //board.addSubscriber((HPCLocal) p2.getPb());
-
-        Game g = new Game(p1, p2);
-        g.addSubscriber(board);
+        // The game engine needs to let the board know when there's an update.
+        game.addSubscriber(board);
 
 
         primaryStage.setTitle("Hello World");
@@ -35,7 +32,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(board, 300, 300));
         primaryStage.show();
 
-        g.startGame();
+        game.startGame();
     }
 
 
