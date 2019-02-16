@@ -1,10 +1,9 @@
 package cs4b.proj1;
 
-import cs4b.proj1.observer.IObserver;
+import cs4b.proj1.observer.*;
 import javafx.util.Pair;
 import org.junit.Test;
 
-import java.io.InvalidClassException;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -25,43 +24,6 @@ public class NPCEasyTest {
         }
 
         return matches;
-    }
-
-    private Pair<Integer, Integer> findSelectedSpace(Board b, char token) {
-
-        Pair<Integer, Integer> selection = null;
-
-        // Yes, I'm putting more than one check inside the loop.
-        // I'm not sorry.
-        for(int x = 0; x < b.BOARD_SIZE_X && selection == null; x++) {
-            for(int y = 0; y < b.BOARD_SIZE_Y && selection == null; y++) {
-
-                if(b.getPos(x, y) == token) {
-                    b.setPos(x, y, b.DEFAULT_VALUE);
-                    selection = new Pair<>(x, y);
-                }
-            }
-        }
-
-        return selection;
-    }
-
-    private static class NPCEasyObserver implements IObserver {
-
-        // These are public because, tbh, we don't care because this is a private class.
-        Pair<Integer, Integer> location;
-
-        @Override
-        public void update(Object eventInfo) {
-            if(eventInfo instanceof PlayerBehavior.MoveInfo) {
-                PlayerBehavior.MoveInfo mInfo = (PlayerBehavior.MoveInfo) eventInfo;
-
-                location = new Pair<>(mInfo.getX(), mInfo.getY());
-            }
-            else {
-                throw new ClassCastException("NPCEasy class should not emit any other objects");
-            }
-        }
     }
 
     @Test public void testRange() {
@@ -90,7 +52,8 @@ public class NPCEasyTest {
         Board testBoard = new Board();
 
         PlayerBehavior behavior = new NPCEasy();
-        NPCEasyObserver observer = new NPCEasyObserver();
+        //NPCEasyObserver observer = new NPCEasyObserver();
+        EventContainer<PlayerBehavior.MoveInfo> observer = new EventContainer<>(PlayerBehavior.MoveInfo.class);
         char token = 'X';
 
         behavior.subscribe(observer);
@@ -101,7 +64,10 @@ public class NPCEasyTest {
         for(int i = 0; i < MAX_TESTS; i++) {
             //Pair<Integer, Integer> selection = behavior.getMove(testBoard);
             behavior.getMove(testBoard, token);
-            Pair<Integer, Integer> selection = observer.location;
+            Pair<Integer, Integer> selection = new Pair<Integer, Integer>(
+                    observer.getEventInfo().getX(),
+                    observer.getEventInfo().getY()
+            );
 
             int matchCount = matches.getOrDefault(selection, 0);
             matches.put(selection, matchCount + 1);
@@ -123,7 +89,10 @@ public class NPCEasyTest {
 
         for(int i = 0; i < MAX_TESTS; i++) {
             behavior.getMove(testBoard, token);
-            Pair<Integer, Integer> selection = observer.location;
+            Pair<Integer, Integer> selection = new Pair<Integer, Integer>(
+                    observer.getEventInfo().getX(),
+                    observer.getEventInfo().getY()
+            );
 
             int matchCount = matches.getOrDefault(selection, 0);
             matches.put(selection, matchCount + 1);
