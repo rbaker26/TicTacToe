@@ -272,6 +272,9 @@ public class Game implements ISubject, IObserver {
         subscribe(player1);
         subscribe(player2);
 
+        player1.subscribe(this);
+        player2.subscribe(this);
+
         nextPlayer = player1;
 
         subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
@@ -323,6 +326,7 @@ public class Game implements ISubject, IObserver {
         else {
 
             board.setPos(x, y, movingPlayer.getSymbol());
+            System.out.println(board);
 
             // TODO If the game is over, nextPlayer should become null.
             nextPlayer = (movingPlayer != player1 ? player1 : player2);

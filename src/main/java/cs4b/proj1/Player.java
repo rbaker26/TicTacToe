@@ -183,7 +183,10 @@ public class Player implements IObserver, ISubject {
             subjAssist = new SubjectAssistant();
         }
 
-        if(eventInfo instanceof PlayerBehavior.MoveInfo) {
+        if(!subjAssist.hasSubscribers()) {
+            System.out.println(getName() + " has no subscribers");
+        }
+        else if(eventInfo instanceof PlayerBehavior.MoveInfo) {
 
             PlayerBehavior.MoveInfo origMoveInfo = (PlayerBehavior.MoveInfo) eventInfo;
             subjAssist.triggerUpdate(new Player.MoveInfo(this, origMoveInfo.getX(), origMoveInfo.getY()));

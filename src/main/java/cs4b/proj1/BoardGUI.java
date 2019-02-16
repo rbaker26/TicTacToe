@@ -180,11 +180,16 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
     public void update(Object eventInfo) {
         Board currentBoard = null;
 
-        System.out.println("BoardGUI recieved an update: " + eventInfo);
-
         if(eventInfo instanceof Game.MoveInfo) {
             System.out.println("BoardGUI recieved an update: " + eventInfo);
             currentBoard = ((Game.MoveInfo) eventInfo).getCurrentBoard();
+        }
+        else if(eventInfo instanceof Game.TurnInfo) {
+            System.out.println("BoardGUI recieved an update: " + eventInfo);
+            currentBoard = ((Game.TurnInfo) eventInfo).getCurrentBoard();
+        }
+        else {
+            System.out.println("BoardGUI recieved an update (unhandled): " + eventInfo.getClass().getName());
         }
 
         if(currentBoard != null) {

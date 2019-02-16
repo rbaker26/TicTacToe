@@ -25,12 +25,16 @@ public class Main extends Application {
 
         Player p1 = new Player('X', "Human1", new HPCLocal());
         Player p2 = new Player('O', "AI1", new NPCEasy());
+        //Player p2 = new Player('O', "AI1", new HPCLocal());
 
         p1.getPb().subscribe(board);
         board.subscribe((HPCLocal) p1.getPb());
 
+        //p2.getPb().subscribe(board);
+        //board.subscribe((HPCLocal) p2.getPb());
+
         Game g = new Game(p1, p2);
-        board.subscribe(g);
+        g.subscribe(board);
 
 
         primaryStage.setTitle("Hello World");

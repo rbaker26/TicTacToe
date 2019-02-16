@@ -84,6 +84,11 @@ public final class SubjectAssistant implements ISubject {
     }
     //***************************************************************************
 
+
+    public boolean hasSubscribers() {
+        return observers.size() > 0;
+    }
+
     // We do NOT want to override equals, toString, and hashCode for this class.
     // Weird things happen... such as stack overflows.
 }
