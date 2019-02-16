@@ -14,14 +14,14 @@ public interface ISubject {
      * expected to implement some kind of object (e.g. an enum) to allow
      * subscribers to select what kind of events they are interested in.
      * <p>
-     * If an observer attempts to subscribe itself more than once, the first
+     * If an observer attempts to addSubscriber itself more than once, the first
      * subscription should be replaced. (Unless they are with differenct
      * modes, of course.)
      *
      * @param observer The observer which will be subscribed.
      * @author Daniel Edwards
      */
-    void subscribe(IObserver observer);
+    void addSubscriber(IObserver observer);
 
     /**
      * Unsubscribes the given observer so that they will no longer receive
@@ -31,6 +31,6 @@ public interface ISubject {
      * @param observer Observer to be unsubscribed.
      * @author Daniel Edwards
      */
-    void unsubscribe(IObserver observer);
+    void removeSubscriber(IObserver observer);
 
 }

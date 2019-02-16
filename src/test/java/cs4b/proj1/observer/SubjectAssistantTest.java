@@ -33,8 +33,8 @@ public class SubjectAssistantTest {
         TestObs o2 = new TestObs(2);
         TestObs o3 = new TestObs(-4);
 
-        sa.subscribe(o1);
-        sa.subscribe(o2);
+        sa.addSubscriber(o1);
+        sa.addSubscriber(o2);
 
         sa.triggerUpdate("Hi");
         assertEquals(o1.val, 0);
@@ -53,8 +53,8 @@ public class SubjectAssistantTest {
         SubjectAssistant sa = new SubjectAssistant();
         TestObs o1 = new TestObs(0);
 
-        sa.subscribe(o1);
-        sa.subscribe(o1);
+        sa.addSubscriber(o1);
+        sa.addSubscriber(o1);
 
         sa.triggerUpdate(10);
         assertEquals(o1.val, 10);
@@ -66,19 +66,19 @@ public class SubjectAssistantTest {
         TestObs o1 = new TestObs(0);
         TestObs o2 = new TestObs(2);
 
-        sa.subscribe(o1);
-        sa.subscribe(o2);
+        sa.addSubscriber(o1);
+        sa.addSubscriber(o2);
 
         sa.triggerUpdate(5);
         assertEquals(o1.val, 5);
         assertEquals(o2.val, 7);
 
-        sa.unsubscribe(o1);
+        sa.removeSubscriber(o1);
         sa.triggerUpdate(5);
         assertEquals(o1.val, 5);
         assertEquals(o2.val, 12);
 
-        sa.unsubscribe(o2);
+        sa.removeSubscriber(o2);
         sa.triggerUpdate(5);
         assertEquals(o1.val, 5);
         assertEquals(o2.val, 12);
@@ -92,7 +92,7 @@ public class SubjectAssistantTest {
         TestObs nullObs = null;
 
         try {
-            sa.subscribe(nullObs);
+            sa.addSubscriber(nullObs);
 
             // This should NOT happen. It should throw an exception and skip past this.
             assertTrue(false);
@@ -105,7 +105,7 @@ public class SubjectAssistantTest {
         sa.triggerUpdate(10);
 
         try {
-            sa.unsubscribe(nullObs);
+            sa.removeSubscriber(nullObs);
 
             // This should NOT happen. It should throw an exception and skip past this.
             assertTrue(false);

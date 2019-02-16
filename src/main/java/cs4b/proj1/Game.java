@@ -200,7 +200,7 @@ public class Game implements ISubject, IObserver {
      * expected to implement some kind of object (e.g. an enum) to allow
      * subscribers to select what kind of events they are interested in.
      * <p>
-     * If an observer attempts to subscribe itself more than once, the first
+     * If an observer attempts to addSubscriber itself more than once, the first
      * subscription should be replaced. (Unless they are with differenct
      * modes, of course.)
      *
@@ -208,13 +208,13 @@ public class Game implements ISubject, IObserver {
      * @author Daniel Edwards
      */
     @Override
-    public void subscribe(IObserver observer) {
+    public void addSubscriber(IObserver observer) {
         // TODO Maybe needed for serializable?
         if(subjAssist == null) {
             subjAssist = new SubjectAssistant();
         }
 
-        subjAssist.subscribe(observer);
+        subjAssist.addSubscriber(observer);
     }
 
     /**
@@ -226,13 +226,13 @@ public class Game implements ISubject, IObserver {
      * @author Daniel Edwards
      */
     @Override
-    public void unsubscribe(IObserver observer) {
+    public void removeSubscriber(IObserver observer) {
         // TODO Maybe needed for serializable?
         if(subjAssist == null) {
             subjAssist = new SubjectAssistant();
         }
 
-        subjAssist.unsubscribe(observer);
+        subjAssist.removeSubscriber(observer);
     }
 
     //endregion ISubject ***********************************************************
@@ -269,11 +269,11 @@ public class Game implements ISubject, IObserver {
      * @author Daniel Edwards
      */
     public void startGame() {
-        subscribe(player1);
-        subscribe(player2);
+        addSubscriber(player1);
+        addSubscriber(player2);
 
-        player1.subscribe(this);
-        player2.subscribe(this);
+        player1.addSubscriber(this);
+        player2.addSubscriber(this);
 
         nextPlayer = player1;
 
@@ -323,10 +323,13 @@ public class Game implements ISubject, IObserver {
             System.out.println("For some reason, " + movingPlayer.getName() + " tried to move, " +
                     "even though it's " + nextPlayer.getName() + "'s turn.");
         }
+        else if(board.getPos(x, y) != board.DEFAULT_VALUE) {
+            System.out.println(movingPlayer.getName() + " just tried to put something in (" + x + ", " + y + "), " +
+                    "but this space is already taken!");
+        }
         else {
 
             board.setPos(x, y, movingPlayer.getSymbol());
-            System.out.println(board);
 
             // TODO If the game is over, nextPlayer should become null.
             nextPlayer = (movingPlayer != player1 ? player1 : player2);

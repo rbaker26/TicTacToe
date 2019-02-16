@@ -56,7 +56,7 @@ public final class SubjectAssistant implements ISubject {
      * @author Daniel Edwards
      */
     @Override
-    public void subscribe(IObserver newObserver) {
+    public void addSubscriber(IObserver newObserver) {
         if(newObserver == null) {
             throw new NullPointerException("Can't have a null observer.");
         }
@@ -70,12 +70,12 @@ public final class SubjectAssistant implements ISubject {
      * Removes an old observer. Does nothing if the observer isn't already
      * subscribed for the current mode. The oldObserver must not be null.
      *
-     * @param oldObserver Observer to unsubscribe.
+     * @param oldObserver Observer to removeSubscriber.
      * @throws NullPointerException If newObserver is null.
      * @author Daniel Edwards
      */
     @Override
-    public void unsubscribe(IObserver oldObserver) {
+    public void removeSubscriber(IObserver oldObserver) {
         if(oldObserver == null) {
             throw new NullPointerException("Can't have a null observer.");
         }

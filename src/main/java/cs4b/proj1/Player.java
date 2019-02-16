@@ -79,7 +79,7 @@ public class Player implements IObserver, ISubject {
      * expected to implement some kind of object (e.g. an enum) to allow
      * subscribers to select what kind of events they are interested in.
      * <p>
-     * If an observer attempts to subscribe itself more than once, the first
+     * If an observer attempts to addSubscriber itself more than once, the first
      * subscription should be replaced. (Unless they are with differenct
      * modes, of course.)
      *
@@ -87,12 +87,12 @@ public class Player implements IObserver, ISubject {
      * @author Daniel Edwards
      */
     @Override
-    public void subscribe(IObserver observer) {
+    public void addSubscriber(IObserver observer) {
         if(subjAssist == null) {
             subjAssist = new SubjectAssistant();
         }
 
-        subjAssist.subscribe(observer);
+        subjAssist.addSubscriber(observer);
     }
 
     /**
@@ -104,12 +104,12 @@ public class Player implements IObserver, ISubject {
      * @author Daniel Edwards
      */
     @Override
-    public void unsubscribe(IObserver observer) {
+    public void removeSubscriber(IObserver observer) {
         if(subjAssist == null) {
             subjAssist = new SubjectAssistant();
         }
 
-        subjAssist.unsubscribe(observer);
+        subjAssist.removeSubscriber(observer);
     }
 
     //endregion ISubject ***********************************************************
@@ -160,13 +160,13 @@ public class Player implements IObserver, ISubject {
 
     public void setPb(PlayerBehavior pb) {
         if(this.pb != null) {
-            this.pb.unsubscribe(this);
+            this.pb.removeSubscriber(this);
         }
 
         this.pb = pb;
 
         if(this.pb != null) {
-            this.pb.subscribe(this);
+            this.pb.addSubscriber(this);
         }
     }
 

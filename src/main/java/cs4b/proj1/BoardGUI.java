@@ -180,11 +180,7 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
     public void update(Object eventInfo) {
         Board currentBoard = null;
 
-        if(eventInfo instanceof Game.MoveInfo) {
-            System.out.println("BoardGUI recieved an update: " + eventInfo);
-            currentBoard = ((Game.MoveInfo) eventInfo).getCurrentBoard();
-        }
-        else if(eventInfo instanceof Game.TurnInfo) {
+        if(eventInfo instanceof Game.TurnInfo) {
             System.out.println("BoardGUI recieved an update: " + eventInfo);
             currentBoard = ((Game.TurnInfo) eventInfo).getCurrentBoard();
         }
@@ -205,7 +201,7 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
      * expected to implement some kind of object (e.g. an enum) to allow
      * subscribers to select what kind of events they are interested in.
      * <p>
-     * If an observer attempts to subscribe itself more than once, the first
+     * If an observer attempts to addSubscriber itself more than once, the first
      * subscription should be replaced. (Unless they are with differenct
      * modes, of course.)
      *
@@ -213,8 +209,8 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
      * @author Daniel Edwards
      */
     @Override
-    public void subscribe(IObserver observer) {
-        subjAssist.subscribe(observer);
+    public void addSubscriber(IObserver observer) {
+        subjAssist.addSubscriber(observer);
     }
 
     /**
@@ -226,8 +222,8 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
      * @author Daniel Edwards
      */
     @Override
-    public void unsubscribe(IObserver observer) {
-        subjAssist.unsubscribe(observer);
+    public void removeSubscriber(IObserver observer) {
+        subjAssist.removeSubscriber(observer);
     }
 
     //endregion ISubject ***********************************************************

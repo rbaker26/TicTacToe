@@ -1,8 +1,6 @@
 package cs4b.proj1;
 
 import cs4b.proj1.observer.*;
-import cs4b.proj1.Player;
-import cs4b.proj1.NPCEasy;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,7 +12,7 @@ public class PlayerTest {
 
         Board b = new Board();
 
-        testPlayer.subscribe(container);
+        testPlayer.addSubscriber(container);
         testPlayer.makeMove(b);
         assertEquals(container.getEventInfo().getSource(), testPlayer);
         //System.out.println(container.getEventInfo());

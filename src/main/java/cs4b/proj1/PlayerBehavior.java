@@ -8,7 +8,7 @@ import java.util.Objects;
  * This represents the behavior for a player. To request a move, call
  * the getMove function. However, depending on the player's behavior, this
  * may not be able to return a move immediately. To recieve the final result,
- * subscribe to the PlayerBehavior and listen for its MoveInfo object.
+ * addSubscriber to the PlayerBehavior and listen for its MoveInfo object.
  *
  * @author Daniel Edwards
  */
