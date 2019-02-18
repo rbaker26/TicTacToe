@@ -300,17 +300,12 @@ public class Game implements ISubject, IObserver {
         //      However, none have been written because this method
         //      is in a super nebulous state right now.
 
-        // TODO This should check for game over.
-        //      When the game does end, SubjectMode.GameEnd should be triggered.
-
-        // TODO This should probably safeguard against overriding other spaces.
-
-        // TODO Either call a function on nextPlayer or make sure that
-        //      the players are hooked up correctly with the events.
-
         boolean gameIsOver = gameOver();
 
-        if(movingPlayer == null) {
+        if(gameIsOver) {
+            System.out.println("Game is over; no moves can be made.");
+        }
+        else if(movingPlayer == null) {
             throw new NullPointerException("movingPlayer must not be null!");
         }
         else if(movingPlayer != nextPlayer) {
@@ -365,7 +360,7 @@ public class Game implements ISubject, IObserver {
         if(eventInfo instanceof Player.MoveInfo) {
             Player.MoveInfo info = (Player.MoveInfo) eventInfo;
 
-            System.out.println(info.getSource().getName());
+            //System.out.println(info.getSource().getName());
 
             makePlay(info.getSource(), info.getX(), info.getY());
         }
