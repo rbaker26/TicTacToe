@@ -10,19 +10,12 @@ import java.util.*;
  */
 public class Game implements ISubject, IObserver {
 
-    // HEY, YOU!
-    //
-    // If you're viewing this with IntelliJ, you should be able to fold
-    // region below this comment called "Event info containers".
-    // I typically put type definitions near the top of my code, but
-    // it they've gotten long this time around. So do yourself a favor,
-    // and fold this region.
-
 
     //region ISubject *************************************************************
 
     /**
-     * Contains info on the current turn, including the previous move.
+     * Contains info on the current turn, including the previous move. This
+     * is NOT sent out when the game begins.
      * @see TurnInfo
      * @author Daniel Edwards
      */
@@ -93,11 +86,23 @@ public class Game implements ISubject, IObserver {
         public int hashCode() {
             return Objects.hash(getX(), getY(), getNextPlayer(), getPreviousPlayer(), getCurrentBoard());
         }
+
+        @Override
+        public String toString() {
+            return "Game.MoveInfo{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    ", nextPlayer=" + nextPlayer +
+                    ", previousPlayer=" + previousPlayer +
+                    ", currentBoard=\n" + currentBoard +
+                    "\n}";
+        }
     }
 
     /**
      * Tracks just info on who's turn it is and was. Doesn't keep track of
-     * moves which have been made.
+     * moves which have been made. This is sent out when the game
+     * begins.
      * @see MoveInfo
      * @author Daniel Edwards
      */
@@ -152,10 +157,20 @@ public class Game implements ISubject, IObserver {
         public int hashCode() {
             return Objects.hash(getNextPlayer(), getPreviousPlayer(), getCurrentBoard());
         }
+
+        @Override
+        public String toString() {
+            return "Game.TurnInfo{" +
+                    "nextPlayer=" + nextPlayer +
+                    ", previousPlayer=" + previousPlayer +
+                    ", currentBoard=\n" + currentBoard +
+                    "\n}";
+        }
     }
 
     /**
-     * Contains info on the end result of a game.
+     * Contains info on the end result of a game. Only sent once no more moves
+     * may be made.
      * @author Daniel Edwards
      */
     static public class ResultInfo {
@@ -190,6 +205,13 @@ public class Game implements ISubject, IObserver {
         @Override
         public int hashCode() {
             return Objects.hash(winner);
+        }
+
+        @Override
+        public String toString() {
+            return "Gane.ResultInfo{" +
+                    "winner=" + winner +
+                    '}';
         }
     }
 
@@ -269,14 +291,14 @@ public class Game implements ISubject, IObserver {
      * @author Daniel Edwards
      */
     public void startGame() {
-        addSubscriber(player1);
-        addSubscriber(player2);
 
+        // This is so that we can hear when the players decide their moves.
         player1.addSubscriber(this);
         player2.addSubscriber(this);
 
         nextPlayer = player1;
 
+        // TODO
         subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
         nextPlayer.makeMove(board);
     }
