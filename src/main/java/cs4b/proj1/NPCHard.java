@@ -70,6 +70,14 @@ public class NPCHard implements PlayerBehavior {
         subjAssist.removeSubscriber(observer);
     }
 
+    private void triggerUpdate(Object event) {
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant();
+        }
+
+        subjAssist.triggerUpdate(event);
+    }
+
     //endregion ISubject ***********************************************************
 
 
@@ -136,20 +144,8 @@ public class NPCHard implements PlayerBehavior {
             }
         }
 
-        //TODO Daniel, dont f this up please.
-        // put your code here \/
         //System.out.println("Best Move:\t" + xPos + " " + yPos );
-
-        /*
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        }
-        catch(java.lang.InterruptedException ex) {
-            System.out.println("Interrupted delay");
-        }
-        */
-
-        subjAssist.triggerUpdate(new PlayerBehavior.MoveInfo(xPos, yPos));
+        triggerUpdate(new PlayerBehavior.MoveInfo(xPos, yPos));
 
     }
     //***************************************************************************
