@@ -1,8 +1,10 @@
 package cs4b.proj1;
 
+import java.awt.*;
 import java.net.URL;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -14,6 +16,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 public class Main extends Application {
 
@@ -30,7 +36,7 @@ public class Main extends Application {
           BoardGUI board = new BoardGUI();
 
           board.requestFocus();
-
+          
 
 
        // ImageView imgObject = new ImageView("img\\gameImage.jpg");
@@ -59,6 +65,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+
 
 
 

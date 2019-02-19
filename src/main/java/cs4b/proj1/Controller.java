@@ -1,5 +1,13 @@
 package cs4b.proj1;
 
-public class Controller {
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
+
+public class Controller  {
+
+
+
 
 }
