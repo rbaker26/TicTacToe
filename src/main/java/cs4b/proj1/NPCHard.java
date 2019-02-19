@@ -4,6 +4,8 @@ package cs4b.proj1;
 import cs4b.proj1.observer.IObserver;
 import cs4b.proj1.observer.SubjectAssistant;
 
+import java.util.concurrent.TimeUnit;
+
 public class NPCHard implements PlayerBehavior {
     // Player 1 = +10
     // Player 2 = -10
@@ -136,7 +138,18 @@ public class NPCHard implements PlayerBehavior {
 
         //TODO Daniel, dont f this up please.
         // put your code here \/
-        System.out.println("Best Move:\t" + xPos + " " + yPos );
+        //System.out.println("Best Move:\t" + xPos + " " + yPos );
+
+        /*
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        }
+        catch(java.lang.InterruptedException ex) {
+            System.out.println("Interrupted delay");
+        }
+        */
+
+        subjAssist.triggerUpdate(new PlayerBehavior.MoveInfo(xPos, yPos));
 
     }
     //***************************************************************************
