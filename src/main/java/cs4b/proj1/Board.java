@@ -1,9 +1,12 @@
 package cs4b.proj1;
 
+import cs4b.proj1.observer.IObserver;
+import cs4b.proj1.observer.ISubject;
+import cs4b.proj1.observer.SubjectAssistant;
 import javafx.util.Pair;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * A Board class the holds the data necessary to display a board.
@@ -20,7 +23,7 @@ public class Board {
     final int BOARD_SIZE_X = 3;
     final int BOARD_SIZE_Y = 3;
     final char DEFAULT_VALUE = ' ';
-    private char boardArray[][] = new char[BOARD_SIZE_X][BOARD_SIZE_Y];
+    private char[][] boardArray = new char[BOARD_SIZE_X][BOARD_SIZE_Y];
     //***************************************************************************
 
 
@@ -40,6 +43,7 @@ public class Board {
             }
         }
     }
+
     //***************************************************************************
     /**
      * Makes a Board Object from a 2D Array of a Board.
