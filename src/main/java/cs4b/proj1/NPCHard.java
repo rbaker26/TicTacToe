@@ -52,13 +52,21 @@ public class NPCHard implements PlayerBehavior {
                     char tempChar;
                     if(isPlayer1sTurn) {
                         tempChar = player1Char;
+
+
                     }
                     else {
                         tempChar = player2Char;
+                       
                     }
+                    //System.out.println("Output " + i +" :\t" + i + " " + j );
                     b.setPos(i,j,tempChar);
+
+                   // System.out.println("Output " + i +" :\t" + xPos + " " + yPos );
                     int tempScore = minimax(b,0,isPlayer1sTurn);
                     b.setPos(i,j,b.DEFAULT_VALUE);
+                   // System.out.println("Output " + i +" :\t" + xPos + " " + yPos );
+
 
                     if(isPlayer1sTurn && tempScore > score) {
                         xPos = i;
