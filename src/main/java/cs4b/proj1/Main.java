@@ -18,7 +18,7 @@ public class Main extends Application {
         //Player p1 = new Player('X', "AI1", new NPCEasy());
 
         //Player p2 = new Player('O', "Human2", new HPCLocal());
-        Player p2 = new Player('O', "AI2", new NPCEasy());
+        Player p2 = new Player('O', "AI2", new NPCHard('X', 'O'));
 
 
         // Construct the game, using the players we've constructed up above.
