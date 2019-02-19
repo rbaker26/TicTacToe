@@ -366,7 +366,7 @@ public class Game implements ISubject, IObserver {
         }
     }
 
-    private boolean gameOver() {
+    public boolean gameOver() {
         // Note that this is pretty hackish, and is more of a "is board full" function.
 
         for(int x = 0; x < board.BOARD_SIZE_X; x++) {
