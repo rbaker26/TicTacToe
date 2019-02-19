@@ -174,4 +174,25 @@ public class Board {
     }
     //***************************************************************************
 
+
+
+    //***************************************************************************
+    /**
+     * Returns the amount of empty spaces on the board
+     * @return (int) emptySpaces
+     * @author Bob Baker
+     */
+    public int numEmptySpaces(){
+        int count = 0;
+
+        for(int i = 0; i < BOARD_SIZE_X; i++) {
+            for(int j= 0; j < BOARD_SIZE_Y; j++){
+                if(boardArray[i][j] == DEFAULT_VALUE) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    //***************************************************************************
 }

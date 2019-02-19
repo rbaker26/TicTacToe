@@ -26,8 +26,8 @@ public class NPCHardTest {
 
         char[][] tempBoard = {
                 {'X', 'O', 'X'},
-                {'O', 'X', 'O'},
-                {'X', ' ', ' '}
+                {'O', ' ', ' '},
+                {' ', ' ', ' '}
         };
 
         Board b = new Board(tempBoard);

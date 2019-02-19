@@ -26,19 +26,19 @@ public class NPCHard implements PlayerBehavior {
     //***************************************************************************
     @Override
     public void getMove(Board b, char token) {
-        int score = Integer.MIN_VALUE;
+        int score = 0;
         int xPos = -1;
         int yPos = -1;
 
         boolean isPlayer1sTurn;
 
         if(token == player1Char) {
-            score = Integer.MAX_VALUE;
+           // score = Integer.MAX_VALUE;
             isPlayer1sTurn = true;
             score = Integer.MIN_VALUE;
         }
         else if(token == player2Char){
-            score = Integer.MIN_VALUE;
+         //   score = Integer.MIN_VALUE;
             isPlayer1sTurn = false;
             score = Integer.MAX_VALUE;
         }
@@ -61,11 +61,13 @@ public class NPCHard implements PlayerBehavior {
                     b.setPos(i,j,b.DEFAULT_VALUE);
 
                     if(isPlayer1sTurn && tempScore > score) {
+                        System.out.println("First");
                         xPos = i;
                         yPos = j;
                         score = tempScore;
                     }
                     else if(!isPlayer1sTurn && tempScore < score){
+                        System.out.println("Second");
                         xPos = i;
                         yPos = j;
                         score = tempScore;
@@ -102,11 +104,9 @@ public class NPCHard implements PlayerBehavior {
 
         if(isMax) {
             return maximize(b, depth, isMax);
-
         }
         else {
             return minimize(b, depth, isMax);
-
         }
 
     }
