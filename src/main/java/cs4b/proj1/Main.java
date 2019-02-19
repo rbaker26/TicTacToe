@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
@@ -27,24 +28,32 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
           BoardGUI board = new BoardGUI();
-      //  primaryStage.setTitle("Hello World");
+
           board.requestFocus();
 
 
-        //  primaryStage.setScene(new Scene(root, 500, 400));
-        //  primaryStage.show();
+
+       // ImageView imgObject = new ImageView("img\\gameImage.jpg");
+
+       // imgObject.fitWidthProperty().bind(primaryStage.widthProperty());
+
+       // paneObject.setCenterShape(imgObject);
 
 
+       // Scene scene = new Scene(paneObject);
 
-
+       // primaryStage.setScene(scene);
+        //primaryStage.show();
 
        // StackPane root2 = new StackPane();
-        root.setId("pane");
+       // root.setId("pane");
         Scene scene = new Scene(root, 500, 400);
 
         scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
 
 
     }

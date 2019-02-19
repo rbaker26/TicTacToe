@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -10,26 +11,29 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane id="MainScreen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="460.0" prefWidth="360.0" style="-fx-background-image: url(&quot;/src/main/resources/cs4b/proj1/img/gameImage.jpg&quot;);" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="MainScreen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="389.0" style="-fx-background-image: img\gameImage.jpg; -fx-background-color: skyblue;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="460.0" fitWidth="360.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="450.0" fitWidth="389.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/gameImage.jpg" />
          </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
       </ImageView>
-      <Button layoutX="104.0" layoutY="249.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Computer - Easy" textFill="#2686e0">
+      <Button layoutX="101.0" layoutY="258.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Computer - Easy" textFill="#2686e0">
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>
-      <Button layoutX="104.0" layoutY="318.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Computer - Hard" textFill="#d11f1f">
+      <Button layoutX="101.0" layoutY="342.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Computer - Hard" textFill="#d11f1f">
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>
-      <Button layoutX="104.0" layoutY="179.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Another Player" textFill="#e38120">
+      <Button layoutX="101.0" layoutY="181.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Another Player" textFill="#e38120">
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>
-      <MenuBar layoutY="-2.0" prefHeight="32.0" prefWidth="362.0">
+      <MenuBar layoutY="-2.0" prefHeight="32.0" prefWidth="362.0" style="-fx-background-color: #3EA6B4;">
         <menus>
           <Menu mnemonicParsing="false" text="Info">
             <items>
@@ -38,20 +42,30 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Text fill="#108be3" layoutX="159.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TAC">
+      <Text fill="#108be3" layoutX="154.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TAC">
          <font>
             <Font name="Impact" size="36.0" />
          </font>
       </Text>
-      <Text fill="#e57b19" layoutX="224.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOE">
+      <Text fill="#e57b19" layoutX="263.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOE">
          <font>
             <Font name="Impact" size="36.0" />
          </font>
       </Text>
-      <Text fill="#e57b19" layoutX="103.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TIC">
+      <Text fill="#e57b19" layoutX="47.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TIC">
          <font>
             <Font name="Impact" size="36.0" />
          </font>
       </Text>
+      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="109.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/X.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="222.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/O.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
