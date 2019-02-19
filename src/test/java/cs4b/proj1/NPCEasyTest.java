@@ -1,7 +1,9 @@
 package cs4b.proj1;
 
+import cs4b.proj1.observer.*;
 import javafx.util.Pair;
 import org.junit.Test;
+
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -24,26 +26,6 @@ public class NPCEasyTest {
         return matches;
     }
 
-    private Pair<Integer, Integer> findSelectedSpace(Board b, char token) {
-
-        Pair<Integer, Integer> selection = null;
-
-        // Yes, I'm putting more than one check inside the loop.
-        // I'm not sorry.
-        for(int x = 0; x < b.BOARD_SIZE_X && selection == null; x++) {
-            for(int y = 0; y < b.BOARD_SIZE_Y && selection == null; y++) {
-
-                if(b.getPos(x, y) == token) {
-                    b.setPos(x, y, b.DEFAULT_VALUE);
-                    selection = new Pair<>(x, y);
-                }
-            }
-        }
-
-        return selection;
-    }
-
-
     @Test public void testRange() {
 
         // Okay, this'll be a little wonk, but here me out.
@@ -65,11 +47,16 @@ public class NPCEasyTest {
         // will not be perfectly random, even a biased system should still
         // yield all spaces being picked, so long as the bias is not severe.
         final int MAX_TESTS = 500;
-        final boolean VERBOSE = true;
+        final boolean VERBOSE = false;
+
+        Board testBoard = new Board();
 
         PlayerBehavior behavior = new NPCEasy();
-        Board testBoard = new Board();
+        //NPCEasyObserver observer = new NPCEasyObserver();
+        EventContainer<PlayerBehavior.MoveInfo> observer = new EventContainer<>(PlayerBehavior.MoveInfo.class);
         char token = 'X';
+
+        behavior.addSubscriber(observer);
 
 
         HashMap<Pair<Integer,Integer>, Integer> matches = prepareMatchMap(testBoard);
@@ -77,7 +64,10 @@ public class NPCEasyTest {
         for(int i = 0; i < MAX_TESTS; i++) {
             //Pair<Integer, Integer> selection = behavior.getMove(testBoard);
             behavior.getMove(testBoard, token);
-            Pair<Integer, Integer> selection = findSelectedSpace(testBoard, token);
+            Pair<Integer, Integer> selection = new Pair<Integer, Integer>(
+                    observer.getEventInfo().getX(),
+                    observer.getEventInfo().getY()
+            );
 
             int matchCount = matches.getOrDefault(selection, 0);
             matches.put(selection, matchCount + 1);
@@ -99,7 +89,10 @@ public class NPCEasyTest {
 
         for(int i = 0; i < MAX_TESTS; i++) {
             behavior.getMove(testBoard, token);
-            Pair<Integer, Integer> selection = findSelectedSpace(testBoard, token);
+            Pair<Integer, Integer> selection = new Pair<Integer, Integer>(
+                    observer.getEventInfo().getX(),
+                    observer.getEventInfo().getY()
+            );
 
             int matchCount = matches.getOrDefault(selection, 0);
             matches.put(selection, matchCount + 1);

@@ -1,4 +1,5 @@
 package cs4b.proj1;
+import cs4b.proj1.observer.IObserver;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -34,7 +35,6 @@ public class BoardTest {
         }
     }
     //***************************************************************************
-
 
     //***************************************************************************
     @Test public void testGetBoardArray() {

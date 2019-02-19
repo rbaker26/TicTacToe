@@ -1,5 +1,9 @@
 package cs4b.proj1;
 
+
+import cs4b.proj1.observer.IObserver;
+import cs4b.proj1.observer.SubjectAssistant;
+
 public class NPCHard implements PlayerBehavior {
     // Player 1 = +10
     // Player 2 = -10
@@ -11,15 +15,63 @@ public class NPCHard implements PlayerBehavior {
 
     //***************************************************************************
     NPCHard(char p1, char p2){
-//        player1Char = p1.getSymbol();
-//        player2Char = p2.getSymbol();
+      
         player1Char = p1;
         player2Char = p2;
+
 
         Board b = new Board();
         MAX_SCORE =  ((b.BOARD_SIZE_X*b.BOARD_SIZE_Y) + 1);
         MIN_SCORE = -((b.BOARD_SIZE_X*b.BOARD_SIZE_Y) + 1);
+
     }
+    //region ISubject *************************************************************
+
+    private SubjectAssistant subjAssist;
+
+    /**
+     * Subscribes the given observer, causing its update function to be called
+     * for the given event. As there can be a variety of modes, subjects are
+     * expected to implement some kind of object (e.g. an enum) to allow
+     * subscribers to select what kind of events they are interested in.
+     * <p>
+     * If an observer attempts to addSubscriber itself more than once, the first
+     * subscription should be replaced. (Unless they are with differenct
+     * modes, of course.)
+     *
+     * @param observer The observer which will be subscribed.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void addSubscriber(IObserver observer) {
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant();
+        }
+
+        subjAssist.addSubscriber(observer);
+    }
+
+    /**
+     * Unsubscribes the given observer so that they will no longer receive
+     * updates for the given event. Nothing should happen if the observer
+     * isn't subscribed.
+     *
+     * @param observer Observer to be unsubscribed.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void removeSubscriber(IObserver observer) {
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant();
+        }
+
+        subjAssist.removeSubscriber(observer);
+    }
+
+    //endregion ISubject ***********************************************************
+
+
+
     //***************************************************************************
 
 
