@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane id="MainScreen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="389.0" style="-fx-background-image: img\gameImage.jpg; -fx-background-color: skyblue;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="MainScreen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="364.0" style="-fx-background-image: img\gameImage.jpg; -fx-background-color: skyblue;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="450.0" fitWidth="389.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -21,7 +21,7 @@
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <Button layoutX="101.0" layoutY="258.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Computer - Easy" textFill="#2686e0">
+      <Button layoutX="101.0" layoutY="269.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Computer - Easy" textFill="#2686e0">
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>
@@ -29,7 +29,7 @@
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>
-      <Button layoutX="101.0" layoutY="181.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Another Player" textFill="#e38120">
+      <Button layoutX="101.0" layoutY="194.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="171.0" text="Against Another Player" textFill="#e38120">
          <font>
             <Font name="Impact" size="15.0" />
          </font></Button>

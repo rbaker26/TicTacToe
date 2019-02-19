@@ -47,10 +47,17 @@ public class Main extends Application {
 
        // StackPane root2 = new StackPane();
        // root.setId("pane");
-        Scene scene = new Scene(root, 500, 400);
+        Scene scene = new Scene(root, 360, 450);
 
         scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+
+        //primaryStage.setTitle("Hello World");
+        //primaryStage.setScene(new Scene(root, 389, 450));
+
+        primaryStage.setResizable(false);
+
         primaryStage.setScene(scene);
+
         primaryStage.show();
 
 
