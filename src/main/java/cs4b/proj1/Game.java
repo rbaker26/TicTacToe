@@ -4,6 +4,7 @@ import cs4b.proj1.observer.*;
 import javafx.util.Pair;
 import org.w3c.dom.ranges.RangeException;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -253,6 +254,62 @@ public class Game implements ISubject<Game.SubjectMode> {
         subjAssist.triggerUpdate(SubjectMode.TurnChange, new TurnInfo(currentPlayer, null));
     }
 
+    /**
+     * Writes out the game state to a binary file.  The game state includes the board state, the player
+     * information, as well as whose turn it is.
+     * @author Keane Kaiser
+     */
+
+    void writeGameState() throws Exception{
+        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("gameState"));
+        output.writeObject(player1);
+        output.writeObject(player2);
+        output.writeObject(currentPlayer);
+        output.writeObject(board);
+        output.close();
+    }
+
+    /**
+     * Reads in the game state from a binary file.  The game state includes the board state, the player
+     * information, as well as whose turn it is
+     * @author Keane Kaiser
+     */
+
+    void loadGameState() throws Exception {
+        try {
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream("gameState"));
+            boolean eof = false;
+            while(!eof) {
+                try {
+                    this.player1 = (Player)input.readObject();
+                    this.player2 = (Player)input.readObject();
+                    this.currentPlayer = (Player)input.readObject();
+                    this.board = (Board)input.readObject();
+                    // The following code outputs tests
+                    System.out.println("Player 1 info:");
+                    System.out.println(player1);
+                    System.out.println("Player 2 info:");
+                    System.out.println(player2);
+                    System.out.println("Current Player:");
+                    if(currentPlayer.equals(player1)) {
+                        System.out.println("player 1");
+                    } else {
+                        System.out.println("player 2");
+                    }
+                    System.out.println("Board state:");
+                    System.out.println(board);
+                }
+                catch(EOFException ex) {
+                    eof = true;
+                }
+            }
+
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println("Game State file not found, cannot load game state!");
+            throw ex;
+        }
+    }
     @Deprecated
     void makePlay(Player player) {
         // For AI Plays.  Calls the same makePlay(Player player, int x, int y)
