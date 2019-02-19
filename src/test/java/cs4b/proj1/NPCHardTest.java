@@ -27,12 +27,12 @@ public class NPCHardTest {
         char[][] tempBoard = {
                 {' ', ' ', ' '},
                 {' ', 'O', ' '},
-                {' ', ' ', ' '}
+                {' ', ' ', ' '},
         };
 
         Board b = new Board(tempBoard);
         System.out.println(b.toString());
-        npcHard.getMove(b,p1.getSymbol());
+        npcHard.getMove(b,p2.getSymbol());
         System.out.println(b.toString());
 
         System.out.println("End Test");
