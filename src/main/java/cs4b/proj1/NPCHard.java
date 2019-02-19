@@ -32,6 +32,12 @@ public class NPCHard implements PlayerBehavior {
 
         boolean isPlayer1sTurn;
 
+        // My hack to fix minimax, if token == p1, it will find the best x,y for any player,
+        // if token == p2, it will find the worst move for any player in x,y.
+        // There for we only need to use this version
+        token = player1Char;
+
+
         if(token == player1Char) {
            // score = Integer.MAX_VALUE;
             isPlayer1sTurn = true;
@@ -76,6 +82,8 @@ public class NPCHard implements PlayerBehavior {
             }
         }
 
+        //TODO Daniel, dont f this up please.
+        // put your code here \/
         System.out.println("Best Move:\t" + xPos + " " + yPos );
 
     }

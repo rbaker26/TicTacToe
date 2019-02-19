@@ -25,8 +25,8 @@ public class NPCHardTest {
         NPCHard npcHard = new NPCHard(p1.getSymbol(), p2.getSymbol());
 
         char[][] tempBoard = {
-                {'X', 'O', 'X'},
-                {'O', ' ', ' '},
+                {' ', ' ', ' '},
+                {' ', 'O', ' '},
                 {' ', ' ', ' '}
         };
 
