@@ -88,64 +88,65 @@ public class NPCHard implements PlayerBehavior {
     //***************************************************************************
     @Override
     public void getMove(Board b, char token) {
-        int score = 0;
-        int xPos = -1;
-        int yPos = -1;
-
-        boolean isPlayer1sTurn;
-
-        // My hack to fix minimax, if token == p1, it will find the best x,y for any player,
-        // if token == p2, it will find the worst move for any player in x,y.
-        // There for we only need to use this version
-        token = player1Char;
-
-
-        if(token == player1Char) {
-           // score = Integer.MAX_VALUE;
-            isPlayer1sTurn = true;
-            score = Integer.MIN_VALUE;
-        }
-        else if(token == player2Char){
-         //   score = Integer.MIN_VALUE;
-            isPlayer1sTurn = false;
-            score = Integer.MAX_VALUE;
-        }
-        else {
-            throw new IllegalStateException("Token does not belong to Player1 or Player2");
-        }
-
-        for(int i = 0; i < b.BOARD_SIZE_X; i++) {
-            for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
-                if(b.getPos(i,j) == b.DEFAULT_VALUE ) {
-                    char tempChar;
-                    if(isPlayer1sTurn) {
-                        tempChar = player1Char;
-                    }
-                    else {
-                        tempChar = player2Char;
-                    }
-                    b.setPos(i,j,tempChar);
-                    int tempScore = minimax(b,0,isPlayer1sTurn);
-                    b.setPos(i,j,b.DEFAULT_VALUE);
-
-                    if(isPlayer1sTurn && tempScore > score) {
-                        System.out.println("First");
-                        xPos = i;
-                        yPos = j;
-                        score = tempScore;
-                    }
-                    else if(!isPlayer1sTurn && tempScore < score){
-                        System.out.println("Second");
-                        xPos = i;
-                        yPos = j;
-                        score = tempScore;
-                    }
-                }
-            }
-        }
-
-        //System.out.println("Best Move:\t" + xPos + " " + yPos );
-        triggerUpdate(new PlayerBehavior.MoveInfo(xPos, yPos));
+//        int score = 0;
+//        int xPos = -1;
+//        int yPos = -1;
+//
+//        boolean isPlayer1sTurn;
+//
+//        // My hack to fix minimax, if token == p1, it will find the best x,y for any player,
+//        // if token == p2, it will find the worst move for any player in x,y.
+//        // There for we only need to use this version
+//       // token = player1Char;
+//
+//
+//        if(token == player1Char) {
+//           // score = Integer.MAX_VALUE;
+//            isPlayer1sTurn = true;
+//            score = Integer.MIN_VALUE;
+//        }
+//        else if(token == player2Char){
+//         //   score = Integer.MIN_VALUE;
+//            isPlayer1sTurn = false;
+//            score = Integer.MAX_VALUE;
+//        }
+//        else {
+//            throw new IllegalStateException("Token does not belong to Player1 or Player2");
+//        }
+//
+//        for(int i = 0; i < b.BOARD_SIZE_X; i++) {
+//            for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+//                if(b.getPos(i,j) == b.DEFAULT_VALUE ) {
+//                    char tempChar;
+//                    if(isPlayer1sTurn) {
+//                        tempChar = player1Char;
+//                    }
+//                    else {
+//                        tempChar = player2Char;
+//                    }
+//                    b.setPos(i,j,tempChar);
+//                    int tempScore = minimax(b,0,isPlayer1sTurn);
+//                    b.setPos(i,j,b.DEFAULT_VALUE);
+//
+//                    if(isPlayer1sTurn && tempScore > score) {
+//                        //System.out.println("First");
+//                        xPos = i;
+//                        yPos = j;
+//                        score = tempScore;
+//                    }
+//                    else if(!isPlayer1sTurn && tempScore < score){
+//                        //System.out.println("Second");
+//                        xPos = i;
+//                        yPos = j;
+//                        score = tempScore;
+//                    }
+//                }
+//            }
+//        }
+//
+//        System.out.println("Best Move:\t" + xPos + " " + yPos );
+//        triggerUpdate(new PlayerBehavior.MoveInfo(xPos, yPos));
+      getMove2(b,token);
 
     }
     //***************************************************************************
@@ -321,5 +322,124 @@ public class NPCHard implements PlayerBehavior {
         return null;
     }
     //***************************************************************************
+
+
+
+    //***************************************************************************
+    //***************************************************************************
+    private int minimax2(Board b, int depth, boolean isMax) {
+        int score = evalBoard(b);
+
+//        if(isMax){
+//            score -= b.numEmptySpaces();
+//        }
+//        else {
+//            score += b.numEmptySpaces();
+//        }
+        System.out.println(score);
+       // System.out.println("Eval Result:\t" + score);
+
+        if(isBoardFull(b)) {
+            return 0;
+        }
+
+        if(isMax) {
+            int best = -1000;
+            for (int i = 0; i<3; i++) {
+                for (int j = 0; j<3; j++) {
+                    // Check if cell is empty
+                    if (b.getPos(i,j) == b.DEFAULT_VALUE) {
+                        // Make the move
+                        b.setPos(i,j,player2Char);
+
+                        best = Integer.max( best,
+                                minimax2(b, depth+1, !isMax) - b.numEmptySpaces());
+
+                        b.setPos(i,j,b.DEFAULT_VALUE);
+                    }
+                }
+            }
+            return best;
+        }
+        else {
+            int best = 1000;
+            // Traverse all cells
+            for (int i = 0; i<3; i++) {
+                for (int j = 0; j<3; j++) {
+                    // Check if cell is empty
+                    if (b.getPos(i,j)==b.DEFAULT_VALUE) {
+                        // Make the move
+                       b.setPos(i,j,player1Char);
+
+
+                        best = Integer.min(best,
+                                minimax2(b, depth+1, !isMax) + b.numEmptySpaces() );
+
+                        // Undo the move
+                        b.setPos(i,j,b.DEFAULT_VALUE);
+                    }
+                }
+            }
+            return best;
+        }
+    }
+
+
+    public void getMove2(Board b, char token) {
+        int bestVal = -1000;
+        int xBest = -1;
+        int yBest = -1;
+
+        boolean isP1sTurn = (token == player1Char);
+
+        //System.out.println("***********************************");
+        System.out.println("Chars\t" + player1Char + " " + player2Char );
+        System.out.println("Token\t" + token);
+       // System.out.println("***********************************");
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                // Check if cell is empty
+                if (b.getPos(i, j) == b.DEFAULT_VALUE) {
+                    // Make the move
+                    b.setPos(i, j, player2Char);
+                    // compute evaluation function for this
+                    // move.
+                    int moveVal = minimax2(b, 0, isP1sTurn);
+
+                    System.out.println("Move Value:\t"+moveVal + "\t" +i +" "+ j);
+                    // Undo the move
+                    b.setPos(i, j, b.DEFAULT_VALUE);
+
+                    // If the value of the current move is
+                    // more than the best value, then update
+                    // best/
+                    if(isP1sTurn) {
+                        if (moveVal < bestVal) {
+                            xBest = i;
+                            yBest = j;
+                            bestVal = moveVal;
+                        }
+                    }
+                    else{
+                        if (moveVal > bestVal) {
+                            xBest = i;
+                            yBest = j;
+                            bestVal = moveVal;
+                        }
+                    }
+
+                }
+            }
+        }
+        System.out.println("Suggested Move:\t" + xBest + " " + yBest);
+        triggerUpdate(new PlayerBehavior.MoveInfo(xBest, yBest));
+        System.out.println(b);
+
+    }
+    //***************************************************************************
+    //***************************************************************************
+
+
 
 }
