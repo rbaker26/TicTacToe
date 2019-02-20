@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class Main extends Application {
 
     @Override
@@ -23,6 +25,10 @@ public class Main extends Application {
 
         // Construct the game, using the players we've constructed up above.
         Game game = new Game(p1, p2);
+        File saveFile = new File("gameState");
+        if(saveFile.exists()) {
+            game.loadGameState();
+        }
 
         // The board must be able to let the player behavior know what has been clicked.
         // This is only important for human players, though, as AI can figure it out

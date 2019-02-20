@@ -2,6 +2,7 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.*;
 import javafx.util.Pair;
+import java.io.*;
 
 import java.util.*;
 
@@ -245,22 +246,15 @@ public class Game implements ISubject, IObserver {
 
     private Player player1;
     private Player player2;
-    Board board;
-
+    private Board board;
     private Player nextPlayer;       // Used to track who's turn it is.
-
     private SubjectAssistant subjAssist;
-
 
     public Game(Player p1, Player p2) {
         player1 = p1;
         player2 = p2;
 
         this.board = new Board();
-    }
-
-    public Game(PlayerBehavior player1Behavior, PlayerBehavior player2Behavior) {
-        this(new Player(player1Behavior), new Player(player2Behavior));
     }
 
     /**
@@ -281,10 +275,55 @@ public class Game implements ISubject, IObserver {
         nextPlayer.makeMove(board);
     }
 
-    @Deprecated
-    void makePlay(Player player) {
-        // For AI Plays.  Calls the same makePlay(Player player, int x, int y)
-        makePlay(player,0, 0);
+    void writeGameState() throws Exception{
+        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("gameState"));
+        output.writeObject(player1);
+        output.writeObject(player2);
+        output.writeObject(nextPlayer);
+        output.writeObject(board);
+        output.close();
+    }
+
+    /**
+     * Reads in the game state from a binary file.  The game state includes the board state, the player
+     * information, as well as whose turn it is
+     * @author Keane Kaiser
+     */
+
+    void loadGameState() throws Exception {
+        try {
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream("gameState"));
+            boolean eof = false;
+            while(!eof) {
+                try {
+                    this.player1 = (Player)input.readObject();
+                    this.player2 = (Player)input.readObject();
+                    this.nextPlayer = (Player)input.readObject();
+                    this.board = (Board)input.readObject();
+                    // The following code outputs tests
+                    System.out.println("Player 1 info:");
+                    System.out.println(player1);
+                    System.out.println("Player 2 info:");
+                    System.out.println(player2);
+                    System.out.println("Current Player:");
+                    if(nextPlayer.equals(player1)) {
+                        System.out.println("player 1");
+                    } else {
+                        System.out.println("player 2");
+                    }
+                    System.out.println("Board state:");
+                    System.out.println(board);
+                }
+                catch(EOFException ex) {
+                    eof = true;
+                }
+            }
+
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println("Game State file not found, cannot load game state!");
+            throw ex;
+        }
     }
 
     /**
@@ -380,35 +419,6 @@ public class Game implements ISubject, IObserver {
 
         // If we make it this far, all spaces are taken and the game really is over.
         return true;
-    }
-
-    Pair<Integer,Integer> minimax_helper (Board b) {
-
-        minimax();
-        return new Pair<>(1,1);
-    }
-
-    private Pair<Integer,Integer> minimax(){
-        //TODO
-        // write the minimax
-        return new Pair<>(1,1);
-    }
-//    private void staticEvaluator() {
-//
-//    }
-
-    Pair<Integer,Integer> random (/*Board b*/) {
-        Random rand = new Random();
-        char p1 = player1.getSymbol();
-        char p2 = player2.getSymbol();
-        int x;
-        int y;
-        do {
-            x = rand.nextInt(3);
-            y = rand.nextInt(3);
-        }while(board.getPos(x,y) != board.DEFAULT_VALUE/*board.getPos(x,y) == p1 || board.getPos(x,y) == p2*/);
-
-        return new Pair<>(x,y);
     }
 
     @Override
