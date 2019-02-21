@@ -47,7 +47,7 @@ public class NPCEasyTest {
         // will not be perfectly random, even a biased system should still
         // yield all spaces being picked, so long as the bias is not severe.
         final int MAX_TESTS = 500;
-        final boolean VERBOSE = true;
+        final boolean VERBOSE = false;
 
         Board testBoard = new Board();
 
