@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.util.concurrent.Callable;
@@ -40,6 +41,10 @@ public class Main extends Application implements IObserver {
     //Observer Signal- main captures, then it will call the board ui.
 
     Stage primaryStage;
+    Parent root;
+    Scene startScene;
+    Scene boardScene;
+    BoardGUI board;
 
     //Controller controlObject;
 
@@ -54,51 +59,47 @@ public class Main extends Application implements IObserver {
         if(eventInfo instanceof Game) {
 
             Game game = (Game)eventInfo;
-
+            board = new BoardGUI();
             // This sets up the UI stuff
-            BoardGUI board = new BoardGUI();
             if(game.getPlayer1().getPb() instanceof HPCLocal) {
                 board.addSubscriber((HPCLocal) game.getPlayer1().getPb());
             }
             if(game.getPlayer2().getPb() instanceof HPCLocal) {
                 board.addSubscriber((HPCLocal) game.getPlayer2().getPb());
             }
-
             board.addSubscriber(game);
+            board.addSubscriber(this);
             game.addSubscriber(board);
 
             // TODO Make BoardGUI show
-
-
-
             board.requestFocus();
-            Scene scene = new Scene(board, 360, 450);
-            primaryStage.setScene(scene);
+            boardScene = new Scene(board, 300, 300);
+            primaryStage.setScene(boardScene);
 
             // Last function to call when everything is ready
             game.startGame();
         }
 
+        if(eventInfo instanceof BoardGUI.Finished) {
+            primaryStage.setScene(startScene);
+        }
 
 
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         this.primaryStage = primaryStage;
         Controller.getInstance().addSubscriber(this);
 
-
-        Scene scene = new Scene(root, 360, 450);
+        startScene = new Scene(root, 360, 450);
 
 
         primaryStage.setResizable(false);
 
-        primaryStage.setScene(scene);
+        primaryStage.setScene(startScene);
 
         primaryStage.show();
 
