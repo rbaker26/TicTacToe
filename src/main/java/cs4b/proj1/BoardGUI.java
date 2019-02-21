@@ -2,6 +2,7 @@ package cs4b.proj1;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -116,18 +117,6 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
         this.setGridLinesVisible(true);
     }
 
-    public void toggleToken(Node node) {
-        ImageView token = (ImageView)((Pane)node).getChildren().get(0);
-        if(token.getImage().equals(emptyImg)) {
-            if(xTurn) {
-                token.setImage(xImg);
-                xTurn = false;
-            } else {
-                token.setImage(oImg);
-                xTurn = true;
-            }
-        }
-    }
 
     public void resetBoard() {
         ObservableList<Node> nodes = this.getChildren();
@@ -170,6 +159,8 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
         }
     }
 
+    static public class Finished {
+    }
     /**
      * Let the observer know that something happened with one of its subjects.
      *
@@ -190,6 +181,24 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
         if(currentBoard != null) {
             System.out.println("BoardGUI will handle an update: " + eventInfo);
             drawBoard(currentBoard);
+        }
+
+        if(eventInfo instanceof Game.ResultInfo) {
+            String winner;
+            Game.ResultInfo results = (Game.ResultInfo)eventInfo;
+
+            if(results.getWinner() != null) {
+                winner = results.getWinner().getSymbol() + " player: " + results.getWinner().getName() + " won!";
+            }
+            else {
+                winner = "Cat's Game!";
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game Results!");
+            alert.setHeaderText(null);
+            alert.setContentText(winner);
+            alert.showAndWait();
+            subjAssist.triggerUpdate(new BoardGUI.Finished());
         }
     }
 

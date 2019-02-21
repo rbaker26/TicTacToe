@@ -74,10 +74,10 @@ public class NPCEasy implements PlayerBehavior {
         ArrayList<Pair<Integer, Integer>> emptySpaces = new ArrayList<>();
 
         // Get all empty spaces
-        for(int row = 0; row < boardArray.length; row++) {
-            for(int col = 0; col < boardArray[row].length; col++) {
-                if(boardArray[row][col] == b.DEFAULT_VALUE) {
-                    emptySpaces.add(new Pair<>(row, col));
+        for(int x = 0; x < b.BOARD_SIZE_X; x++) {
+            for(int y = 0; y < b.BOARD_SIZE_Y; y++) {
+                if(b.getPos(x, y) == b.DEFAULT_VALUE) {
+                    emptySpaces.add(new Pair<>(x, y));
                 }
             }
         }
