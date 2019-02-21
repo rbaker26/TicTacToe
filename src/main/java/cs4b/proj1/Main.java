@@ -37,6 +37,8 @@ import java.util.concurrent.Callable;
 
 public class Main extends Application implements IObserver {
 
+    //Observer Signal- main captures, then it will call the board ui.
+
     Stage primaryStage;
 
     //Controller controlObject;
@@ -48,7 +50,7 @@ public class Main extends Application implements IObserver {
     @Override
     public void update(Object eventInfo) {
 
-        System.out.println("HII");
+        //System.out.println("HII");
         if(eventInfo instanceof Game) {
 
             Game game = (Game)eventInfo;
@@ -63,6 +65,7 @@ public class Main extends Application implements IObserver {
             }
 
             board.addSubscriber(game);
+            game.addSubscriber(board);
 
             // TODO Make BoardGUI show
 

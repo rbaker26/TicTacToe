@@ -81,49 +81,44 @@ public class Controller implements ISubject {
         instance = this;
     }
 
+
+
     @FXML
     private TextField player1txt;
 
     @FXML
     private TextField player2txt;
 
-    @FXML
-    private void button1Click() {
 
-        //Daniel signal- main captures, then it will call the board ui.
-
-
-        // Sets up game engine stuff
-        System.out.println("HELLO THERE");
-        //move this to text editor function:
+    public String getPlayer1() {
         String player1 = player1txt.getText();
-        String player2 = player2txt.getText();
 
         if(player1 == "") {
             player1 = "Player 1";
         }
 
+        return player1;
+    }
+
+    public String getPlayer2() {
+        String player2 = player2txt.getText();
+
         if(player2 == "") {
             player2 = "Player 2";
         }
 
+        return player2;
+    }
+
+    @FXML
+    private void button1Click() {
 
 
-        Player p1 = new Player('X', player1, new HPCLocal());
-        //Player p2 = new Player('O', player2, new HPCLocal());
-        Player p2 = new Player('O', player2, new NPCHard('X', 'O'));
-
-
+        Player p1 = new Player('X', getPlayer1(), new HPCLocal());
+        Player p2 = new Player('O', getPlayer2(), new HPCLocal());
         Game game = new Game(p1, p2);
 
-        try {
-            System.out.println(subjAssist);
-            triggerUpdate(game);
-        }
-        catch(RuntimeException ex) {
-            System.out.println(ex.getCause());
-            throw ex;
-        }
+        triggerUpdate(game);
     }
 
     //If the player wants to compete against the AI in an easy level,
@@ -131,7 +126,12 @@ public class Controller implements ISubject {
     @FXML
     private void button2Click() {
 
-        System.out.println("SUP");
+        Player p1 = new Player('X', getPlayer1(), new HPCLocal());
+        Player p2 = new Player('O', getPlayer2(), new NPCEasy());
+        Game game = new Game(p1, p2);
+
+        triggerUpdate(game);
+
 
     }
 
@@ -140,9 +140,11 @@ public class Controller implements ISubject {
     @FXML
     private void button3Click() {
 
+        Player p1 = new Player('X', getPlayer1(), new HPCLocal());
+        Player p2 = new Player('O', getPlayer2(), new NPCHard('X', 'O'));
+        Game game = new Game(p1, p2);
 
-
-        System.out.println("HEY");
+        triggerUpdate(game);
 
     }
 
