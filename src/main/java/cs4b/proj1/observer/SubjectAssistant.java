@@ -1,6 +1,7 @@
 package cs4b.proj1.observer;
 
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -14,12 +15,12 @@ import java.util.*;
  *
  * @author Daniel Edwards
  */
-public final class SubjectAssistant implements ISubject {
+public final class SubjectAssistant implements ISubject, Serializable {
 
     /**
      * Do not reference this directly; use the private getObserverSet method.
      */
-    private Set<IObserver> observers;
+    transient private Set<IObserver> observers;
 
     //***************************************************************************
     /**
@@ -28,10 +29,16 @@ public final class SubjectAssistant implements ISubject {
      * @author Daniel Edwards
      */
     public SubjectAssistant() {
-        observers = new HashSet<>();
-        //enums.forEach((Object val) -> observers.put((T)val, new ArrayList<>()));
     }
     //***************************************************************************
+
+    private Set<IObserver> getObservers() {
+        if(observers == null) {
+            observers = new HashSet<>();
+        }
+
+        return observers;
+    }
 
     //***************************************************************************
     /**
@@ -42,7 +49,7 @@ public final class SubjectAssistant implements ISubject {
      * @author Daniel Edwards
      */
     public void triggerUpdate(Object eventInfo) {
-        observers.forEach((IObserver o) -> o.update(eventInfo));
+        getObservers().forEach((IObserver o) -> o.update(eventInfo));
     }
     //***************************************************************************
 
@@ -57,11 +64,12 @@ public final class SubjectAssistant implements ISubject {
      */
     @Override
     public void addSubscriber(IObserver newObserver) {
+
         if(newObserver == null) {
             throw new NullPointerException("Can't have a null observer.");
         }
 
-        observers.add(newObserver);
+        getObservers().add(newObserver);
     }
     //***************************************************************************
 
@@ -76,17 +84,18 @@ public final class SubjectAssistant implements ISubject {
      */
     @Override
     public void removeSubscriber(IObserver oldObserver) {
+
         if(oldObserver == null) {
             throw new NullPointerException("Can't have a null observer.");
         }
 
-        observers.remove(oldObserver);
+        getObservers().remove(oldObserver);
     }
     //***************************************************************************
 
 
     public boolean hasSubscribers() {
-        return observers.size() > 0;
+        return getObservers().size() > 0;
     }
 
     // We do NOT want to override equals, toString, and hashCode for this class.

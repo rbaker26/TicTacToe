@@ -275,13 +275,15 @@ public class Game implements ISubject, IObserver {
         nextPlayer.makeMove(board);
     }
 
-    void writeGameState() throws Exception{
+    void writeGameState() throws IOException{
+        System.out.println("top of method");
         ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("gameState"));
         output.writeObject(player1);
         output.writeObject(player2);
         output.writeObject(nextPlayer);
         output.writeObject(board);
         output.close();
+        System.out.println("Game State Saved!");
     }
 
     /**
@@ -290,7 +292,7 @@ public class Game implements ISubject, IObserver {
      * @author Keane Kaiser
      */
 
-    void loadGameState() throws Exception {
+    void loadGameState() {
         try {
             ObjectInputStream input = new ObjectInputStream(new FileInputStream("gameState"));
             boolean eof = false;
@@ -320,12 +322,12 @@ public class Game implements ISubject, IObserver {
             }
 
         }
-        catch(FileNotFoundException ex) {
-            System.out.println("Game State file not found, cannot load game state!");
-            throw ex;
+        catch(Exception ex) {
+            System.out.println("Shit Balls #2");
+            ex.printStackTrace();
         }
     }
-
+    
     /**
      * Puts down the given player's symbol.
      *
@@ -378,9 +380,22 @@ public class Game implements ISubject, IObserver {
             );
 
             if(!gameIsOver) {
+                System.out.println("right spot");
+                try {
+                    this.writeGameState();
+                }
+                catch(Exception ex) {
+                    // shit balls
+                    System.out.println("shit balls: ");
+                    ex.printStackTrace();
+                }
                 nextPlayer.makeMove(board);
             }
             else {
+                File file = new File("gameState");
+                if(file.exists()) {
+                    file.delete();
+                }
                 subjAssist.triggerUpdate(
                         new Game.ResultInfo(null)
                 );

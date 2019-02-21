@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -27,7 +28,7 @@ public class Main extends Application {
         Game game = new Game(p1, p2);
         File saveFile = new File("gameState");
         if(saveFile.exists()) {
-            game.loadGameState();
+                game.loadGameState();
         }
 
         // The board must be able to let the player behavior know what has been clicked.

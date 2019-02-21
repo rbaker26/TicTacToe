@@ -5,6 +5,7 @@ import cs4b.proj1.observer.ISubject;
 import cs4b.proj1.observer.SubjectAssistant;
 import javafx.util.Pair;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
  * @class Board
  * @author Bob Baker
  */
-public class Board {
+public class Board implements Serializable {
 
     //***************************************************************************
     // Data
