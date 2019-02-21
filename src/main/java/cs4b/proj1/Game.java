@@ -262,11 +262,6 @@ public class Game implements ISubject, IObserver {
     //endregion ISubject ***********************************************************
 
 
-    // TODO There needs to be some concrete way of tracking the current player.
-    //      Otherwise, when we go to serialize/deserialize, there won't be any
-    //      way of checking who's turn it is.
-
-
     private Player player1;
     private Player player2;
     Board board;
@@ -283,8 +278,12 @@ public class Game implements ISubject, IObserver {
         this.board = new Board();
     }
 
-    public Game(PlayerBehavior player1Behavior, PlayerBehavior player2Behavior) {
-        this(new Player(player1Behavior), new Player(player2Behavior));
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 
     /**
@@ -305,12 +304,6 @@ public class Game implements ISubject, IObserver {
         nextPlayer.makeMove(board);
     }
 
-    @Deprecated
-    void makePlay(Player player) {
-        // For AI Plays.  Calls the same makePlay(Player player, int x, int y)
-        makePlay(player,0, 0);
-    }
-
     /**
      * Puts down the given player's symbol.
      *
@@ -319,10 +312,6 @@ public class Game implements ISubject, IObserver {
      * @param y
      */
     void makePlay(Player movingPlayer, int x, int y) {
-
-        // TODO This needs some tests.
-        //      However, none have been written because this method
-        //      is in a super nebulous state right now.
 
         boolean gameIsOver = gameOver();
 
@@ -406,6 +395,17 @@ public class Game implements ISubject, IObserver {
         // If we make it this far, all spaces are taken and the game really is over.
         return true;
     }
+
+    /**
+     * Figures out who's the current winner. Returns null if there is no winner
+     * yet.
+     * @return The winner or null if there is none.
+     */
+    public Player getWinner() {
+        // Check diagonals
+
+    }
+
 
     Pair<Integer,Integer> minimax_helper (Board b) {
 
