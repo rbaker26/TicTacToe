@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="039c7db5-a653-4424-875d-1848e00a1953" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/Board.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/BoardGUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/BoardInterfaceControler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/HPCLocal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/NPC.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/NPCEasy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/NPCHard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/PlayerBehavior.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/StartWindowGUI.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/StartWindowGUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/observer/DebugObserver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/observer/EventContainer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/observer/IObserver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/observer/ISubject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs4b/proj1/observer/SubjectAssistant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/music/MusicPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/01 A Night Of Dizzy Spells.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/02 Underclocked (underunderclocked mix).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/03 Chibi Ninja.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/04 All of Us.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/05 Come and Find Me.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/06 Searching.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/07 We're the Resistors.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/08 Ascending.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/09 Come and Find Me - B mix.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/10 Arpanauts.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/11 HHavok-intro.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/12 HHavok-main.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/13 Digital Native.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/14 Jumpshot.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/15 Prologue.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/music/16 We're all under the stars.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/proj1/Style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/proj1/gameWindow1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/proj1/img/Empty.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/proj1/img/O.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/proj1/img/X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/proj1/img/gameImage.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/proj1/img/tic-tac-toe_board.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cs4b/proj1/sample.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/music/Cave_Story.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs4b/proj1/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs4b/proj1/BoardTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs4b/proj1/GameTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs4b/proj1/NPCEasyTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs4b/proj1/NPCHardTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs4b/proj1/PlayerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs4b/proj1/observer/SubjectAssistantTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/EndGameTestData.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/EndGameTestInfo.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/EndGameTestResults.txt" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.gradle/" />
+    <ignored path="$PROJECT_DIR$/build/" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TicTacToe" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="TicTacToe" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>co</find>
+      <find>10</find>
+      <find>time</find>
+      <find>second</find>
+      <find>draw</find>
+      <find>MIN_SCORE</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>-10</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/HPCHard.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/HPCEasy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/Player.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/NPC.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/cs4b/proj1/Style.css" />
+        <option value="$PROJECT_DIR$/src/module-info.java" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/music/MusicPlayer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/NPCEasy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/HPC.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs4b/proj1/NPCEasyTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/PlayerBehavior.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/GameTestData.txt" />
+        <option value="$PROJECT_DIR$/src/test/resources/EndGameTestData.txt" />
+        <option value="$PROJECT_DIR$/src/test/java/cs4b/proj1/BoardTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs4b/proj1/NPCHardTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/Board.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/Main.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs4b/proj1/GameTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/Game.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs4b/proj1/NPCHard.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-7" />
+    <option name="width" value="974" />
+    <option name="height" value="1057" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550743715764" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="last_opened_file_path" value="C:/Program Files/Java/javafx-sdk-11.0.2/lib/javafx.web.jar!/" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\007ds\Documents\GitHub\TicTacToe\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Gradle.TicTacToe - Run">
+    <configuration name="TicTacToe - Run" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="run" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="TicTacToe - Test" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="test" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.TicTacToe - Run" />
+      <item itemvalue="Gradle.TicTacToe - Test" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="039c7db5-a653-4424-875d-1848e00a1953" name="Default Changelist" comment="" />
+      <created>1548916265558</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1548916265558</updated>
+      <workItem from="1548916268691" duration="6769000" />
+      <workItem from="1548955284337" duration="2000000" />
+      <workItem from="1548960300541" duration="10888000" />
+      <workItem from="1548995843951" duration="385000" />
+      <workItem from="1549318921927" duration="5605000" />
+      <workItem from="1549393394205" duration="8592000" />
+      <workItem from="1549421039336" duration="1468000" />
+      <workItem from="1549423379894" duration="1828000" />
+      <workItem from="1549497386894" duration="12355000" />
+      <workItem from="1549528626354" duration="1095000" />
+      <workItem from="1549560568906" duration="1005000" />
+      <workItem from="1549568027879" duration="4493000" />
+      <workItem from="1549988110950" duration="9177000" />
+      <workItem from="1550000037737" duration="6766000" />
+      <workItem from="1550183446155" duration="3210000" />
+      <workItem from="1550592449974" duration="20412000" />
+      <workItem from="1550704067836" duration="13976000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="110024000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <layout>
+      <window_info id="Image Layers" order="0" />
+      <window_info id="Capture Tool" order="1" />
+      <window_info id="UI Designer" order="2" />
+      <window_info id="Favorites" order="3" sideWeight="0.50479233" side_tool="true" weight="0.1673774" />
+      <window_info id="Designer" order="4" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.49520767" visible="true" weight="0.104477614" />
+      <window_info id="Structure" order="6" sideWeight="0.50479233" side_tool="true" weight="0.1673774" />
+      <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.4989339" weight="0.3290461" />
+      <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50959486" side_tool="true" visible="true" weight="0.31832796" />
+      <window_info anchor="bottom" id="Database Changes" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="4" sideWeight="0.49946696" weight="0.3290461" />
+      <window_info anchor="bottom" id="Build" order="5" weight="0.3290461" />
+      <window_info anchor="bottom" id="Message" order="6" />
+      <window_info anchor="bottom" id="Find" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" sideWeight="0.4904051" visible="true" weight="0.31832796" />
+      <window_info anchor="bottom" id="Debug" order="9" sideWeight="0.4978678" weight="0.39978564" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="12" sideWeight="0.49946696" weight="0.3290461" />
+      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49626866" weight="0.32690248" />
+      <window_info anchor="right" id="Palette" order="0" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Gradle" order="2" weight="0.32995737" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Maven" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="7" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="8" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="9" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Image Layers" order="0" />
+      <window_info id="Capture Tool" order="1" />
+      <window_info id="UI Designer" order="2" />
+      <window_info id="Favorites" order="3" sideWeight="0.50159746" side_tool="true" weight="0.2553305" />
+      <window_info id="Designer" order="4" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.49840257" visible="true" weight="0.13965885" />
+      <window_info id="Structure" order="6" sideWeight="0.50159746" side_tool="true" weight="0.2553305" />
+      <window_info anchor="bottom" id="Terminal" order="0" weight="0.3290461" />
+      <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="4" weight="0.3290461" />
+      <window_info anchor="bottom" id="Build" order="5" weight="0.3290461" />
+      <window_info anchor="bottom" id="Message" order="6" />
+      <window_info anchor="bottom" id="Find" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.33225107" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="12" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.3290461" />
+      <window_info anchor="right" id="Palette" order="0" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Gradle" order="2" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Maven" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="7" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="8" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="9" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/NPC.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/cs4b/proj1/Style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="28" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/reports/tests/test/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_config.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/module-info.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/music/MusicPlayer.java" />
+    <entry file="jar://C:/Program Files/Java/jdk-11.0.2/lib/src.zip!/java.base/java/util/function/BiConsumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/HPC.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs4b/proj1/NPCEasyTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-255">
+          <caret selection-end-line="3" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/Signal.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs4b/proj1/SignalTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/resources/EndGameTestData.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="3" lean-forward="true" selection-start-column="3" selection-end-line="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/observer/IObserver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/observer/SubjectAssistant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+          <folding>
+            <element signature="e#1440#1441#0" expanded="true" />
+            <element signature="e#1511#1512#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="94" column="9" lean-forward="true" selection-start-line="94" selection-start-column="9" selection-end-line="94" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2330#2331#0" expanded="true" />
+            <element signature="e#2363#2364#0" expanded="true" />
+            <element signature="e#4377#4378#0" expanded="true" />
+            <element signature="e#4464#4465#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/BoardInterfaceControler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/BoardGUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="47" column="50" selection-start-line="47" selection-start-column="50" selection-end-line="47" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/music/MusicPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/PlayerBehavior.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="25" column="15" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs4b/proj1/NPCHardTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs4b/proj1/BoardTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-255">
+          <caret line="93" column="22" selection-start-line="93" selection-start-column="22" selection-end-line="93" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs4b/proj1/GameTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="30" column="51" selection-start-line="30" selection-start-column="51" selection-end-line="30" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/NPCEasy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="81" column="13" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3339#3340#0" expanded="true" />
+            <element signature="e#3386#3387#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="504" column="52" selection-start-line="504" selection-start-column="52" selection-end-line="504" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs4b/proj1/NPCHard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="188" lean-forward="true" selection-start-line="188" selection-end-line="188" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>javafx-swt-11</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>11</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>test|TicTacToe</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Gradle: junit:junit:4.12</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
