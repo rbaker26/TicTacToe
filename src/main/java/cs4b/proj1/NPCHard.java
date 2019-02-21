@@ -3,7 +3,11 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.IObserver;
 import cs4b.proj1.observer.SubjectAssistant;
+import javafx.util.Pair;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class NPCHard implements PlayerBehavior {
@@ -88,94 +92,98 @@ public class NPCHard implements PlayerBehavior {
     //***************************************************************************
     @Override
     public void getMove(Board b, char token) {
-        int score = 0;
-        int xPos = -1;
-        int yPos = -1;
 
-        boolean isPlayer1sTurn;
-
-        // My hack to fix minimax, if token == p1, it will find the best x,y for any player,
-        // if token == p2, it will find the worst move for any player in x,y.
-        // There for we only need to use this version
-        token = player1Char;
-
-
-        if(token == player1Char) {
-           // score = Integer.MAX_VALUE;
-            isPlayer1sTurn = true;
-            score = Integer.MIN_VALUE;
+        boolean isMax = false;
+        int bestVal = -1000;
+        int xBest = -1;
+        int yBest = -1;
+        if(token == player2Char) {
+            isMax = true;
         }
-        else if(token == player2Char){
-         //   score = Integer.MIN_VALUE;
-            isPlayer1sTurn = false;
-            score = Integer.MAX_VALUE;
-        }
-        else {
-            throw new IllegalStateException("Token does not belong to Player1 or Player2");
-        }
+        System.out.println("Suggested Move:\t" + "Col " + "\t" + "Row");
 
+        Map<Integer, Pair<Integer,Integer>> moveMap = new TreeMap<>();
         for(int i = 0; i < b.BOARD_SIZE_X; i++) {
             for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
-                if(b.getPos(i,j) == b.DEFAULT_VALUE ) {
-                    char tempChar;
-                    if(isPlayer1sTurn) {
-                        tempChar = player1Char;
-                    }
-                    else {
-                        tempChar = player2Char;
-                    }
-                    b.setPos(i,j,tempChar);
-                    int tempScore = minimax(b,0,isPlayer1sTurn);
+                if(b.getPos(i,j) == b.DEFAULT_VALUE) {
+                    // Make Move
+                    b.setPos(i,j,token);
+
+                    // get mov val
+                    int moveVal = minimax(b,0,isMax);
+                    moveMap.put(moveVal,new Pair(i,j));
+                    System.out.println("Move Value:\t"+moveVal + "\t" +i +"\t\t"+ j);
+
+                    // undo move
                     b.setPos(i,j,b.DEFAULT_VALUE);
 
-                    if(isPlayer1sTurn && tempScore > score) {
-                        System.out.println("First");
-                        xPos = i;
-                        yPos = j;
-                        score = tempScore;
-                    }
-                    else if(!isPlayer1sTurn && tempScore < score){
-                        System.out.println("Second");
-                        xPos = i;
-                        yPos = j;
-                        score = tempScore;
+                    if(moveVal > bestVal) {
+                        //TODO check xy for correctness
+                        xBest = i;
+                        yBest = j;
                     }
                 }
             }
         }
-
-        //System.out.println("Best Move:\t" + xPos + " " + yPos );
-        triggerUpdate(new PlayerBehavior.MoveInfo(xPos, yPos));
+        int i =  ((TreeMap<Integer, Pair<Integer, Integer>>) moveMap).firstEntry().getValue().getKey();
+        int j =  ((TreeMap<Integer, Pair<Integer, Integer>>) moveMap).firstEntry().getValue().getValue();
+        System.out.println("*****************************************");
+        System.out.println("Suggested Move:\t" + "Col " + "\t" + "Row");
+        System.out.println("Suggested Move:\t" + xBest + "\t\t" + yBest);
+        System.out.println("Suggested Move:\t" + i + "\t\t" + j);
+        System.out.println("*****************************************");
+        triggerUpdate(new PlayerBehavior.MoveInfo(i, j));
+        System.out.println(b);
 
     }
     //***************************************************************************
 
-//    // idk if i like this. I might make this makeMove(Board b)
-//    @Override
-//    public Pair<Integer,Integer> getMove(Board b) {
-//
-//
-//        return new Pair<>(0,0);
-//    }
 
 
     //***************************************************************************
     public int minimax(Board b, int depth, boolean isMax) {
 
-        // Check if someone has won the game
-        Integer score = evalBoard(b);
-        if (score != null) return score;
+        int score = evalBoard(b);
 
-        // If no one has one, check to see if the game is over.
+        if(score == MAX_SCORE) {
+            return score-depth;
+        }
+        if(score == MIN_SCORE) {
+            return score+depth;
+        }
+
         if(isBoardFull(b)) {
-            return 0; // The Game was a tie
+            return 0;
         }
 
         if(isMax) {
-            return maximize(b, depth, isMax);
+            int best = -1000;
+            for(int i =0; i < b.BOARD_SIZE_X; i++) {
+                for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                    if(b.getPos(i,j) == b.DEFAULT_VALUE) {
+                        b.setPos(i,j,player1Char);
+
+                        best = Integer.max(best, minimax(b,depth+1, !isMax));
+
+                        b.setPos(i,j,b.DEFAULT_VALUE);
+                    }
+                }
+            }
+            return best;
         }
         else {
-            return minimize(b, depth, isMax);
+            int best = 1000;
+            for(int i =0; i < b.BOARD_SIZE_X; i++) {
+                for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                    if(b.getPos(i,j) == b.DEFAULT_VALUE) {
+                        b.setPos(i,j,player2Char);
+                        best = Integer.min(best,minimax(b,depth+1, !isMax));
+                        b.setPos(i,j,b.DEFAULT_VALUE);
+                    }
+                }
+            }
+            return best;
+
         }
 
     }
@@ -321,5 +329,14 @@ public class NPCHard implements PlayerBehavior {
         return null;
     }
     //***************************************************************************
+
+
+
+    //***************************************************************************
+    //***************************************************************************
+
+
+
+
 
 }

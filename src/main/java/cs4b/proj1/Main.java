@@ -107,4 +107,3 @@ public class Main extends Application implements IObserver {
     }
 }
 
-
