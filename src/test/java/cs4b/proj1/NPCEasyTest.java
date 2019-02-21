@@ -28,7 +28,7 @@ public class NPCEasyTest {
 
     @Test public void testRange() {
 
-        // Okay, this'll be a little wonk, but here me out.
+        // Okay, this'll be a little wonky, but here me out.
         //
         // We need to make sure our AI will be able to pick every space.
         // However, it's random, so we gotta run the tests many times.
@@ -84,7 +84,7 @@ public class NPCEasyTest {
         matches.forEach((Pair<Integer,Integer> k, Integer v) -> assertTrue(v > 0));
 
 
-        testBoard.setPos(1, 1, 'O');
+        testBoard.setPos(2, 1, 'O');
         matches = prepareMatchMap(testBoard);
 
         for(int i = 0; i < MAX_TESTS; i++) {
@@ -101,12 +101,18 @@ public class NPCEasyTest {
         if(VERBOSE) {
             StringBuilder builder = new StringBuilder();
 
-            builder.append("1-1 is taken:\n");
+            builder.append("2-1 is taken:\n");
             matches.forEach((Pair<Integer, Integer> k, Integer v) -> builder.append(k + " was selected " + v + "\n"));
 
             System.out.println(builder);
         }
         matches.forEach((Pair<Integer,Integer> k, Integer v) -> assertTrue(v > 0));
-        assertFalse(matches.containsKey(new Pair<>(1, 1)));
+        assertFalse(matches.containsKey(new Pair<>(2, 1)));
+
+        /*
+        X X
+        OXO
+        OX
+         */
     }
 } // End class

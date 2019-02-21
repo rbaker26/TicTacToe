@@ -38,7 +38,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Info">
             <items>
-              <MenuItem mnemonicParsing="false" text="About Our Game: &#10;Tic Tac Toe Game JavaFX implementation created by &#10;CS4B group members: Bobby, Keane, Naomi, Daniel. &#10;This is the first group project for our advance java class. &#10;Player is able to compete against another player, play &#10;against the computer in an easy level, or play against &#10;the computer in a hard level. Concepts of alpha-beta &#10;pruning and minimax search is implemented for a &#10;competitive AI.&#10;" />
+              <MenuItem mnemonicParsing="false" text="About Our Game: &#10;Tic Tac Toe Game JavaFX implementation created by &#10;CS4B group members: Bobby, Keane, Naomi, Daniel. &#10;This is the first group project for our advance java class. &#10;Player is able to compete against another player, play &#10;against the computer in an easy level, or play against &#10;the computer in a hard level. Concepts of minimax &#10;search is implemented for a competitive AI. Player 1&#10;is 'X' and goes first, and player 2 is 'O'.&#10;" />
             </items>
           </Menu>
         </menus>
