@@ -164,7 +164,7 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
                         image.setImage(emptyImg);
                         break;
                     default:
-                        throw new RuntimeException("Invalid board");
+                        throw new RuntimeException("Invalid character in board");
                 }
             }
         }
