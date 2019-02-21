@@ -414,10 +414,94 @@ public class Game implements ISubject, IObserver {
         // TODO This needs to figure out who the current winner is.
         //      See the javadoc.
 
+        int winVal = evalBoard(board, player1.getSymbol(),player2.getSymbol());
+        if(winVal==10){
+            return player1;
+        }
+        else if(winVal ==-10) {
+            return player2;
+        }
         return null;
     }
 
 
+    //***************************************************************************
+    Integer evalBoard(Board b, char player1Char, char player2Char) {
+        Integer rowWim = checkRowWin(b,player1Char,player2Char);
+        if (rowWim != null) return rowWim;
+        Integer colWin = checkColWin(b,player1Char,player2Char);
+        if (colWin != null) return colWin;
+        Integer digWin = checkDig(b,player1Char,player2Char);
+        if (digWin != null) return digWin;
+        return 0;
+    }
+    //***************************************************************************
+
+
+
+    //***************************************************************************
+    Integer checkDig(Board b, char player1Char, char player2Char) {
+        // Check dig's
+        char[][] array = b.getBoardArray();
+        if(array[0][0] == array[1][1] && array[1][1] == array[2][2]) {
+            if(array[0][0] == player1Char) {
+                return 10;
+            }
+            else if(array[0][0] == player2Char) {
+                return -10;
+            }
+        }
+        if(array[0][2]==array[1][1] && array[1][1] == array[2][0]) {
+            if(array[0][2] == player1Char) {
+                return 10;
+            }
+            else if(array[0][2] == player2Char) {
+                return -10;
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+
+
+    //***************************************************************************
+    private Integer checkColWin(Board b, char player1Char, char player2Char) {
+        // CheckWinCol
+        char[][] array = b.getBoardArray();
+        for(int j = 0; j < b.BOARD_SIZE_Y ;j++) {
+            if(array[0][j] == array[1][j] && array[1][j] == array[2][j]) {
+                if(array[0][j] == player1Char) {
+                    return 10;
+                }
+                else if(array[0][j] == player2Char) {
+                    return -10;
+                }
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+
+
+    //***************************************************************************
+    private Integer checkRowWin(Board b, char player1Char, char player2Char) {
+        // CheckWin Rows
+        char[][] array = b.getBoardArray();
+        for(int i = 0; i < b.BOARD_SIZE_X; i++) {
+            if(array[i][0] == array[i][1] && array[i][1] ==array [i][2]) {
+                if(array[i][0] == player1Char) {
+                    return 10;
+                }
+                else if(array[i][0] == player2Char){
+                    return -10;
+                }
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+    
+    
     Pair<Integer,Integer> minimax_helper (Board b) {
 
         minimax();
