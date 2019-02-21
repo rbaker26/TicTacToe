@@ -1,5 +1,6 @@
 package cs4b.proj1;
 
+import cs4b.proj1.observer.IObserver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,56 +8,86 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
-public class Main extends Application {
+/*
+        // This will just set up a basic, AI v. AI mode. In the end, this setup will be handled
+        // by Naomi's main menu.
+		BoardGUI board = new BoardGUI();
+		//board.subscribe(new DebugObserver("BoardGUI"));
+		//board.subscribe(new HPCLocal());
+
+        Player p1 = new Player('X', "Human1", new HPCLocal());
+        Player p2 = new Player('O', "AI1", new NPCEasy());
+
+        p1.getPb().subscribe(board);
+        board.subscribe((HPCLocal) p1.getPb());
+
+        Game g = new Game(p1, p2);
+        board.subscribe(g);
+
+
+        primaryStage.setTitle("Hello World");
+        board.requestFocus();
+        primaryStage.setScene(new Scene(board, 300, 300));
+        primaryStage.show();
+
+        g.startGame();
+ */
+
+
+public class Main extends Application implements IObserver {
+
+    //Observer Signal- main captures, then it will call the board ui.
+
+    Stage primaryStage;
+
+    //Controller controlObject;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void update(Object eventInfo) {
 
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        BoardGUI board = new BoardGUI();
+        if(eventInfo instanceof Game) {
 
-        board.requestFocus();
-          
+            Game game = (Game)eventInfo;
 
+            // This sets up the UI stuff
+            BoardGUI board = new BoardGUI();
+            if(game.getPlayer1().getPb() instanceof HPCLocal) {
+                board.addSubscriber((HPCLocal) game.getPlayer1().getPb());
+            }
+            if(game.getPlayer2().getPb() instanceof HPCLocal) {
+                board.addSubscriber((HPCLocal) game.getPlayer2().getPb());
+            }
 
-       // ImageView imgObject = new ImageView("img\\gameImage.jpg");
+            board.addSubscriber(game);
+            game.addSubscriber(board);
 
-       // imgObject.fitWidthProperty().bind(primaryStage.widthProperty());
+            board.requestFocus();
+            Scene scene = new Scene(board, 360, 450);
+            primaryStage.setScene(scene);
 
-       // paneObject.setCenterShape(imgObject);
-        // Construct the game, using the players we've constructed up above.
-        Player p1 = new Player('X', "player 1", new HPCLocal());
-        Player p2 = new Player('O', "player 2", new NPCHard('X', 'O'));
-        Game game = new Game(p1, p2);
-        File saveFile = new File("gameState");
-//        if(saveFile.exists()) {
-//                game.loadGameState();
-//        }
-        if(game.getPlayer1().getPb() instanceof HPCLocal) {
-            board.addSubscriber((HPCLocal)game.getPlayer1().getPb());
+            // Last function to call when everything is ready
+            game.startGame();
         }
+    }
 
-        if(game.getPlayer2().getPb() instanceof HPCLocal) {
-            board.addSubscriber((HPCLocal)game.getPlayer2().getPb());
-        }
-       // Scene scene = new Scene(paneObject);
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-       // primaryStage.setScene(scene);
-        //primaryStage.show();
 
-       // StackPane root2 = new StackPane();
-       // root.setId("pane");
-        Scene scene = new Scene(board, 360, 450);
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-      //  scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        this.primaryStage = primaryStage;
+        Controller.getInstance().addSubscriber(this);
 
-        //primaryStage.setTitle("Hello World");
-        //primaryStage.setScene(new Scene(root, 389, 450));
+
+        Scene scene = new Scene(root, 360, 450);
+
 
         primaryStage.setResizable(true);
 
@@ -66,7 +97,9 @@ public class Main extends Application {
 
 
 
+
+
+
     }
 }
-
 

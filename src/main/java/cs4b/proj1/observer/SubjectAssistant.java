@@ -104,6 +104,6 @@ public final class SubjectAssistant implements ISubject, Serializable {
 
     @Override
     public String toString() {
-        return "SubjectAssistant with " + observers.size() + " subscribers";
+        return "SubjectAssistant with " + getObservers().size() + " subscribers";
     }
 }

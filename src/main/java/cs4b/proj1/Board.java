@@ -92,7 +92,7 @@ public class Board implements Serializable {
             throw new IllegalArgumentException(error);
         }
         else {
-            boardArray[x][y] = c;
+            boardArray[y][x] = c;
         }
     }
     //***************************************************************************
@@ -114,7 +114,7 @@ public class Board implements Serializable {
                     "(BOARD_SIZE_X,BOARD_SIZE_Y)(%d,%d)", x, y, BOARD_SIZE_X, BOARD_SIZE_Y);
             throw new IllegalArgumentException(error);
         } else {
-            return boardArray[x][y];
+            return boardArray[y][x];
         }
     }
     //***************************************************************************

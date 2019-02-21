@@ -260,6 +260,7 @@ public class Game implements ISubject, IObserver {
         subjAssist.removeSubscriber(observer);
     }
 
+
     //endregion ISubject ***********************************************************
 
 
@@ -267,7 +268,7 @@ public class Game implements ISubject, IObserver {
     private Player player2;
     private Board board;
     private Player nextPlayer;       // Used to track who's turn it is.
-    private SubjectAssistant subjAssist;
+    private SubjectAssistant subjAssist = new SubjectAssistant();
 
     public Game(Player p1, Player p2) {
         player1 = p1;
@@ -297,7 +298,6 @@ public class Game implements ISubject, IObserver {
         player1.addSubscriber(this);
         player2.addSubscriber(this);
 
-        // TODO
         subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
         nextPlayer.makeMove(board);
     }
@@ -318,7 +318,6 @@ public class Game implements ISubject, IObserver {
      * information, as well as whose turn it is
      * @author Keane Kaiser
      */
-
     void loadGameState() {
         try {
             ObjectInputStream input = new ObjectInputStream(new FileInputStream("gameState"));
@@ -350,7 +349,7 @@ public class Game implements ISubject, IObserver {
 
         }
         catch(Exception ex) {
-            System.out.println("Shit Balls #2");
+            System.out.println("Failed load");
             ex.printStackTrace();
         }
     }
