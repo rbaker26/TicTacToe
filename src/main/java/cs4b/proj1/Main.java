@@ -1,6 +1,7 @@
 package cs4b.proj1;
 
 import cs4b.proj1.observer.IObserver;
+import cs4b.music.MusicPlayer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -108,6 +109,7 @@ public class Main extends Application implements IObserver {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        MusicPlayer mp = MusicPlayer.getInstance();
         root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
 
