@@ -275,6 +275,8 @@ public class Game implements ISubject, IObserver {
         player1 = p1;
         player2 = p2;
 
+        nextPlayer = player1;
+
         this.board = new Board();
     }
 
@@ -296,8 +298,6 @@ public class Game implements ISubject, IObserver {
         // This is so that we can hear when the players decide their moves.
         player1.addSubscriber(this);
         player2.addSubscriber(this);
-
-        nextPlayer = player1;
 
         // TODO
         subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
@@ -357,7 +357,7 @@ public class Game implements ISubject, IObserver {
             }
             else {
                 subjAssist.triggerUpdate(
-                        new Game.ResultInfo(null)
+                        new Game.ResultInfo(getWinner())
                 );
             }
         }
@@ -381,19 +381,28 @@ public class Game implements ISubject, IObserver {
     }
 
     public boolean gameOver() {
-        // Note that this is pretty hackish, and is more of a "is board full" function.
 
-        for(int x = 0; x < board.BOARD_SIZE_X; x++) {
-            for(int y = 0; y < board.BOARD_SIZE_Y; y++) {
-                // If any of the spaces are empty, we can just abort.
-                if(board.getPos(x, y) == board.DEFAULT_VALUE) {
-                    return false;
+        // We'll assume that the game has ended until proven otherwise.
+        boolean ended = true;
+
+        // If someone has won, the game has certainly ended.
+        if(getWinner() == null) {
+
+            // Someone hasn't won yet; we need to check if the board is full.
+            // If a single space is empty, then the game hasn't ended yet.
+            // Note that we abort early if we find that the game hasn't ended,
+            // i.e. there's an empty space.
+            for(int x = 0; x < board.BOARD_SIZE_X && ended; x++) {
+                for (int y = 0; y < board.BOARD_SIZE_Y && ended; y++) {
+
+                    if (board.getPos(x, y) == board.DEFAULT_VALUE) {
+                        ended = false;
+                    }
                 }
             }
         }
 
-        // If we make it this far, all spaces are taken and the game really is over.
-        return true;
+        return ended;
     }
 
     /**
@@ -402,8 +411,10 @@ public class Game implements ISubject, IObserver {
      * @return The winner or null if there is none.
      */
     public Player getWinner() {
-        // Check diagonals
+        // TODO This needs to figure out who the current winner is.
+        //      See the javadoc.
 
+        return null;
     }
 
 
