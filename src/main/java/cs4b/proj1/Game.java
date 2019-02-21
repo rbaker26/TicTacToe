@@ -3,7 +3,9 @@ package cs4b.proj1;
 import cs4b.proj1.observer.*;
 import javafx.util.Pair;
 
+import java.sql.Time;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The Game Engine
@@ -361,6 +363,7 @@ public class Game implements ISubject, IObserver {
             );
 
             if(!gameIsOver) {
+
                 nextPlayer.makeMove(board);
             }
             else {
