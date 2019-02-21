@@ -13,6 +13,7 @@ import java.util.Objects;
  * @param <T> The type which the observer accepts. Other types are ignored.
  */
 public class EventContainer<T> implements IObserver {
+
     /**
      * This is needed. Because Java.
      *

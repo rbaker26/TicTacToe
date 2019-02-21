@@ -100,4 +100,10 @@ public final class SubjectAssistant implements ISubject, Serializable {
 
     // We do NOT want to override equals, toString, and hashCode for this class.
     // Weird things happen... such as stack overflows.
+
+
+    @Override
+    public String toString() {
+        return "SubjectAssistant with " + observers.size() + " subscribers";
+    }
 }

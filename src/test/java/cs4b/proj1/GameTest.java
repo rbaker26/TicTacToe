@@ -56,8 +56,4 @@ public class GameTest {
         }
     }
 
-    @Test
-    public void testSerialize() {
-
-    }
 }

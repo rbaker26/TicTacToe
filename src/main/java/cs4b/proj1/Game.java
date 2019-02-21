@@ -4,26 +4,21 @@ import cs4b.proj1.observer.*;
 import javafx.util.Pair;
 import java.io.*;
 
+import java.sql.Time;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The Game Engine
  */
 public class Game implements ISubject, IObserver {
 
-    // HEY, YOU!
-    //
-    // If you're viewing this with IntelliJ, you should be able to fold
-    // region below this comment called "Event info containers".
-    // I typically put type definitions near the top of my code, but
-    // it they've gotten long this time around. So do yourself a favor,
-    // and fold this region.
-
 
     //region ISubject *************************************************************
 
     /**
-     * Contains info on the current turn, including the previous move.
+     * Contains info on the current turn, including the previous move. This
+     * is NOT sent out when the game begins.
      * @see TurnInfo
      * @author Daniel Edwards
      */
@@ -94,11 +89,23 @@ public class Game implements ISubject, IObserver {
         public int hashCode() {
             return Objects.hash(getX(), getY(), getNextPlayer(), getPreviousPlayer(), getCurrentBoard());
         }
+
+        @Override
+        public String toString() {
+            return "Game.MoveInfo{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    ", nextPlayer=" + nextPlayer +
+                    ", previousPlayer=" + previousPlayer +
+                    ", currentBoard=\n" + currentBoard +
+                    "\n}";
+        }
     }
 
     /**
      * Tracks just info on who's turn it is and was. Doesn't keep track of
-     * moves which have been made.
+     * moves which have been made. This is sent out when the game
+     * begins.
      * @see MoveInfo
      * @author Daniel Edwards
      */
@@ -153,10 +160,20 @@ public class Game implements ISubject, IObserver {
         public int hashCode() {
             return Objects.hash(getNextPlayer(), getPreviousPlayer(), getCurrentBoard());
         }
+
+        @Override
+        public String toString() {
+            return "Game.TurnInfo{" +
+                    "nextPlayer=" + nextPlayer +
+                    ", previousPlayer=" + previousPlayer +
+                    ", currentBoard=\n" + currentBoard +
+                    "\n}";
+        }
     }
 
     /**
-     * Contains info on the end result of a game.
+     * Contains info on the end result of a game. Only sent once no more moves
+     * may be made.
      * @author Daniel Edwards
      */
     static public class ResultInfo {
@@ -191,6 +208,13 @@ public class Game implements ISubject, IObserver {
         @Override
         public int hashCode() {
             return Objects.hash(winner);
+        }
+
+        @Override
+        public String toString() {
+            return "Gane.ResultInfo{" +
+                    "winner=" + winner +
+                    '}';
         }
     }
 
@@ -239,11 +263,6 @@ public class Game implements ISubject, IObserver {
     //endregion ISubject ***********************************************************
 
 
-    // TODO There needs to be some concrete way of tracking the current player.
-    //      Otherwise, when we go to serialize/deserialize, there won't be any
-    //      way of checking who's turn it is.
-
-
     private Player player1;
     private Player player2;
     private Board board;
@@ -254,7 +273,17 @@ public class Game implements ISubject, IObserver {
         player1 = p1;
         player2 = p2;
 
+        nextPlayer = player1;
+
         this.board = new Board();
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 
     /**
@@ -263,14 +292,12 @@ public class Game implements ISubject, IObserver {
      * @author Daniel Edwards
      */
     public void startGame() {
-        addSubscriber(player1);
-        addSubscriber(player2);
 
+        // This is so that we can hear when the players decide their moves.
         player1.addSubscriber(this);
         player2.addSubscriber(this);
 
-        nextPlayer = player1;
-
+        // TODO
         subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
         nextPlayer.makeMove(board);
     }
@@ -337,10 +364,6 @@ public class Game implements ISubject, IObserver {
      */
     void makePlay(Player movingPlayer, int x, int y) {
 
-        // TODO This needs some tests.
-        //      However, none have been written because this method
-        //      is in a super nebulous state right now.
-
         boolean gameIsOver = gameOver();
 
         if(gameIsOver) {
@@ -397,7 +420,7 @@ public class Game implements ISubject, IObserver {
                     file.delete();
                 }
                 subjAssist.triggerUpdate(
-                        new Game.ResultInfo(null)
+                        new Game.ResultInfo(getWinner())
                 );
             }
         }
@@ -421,19 +444,152 @@ public class Game implements ISubject, IObserver {
     }
 
     public boolean gameOver() {
-        // Note that this is pretty hackish, and is more of a "is board full" function.
 
-        for(int x = 0; x < board.BOARD_SIZE_X; x++) {
-            for(int y = 0; y < board.BOARD_SIZE_Y; y++) {
-                // If any of the spaces are empty, we can just abort.
-                if(board.getPos(x, y) == board.DEFAULT_VALUE) {
-                    return false;
+        // We'll assume that the game has ended until proven otherwise.
+        boolean ended = true;
+
+        // If someone has won, the game has certainly ended.
+        if(getWinner() == null) {
+
+            // Someone hasn't won yet; we need to check if the board is full.
+            // If a single space is empty, then the game hasn't ended yet.
+            // Note that we abort early if we find that the game hasn't ended,
+            // i.e. there's an empty space.
+            for(int x = 0; x < board.BOARD_SIZE_X && ended; x++) {
+                for (int y = 0; y < board.BOARD_SIZE_Y && ended; y++) {
+
+                    if (board.getPos(x, y) == board.DEFAULT_VALUE) {
+                        ended = false;
+                    }
                 }
             }
         }
 
-        // If we make it this far, all spaces are taken and the game really is over.
-        return true;
+        return ended;
+    }
+
+    /**
+     * Figures out who's the current winner. Returns null if there is no winner
+     * yet.
+     * @return The winner or null if there is none.
+     */
+    public Player getWinner() {
+        // TODO This needs to figure out who the current winner is.
+        //      See the javadoc.
+
+        int winVal = evalBoard(board, player1.getSymbol(),player2.getSymbol());
+        if(winVal==10){
+            return player1;
+        }
+        else if(winVal ==-10) {
+            return player2;
+        }
+        return null;
+    }
+
+
+    //***************************************************************************
+    Integer evalBoard(Board b, char player1Char, char player2Char) {
+        Integer rowWim = checkRowWin(b,player1Char,player2Char);
+        if (rowWim != null) return rowWim;
+        Integer colWin = checkColWin(b,player1Char,player2Char);
+        if (colWin != null) return colWin;
+        Integer digWin = checkDig(b,player1Char,player2Char);
+        if (digWin != null) return digWin;
+        return 0;
+    }
+    //***************************************************************************
+
+
+
+    //***************************************************************************
+    Integer checkDig(Board b, char player1Char, char player2Char) {
+        // Check dig's
+        char[][] array = b.getBoardArray();
+        if(array[0][0] == array[1][1] && array[1][1] == array[2][2]) {
+            if(array[0][0] == player1Char) {
+                return 10;
+            }
+            else if(array[0][0] == player2Char) {
+                return -10;
+            }
+        }
+        if(array[0][2]==array[1][1] && array[1][1] == array[2][0]) {
+            if(array[0][2] == player1Char) {
+                return 10;
+            }
+            else if(array[0][2] == player2Char) {
+                return -10;
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+
+
+    //***************************************************************************
+    private Integer checkColWin(Board b, char player1Char, char player2Char) {
+        // CheckWinCol
+        char[][] array = b.getBoardArray();
+        for(int j = 0; j < b.BOARD_SIZE_Y ;j++) {
+            if(array[0][j] == array[1][j] && array[1][j] == array[2][j]) {
+                if(array[0][j] == player1Char) {
+                    return 10;
+                }
+                else if(array[0][j] == player2Char) {
+                    return -10;
+                }
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+    //***************************************************************************
+    private Integer checkRowWin(Board b, char player1Char, char player2Char) {
+        // CheckWin Rows
+        char[][] array = b.getBoardArray();
+        for(int i = 0; i < b.BOARD_SIZE_X; i++) {
+            if(array[i][0] == array[i][1] && array[i][1] ==array [i][2]) {
+                if(array[i][0] == player1Char) {
+                    return 10;
+                }
+                else if(array[i][0] == player2Char){
+                    return -10;
+                }
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+    
+    
+    Pair<Integer,Integer> minimax_helper (Board b) {
+
+        minimax();
+        return new Pair<>(1,1);
+    }
+
+    private Pair<Integer,Integer> minimax(){
+        //TODO
+        // write the minimax
+        return new Pair<>(1,1);
+    }
+//    private void staticEvaluator() {
+//
+//    }
+
+    Pair<Integer,Integer> random (/*Board b*/) {
+        Random rand = new Random();
+        char p1 = player1.getSymbol();
+        char p2 = player2.getSymbol();
+        int x;
+        int y;
+        do {
+            x = rand.nextInt(3);
+            y = rand.nextInt(3);
+        }while(board.getPos(x,y) != board.DEFAULT_VALUE/*board.getPos(x,y) == p1 || board.getPos(x,y) == p2*/);
+
+        return new Pair<>(x,y);
     }
 
     @Override
@@ -446,7 +602,4 @@ public class Game implements ISubject, IObserver {
                 ", subjAssist=" + subjAssist +
                 '}';
     }
-
-
-
 }

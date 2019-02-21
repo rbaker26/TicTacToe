@@ -52,7 +52,13 @@ public class Board implements Serializable {
      * @author Bob Baker
      */
     public Board(char[][] boardArray) {
-        this.boardArray = boardArray;
+        this.boardArray = new char[this.BOARD_SIZE_X][this.BOARD_SIZE_Y];
+        for(int i = 0; i < this.BOARD_SIZE_X; i++) {
+            for( int j = 0; j < this.BOARD_SIZE_Y; j++) {
+                this.boardArray[i][j] = boardArray[i][j];
+            }
+        }
+        //this.boardArray = boardArray;
     }
     //***************************************************************************
 
@@ -160,17 +166,38 @@ public class Board implements Serializable {
     // not for dev, only for testing.
     // prints with formatting
     public String toString() {
+        char delim = ' ';
         StringBuffer sb = new StringBuffer();
         for(int i = 0; i < BOARD_SIZE_X; ++i) {
             for(int j = 0; j < BOARD_SIZE_Y; ++j) {
                 sb.append(boardArray[i][j]);
-                sb.append(' ');
+                //sb.append(delim);
             }
             sb.append('\n');
         }
-        sb.append('\n');
         return sb.toString();
     }
     //***************************************************************************
 
+
+
+    //***************************************************************************
+    /**
+     * Returns the amount of empty spaces on the board
+     * @return (int) emptySpaces
+     * @author Bob Baker
+     */
+    public int numEmptySpaces(){
+        int count = 0;
+
+        for(int i = 0; i < BOARD_SIZE_X; i++) {
+            for(int j= 0; j < BOARD_SIZE_Y; j++){
+                if(boardArray[i][j] == DEFAULT_VALUE) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    //***************************************************************************
 }
