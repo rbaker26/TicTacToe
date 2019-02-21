@@ -18,20 +18,9 @@ import cs4b.proj1.observer.*;
  * The constructor iterates through each cell of the gridpane placing a pane with an ImageView.
  * Each pane is set up with an on click event to handle the toggling the tokens in the space
  */
-public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode> {
+public class BoardGUI extends GridPane implements ISubject, IObserver {
 
     //region Event info containers **********************************************
-    public enum SubjectMode {
-        /**
-         * Triggered when the player clicks on a space.
-         * <p>
-         * This passes along BoardGUI.SelectedSpaceInfo.
-         * </p>
-         * @see BoardGUI.SelectedSpaceInfo
-         */
-        SelectedSpace;
-    }
-
     public static class SelectedSpaceInfo {
         private int x;
         private int y;
@@ -83,7 +72,7 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
     private Image xImg;
     private Image oImg;
     private Image emptyImg;
-    private SubjectAssistant<BoardGUI.SubjectMode> subjAssist;
+    private SubjectAssistant subjAssist;
 
     private boolean xTurn = true;
 
@@ -97,7 +86,7 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
             System.out.println("File not found");
         }
 
-        subjAssist = new SubjectAssistant<>();
+        subjAssist = new SubjectAssistant();
 
         for (int row = 0; row < MAX_SIZE; row++) {
             for (int col = 0; col < MAX_SIZE; col++) {
@@ -112,12 +101,8 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
                     if(event.getButton() == MouseButton.SECONDARY) {
                         this.resetBoard();
                     } else {
-                        this.toggleToken((Node)event.getSource());
-                        //TODO Daniel, here is where your signal goes.
-//                    GridPane.getRowIndex((Node)event.getSource());
-//                    GridPane.getColumnIndex((Node)event.getSource());
+                        //this.toggleToken((Node)event.getSource());
                         subjAssist.triggerUpdate(
-                            SubjectMode.SelectedSpace,
                             new SelectedSpaceInfo(
                                 GridPane.getColumnIndex((Node)event.getSource()),
                                 GridPane.getRowIndex((Node)event.getSource())
@@ -155,6 +140,58 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
         }
     }
 
+    public void drawBoard(Board currentBoard) {
+        //System.out.println("Drawing board");
+
+        ObservableList<Node> nodes = this.getChildren();
+        ImageView image;
+        for(Node node : nodes) {
+
+            if(node instanceof Pane) {
+                image = (ImageView) ((Pane) node).getChildren().get(0);
+                int x = GridPane.getColumnIndex(node);
+                int y = GridPane.getRowIndex(node);
+
+                // TODO This is terrible. Characters are garbage.
+                switch(currentBoard.getPos(x, y)) {
+                    case 'X':
+                        image.setImage(xImg);
+                        break;
+                    case 'O':
+                        image.setImage(oImg);
+                        break;
+                    case ' ':
+                        image.setImage(emptyImg);
+                        break;
+                    default:
+                        throw new RuntimeException("Invalid character in board");
+                }
+            }
+        }
+    }
+
+    /**
+     * Let the observer know that something happened with one of its subjects.
+     *
+     * @param eventInfo Whatever the subject decides to share about the event.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void update(Object eventInfo) {
+        Board currentBoard = null;
+
+        if(eventInfo instanceof Game.TurnInfo) {
+            currentBoard = ((Game.TurnInfo) eventInfo).getCurrentBoard();
+        }
+        else {
+            //System.out.println("BoardGUI recieved an update (unhandled): " + eventInfo.getClass().getName());
+        }
+
+        if(currentBoard != null) {
+            System.out.println("BoardGUI will handle an update: " + eventInfo);
+            drawBoard(currentBoard);
+        }
+    }
 
     //region ISubject *************************************************************
 
@@ -164,17 +201,16 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
      * expected to implement some kind of object (e.g. an enum) to allow
      * subscribers to select what kind of events they are interested in.
      * <p>
-     * If an observer attempts to subscribe itself more than once, the first
+     * If an observer attempts to addSubscriber itself more than once, the first
      * subscription should be replaced. (Unless they are with differenct
      * modes, of course.)
      *
      * @param observer The observer which will be subscribed.
-     * @param mode     The subject-specific mode.
      * @author Daniel Edwards
      */
     @Override
-    public void subscribe(IObserver observer, BoardGUI.SubjectMode mode) {
-        subjAssist.subscribe(observer, mode);
+    public void addSubscriber(IObserver observer) {
+        subjAssist.addSubscriber(observer);
     }
 
     /**
@@ -183,24 +219,11 @@ public class BoardGUI extends GridPane implements ISubject<BoardGUI.SubjectMode>
      * isn't subscribed.
      *
      * @param observer Observer to be unsubscribed.
-     * @param mode     The subject-specific mode.
      * @author Daniel Edwards
      */
     @Override
-    public void unsubscribe(IObserver observer, BoardGUI.SubjectMode mode) {
-        subjAssist.unsubscribe(observer, mode);
-    }
-
-    /**
-     * Unsubcribes the given observer entirely, causing them to no longer
-     * recieve any updates from the subject.
-     *
-     * @param observer Observer to be unsubscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void unsubscribeAll(IObserver observer) {
-        subjAssist.unsubscribeAll(observer);
+    public void removeSubscriber(IObserver observer) {
+        subjAssist.removeSubscriber(observer);
     }
 
     //endregion ISubject ***********************************************************

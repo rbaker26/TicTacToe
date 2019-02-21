@@ -2,28 +2,23 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.*;
 import javafx.util.Pair;
-import org.w3c.dom.ranges.RangeException;
-
 import java.io.*;
+
+import java.sql.Time;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The Game Engine
  */
-public class Game implements ISubject<Game.SubjectMode> {
-
-    // HEY, YOU!
-    //
-    // If you're viewing this with IntelliJ, you should be able to fold
-    // region below this comment called "Event info containers".
-    // I typically put type definitions near the top of my code, but
-    // it they've gotten long this time around. So do yourself a favor,
-    // and fold this region.
+public class Game implements ISubject, IObserver {
 
 
-    //region Event info containers **********************************************
+    //region ISubject *************************************************************
+
     /**
-     * Contains info on the current turn, including the previous move.
+     * Contains info on the current turn, including the previous move. This
+     * is NOT sent out when the game begins.
      * @see TurnInfo
      * @author Daniel Edwards
      */
@@ -32,15 +27,17 @@ public class Game implements ISubject<Game.SubjectMode> {
         private int y;
         private Player nextPlayer;
         private Player previousPlayer;
+        private Board currentBoard;
 
         public MoveInfo() {
         }
 
-        public MoveInfo(int x, int y, Player nextPlayer, Player previousPlayer) {
+        public MoveInfo(int x, int y, Player nextPlayer, Player previousPlayer, Board currentBoard) {
             this.x = x;
             this.y = y;
             this.nextPlayer = nextPlayer;
             this.previousPlayer = previousPlayer;
+            this.currentBoard = currentBoard;
         }
 
         public int getX() {
@@ -72,6 +69,10 @@ public class Game implements ISubject<Game.SubjectMode> {
             return previousPlayer;
         }
 
+        public Board getCurrentBoard() {
+            return currentBoard;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -80,30 +81,45 @@ public class Game implements ISubject<Game.SubjectMode> {
             return getX() == that.getX() &&
                     getY() == that.getY() &&
                     getPreviousPlayer() == that.getPreviousPlayer() &&
-                    Objects.equals(getNextPlayer(), that.getNextPlayer());
+                    Objects.equals(getNextPlayer(), that.getNextPlayer()) &&
+                    Objects.equals(getCurrentBoard(), that.getCurrentBoard());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getX(), getY(), getNextPlayer(), getPreviousPlayer());
+            return Objects.hash(getX(), getY(), getNextPlayer(), getPreviousPlayer(), getCurrentBoard());
+        }
+
+        @Override
+        public String toString() {
+            return "Game.MoveInfo{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    ", nextPlayer=" + nextPlayer +
+                    ", previousPlayer=" + previousPlayer +
+                    ", currentBoard=\n" + currentBoard +
+                    "\n}";
         }
     }
 
     /**
      * Tracks just info on who's turn it is and was. Doesn't keep track of
-     * moves which have been made.
+     * moves which have been made. This is sent out when the game
+     * begins.
      * @see MoveInfo
      * @author Daniel Edwards
      */
     static public class TurnInfo {
         private Player nextPlayer;
         private Player previousPlayer;
+        private Board currentBoard;
 
         public TurnInfo() {};
 
-        public TurnInfo(Player nextPlayer, Player previousPlayer) {
+        public TurnInfo(Player nextPlayer, Player previousPlayer, Board currentBoard) {
             this.nextPlayer = nextPlayer;
             this.previousPlayer = previousPlayer;
+            this.currentBoard = currentBoard;
         }
 
         /**
@@ -126,23 +142,38 @@ public class Game implements ISubject<Game.SubjectMode> {
             return previousPlayer;
         }
 
+        public Board getCurrentBoard() {
+            return currentBoard;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             TurnInfo turnInfo = (TurnInfo) o;
             return Objects.equals(getNextPlayer(), turnInfo.getNextPlayer()) &&
-                    Objects.equals(getPreviousPlayer(), turnInfo.getPreviousPlayer());
+                    Objects.equals(getPreviousPlayer(), turnInfo.getPreviousPlayer()) &&
+                    Objects.equals(getCurrentBoard(), turnInfo.getCurrentBoard());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getNextPlayer(), getPreviousPlayer());
+            return Objects.hash(getNextPlayer(), getPreviousPlayer(), getCurrentBoard());
+        }
+
+        @Override
+        public String toString() {
+            return "Game.TurnInfo{" +
+                    "nextPlayer=" + nextPlayer +
+                    ", previousPlayer=" + previousPlayer +
+                    ", currentBoard=\n" + currentBoard +
+                    "\n}";
         }
     }
 
     /**
-     * Contains info on the end result of a game.
+     * Contains info on the end result of a game. Only sent once no more moves
+     * may be made.
      * @author Daniel Edwards
      */
     static public class ResultInfo {
@@ -178,69 +209,81 @@ public class Game implements ISubject<Game.SubjectMode> {
         public int hashCode() {
             return Objects.hash(winner);
         }
+
+        @Override
+        public String toString() {
+            return "Gane.ResultInfo{" +
+                    "winner=" + winner +
+                    '}';
+        }
     }
 
-    public enum SubjectMode {
-        /**
-         * Triggered when the turn changes. Is triggered at the very beginning
-         * of the game, as well as upon the final move of the game. Intended
-         * for objects which are responsible for turns.
-         * <p>
-         * This passes along a Game.TurnInfo object.
-         *
-         * @see Game.TurnInfo
-         */
-        TurnChange,
 
-        /**
-         * Triggered when a player makes a move. Doesn't trigger at the start
-         * of the game, since no move has been made yet. Intended for those
-         * which watch as the game progresses and care about each individual
-         * move.
-         * <p>
-         * This passes along a Game.MoveInfo object.
-         *
-         * @see Game.MoveInfo
-         */
-        MoveMade,
+    /**
+     * Subscribes the given observer, causing its update function to be called
+     * for the given event. As there can be a variety of modes, subjects are
+     * expected to implement some kind of object (e.g. an enum) to allow
+     * subscribers to select what kind of events they are interested in.
+     * <p>
+     * If an observer attempts to addSubscriber itself more than once, the first
+     * subscription should be replaced. (Unless they are with differenct
+     * modes, of course.)
+     *
+     * @param observer The observer which will be subscribed.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void addSubscriber(IObserver observer) {
+        // TODO Maybe needed for serializable?
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant();
+        }
 
-        /**
-         * Triggered when a move is made which ends the game, whether by
-         * causing a player to win or by causing a tie.
-         * <p>
-         * This passes along a Game.ResultInfo object.
-         *
-         * @see Game.ResultInfo
-         */
-        GameEnd;
+        subjAssist.addSubscriber(observer);
     }
 
-    //endregion Event info containers *******************************************
+    /**
+     * Unsubscribes the given observer so that they will no longer receive
+     * updates for the given event. Nothing should happen if the observer
+     * isn't subscribed.
+     *
+     * @param observer Observer to be unsubscribed.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void removeSubscriber(IObserver observer) {
+        // TODO Maybe needed for serializable?
+        if(subjAssist == null) {
+            subjAssist = new SubjectAssistant();
+        }
 
+        subjAssist.removeSubscriber(observer);
+    }
 
-    // TODO There needs to be some concrete way of tracking the current player.
-    //      Otherwise, when we go to serialize/deserialize, there won't be any
-    //      way of checking who's turn it is.
+    //endregion ISubject ***********************************************************
 
 
     private Player player1;
     private Player player2;
-    Board board;
+    private Board board;
+    private Player nextPlayer;       // Used to track who's turn it is.
+    private SubjectAssistant subjAssist;
 
-    private Player currentPlayer;       // Used to track who's turn it is.
+    public Game(Player p1, Player p2) {
+        player1 = p1;
+        player2 = p2;
 
-    private SubjectAssistant<SubjectMode> subjAssist;
-
-
-
-    public Game(PlayerBehavior player1Behavior, PlayerBehavior player2Behavior) {
-        // Init Player Behaviors
-        this.player1 = new Player(player1Behavior);
-        this.player2 = new Player(player2Behavior);
+        nextPlayer = player1;
 
         this.board = new Board();
+    }
 
-        subjAssist = new SubjectAssistant<>();
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 
     /**
@@ -249,24 +292,25 @@ public class Game implements ISubject<Game.SubjectMode> {
      * @author Daniel Edwards
      */
     public void startGame() {
-        currentPlayer = player1;
 
-        subjAssist.triggerUpdate(SubjectMode.TurnChange, new TurnInfo(currentPlayer, null));
+        // This is so that we can hear when the players decide their moves.
+        player1.addSubscriber(this);
+        player2.addSubscriber(this);
+
+        // TODO
+        subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
+        nextPlayer.makeMove(board);
     }
 
-    /**
-     * Writes out the game state to a binary file.  The game state includes the board state, the player
-     * information, as well as whose turn it is.
-     * @author Keane Kaiser
-     */
-
-    void writeGameState() throws Exception{
+    void writeGameState() throws IOException{
+        System.out.println("top of method");
         ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("gameState"));
         output.writeObject(player1);
         output.writeObject(player2);
-        output.writeObject(currentPlayer);
+        output.writeObject(nextPlayer);
         output.writeObject(board);
         output.close();
+        System.out.println("Game State Saved!");
     }
 
     /**
@@ -275,7 +319,7 @@ public class Game implements ISubject<Game.SubjectMode> {
      * @author Keane Kaiser
      */
 
-    void loadGameState() throws Exception {
+    void loadGameState() {
         try {
             ObjectInputStream input = new ObjectInputStream(new FileInputStream("gameState"));
             boolean eof = false;
@@ -283,7 +327,7 @@ public class Game implements ISubject<Game.SubjectMode> {
                 try {
                     this.player1 = (Player)input.readObject();
                     this.player2 = (Player)input.readObject();
-                    this.currentPlayer = (Player)input.readObject();
+                    this.nextPlayer = (Player)input.readObject();
                     this.board = (Board)input.readObject();
                     // The following code outputs tests
                     System.out.println("Player 1 info:");
@@ -291,7 +335,7 @@ public class Game implements ISubject<Game.SubjectMode> {
                     System.out.println("Player 2 info:");
                     System.out.println(player2);
                     System.out.println("Current Player:");
-                    if(currentPlayer.equals(player1)) {
+                    if(nextPlayer.equals(player1)) {
                         System.out.println("player 1");
                     } else {
                         System.out.println("player 2");
@@ -305,17 +349,12 @@ public class Game implements ISubject<Game.SubjectMode> {
             }
 
         }
-        catch(FileNotFoundException ex) {
-            System.out.println("Game State file not found, cannot load game state!");
-            throw ex;
+        catch(Exception ex) {
+            System.out.println("Shit Balls #2");
+            ex.printStackTrace();
         }
     }
-    @Deprecated
-    void makePlay(Player player) {
-        // For AI Plays.  Calls the same makePlay(Player player, int x, int y)
-        makePlay(player,0, 0);
-    }
-
+    
     /**
      * Puts down the given player's symbol.
      *
@@ -325,64 +364,205 @@ public class Game implements ISubject<Game.SubjectMode> {
      */
     void makePlay(Player movingPlayer, int x, int y) {
 
-        // TODO This needs some tests.
-        //      However, none have been written because this method
-        //      is in a super nebulous state right now.
+        boolean gameIsOver = gameOver();
 
-        // TODO This should check for game over.
-        //      When the game does end, SubjectMode.GameEnd should be triggered.
-
-        // TODO This should probably safeguard against overriding other spaces.
-
-        // TODO Either call a function on nextPlayer or make sure that
-        //      the players are hooked up correctly with the events.
-
-        if(movingPlayer == null) {
+        if(gameIsOver) {
+            System.out.println("Game is over; no moves can be made.");
+        }
+        else if(movingPlayer == null) {
             throw new NullPointerException("movingPlayer must not be null!");
         }
-        else if(movingPlayer != currentPlayer) {
-            throw new IllegalArgumentException(
-                    movingPlayer.toString() + " isn't the same as " + currentPlayer.toString()
-                    + ", yet " + movingPlayer.toString() + " attempted to make a move."
+        else if(movingPlayer != nextPlayer) {
+            System.out.println("For some reason, " + movingPlayer.getName() + " tried to move, " +
+                    "even though it's " + nextPlayer.getName() + "'s turn.");
+        }
+        else if(board.getPos(x, y) != board.DEFAULT_VALUE) {
+            System.out.println(movingPlayer.getName() + " just tried to put something in (" + x + ", " + y + "), " +
+                    "but this space is already taken!");
+        }
+        else {
+            board.setPos(x, y, movingPlayer.getSymbol());
+
+            gameIsOver = gameOver();
+
+            // Save the result of the gameOver method; we need to use it a few times
+            // and it would be wasteful to call it several times.
+
+            if(gameIsOver) {
+                nextPlayer = null;
+            }
+            else {
+                nextPlayer = (movingPlayer != player1 ? player1 : player2);
+            }
+
+            subjAssist.triggerUpdate(
+                    new Game.TurnInfo(nextPlayer, movingPlayer, board)
             );
+            subjAssist.triggerUpdate(
+                    new Game.MoveInfo(x, y, nextPlayer, movingPlayer, board)
+            );
+
+            if(!gameIsOver) {
+                System.out.println("right spot");
+                try {
+                    this.writeGameState();
+                }
+                catch(Exception ex) {
+                    // shit balls
+                    System.out.println("shit balls: ");
+                    ex.printStackTrace();
+                }
+                nextPlayer.makeMove(board);
+            }
+            else {
+                File file = new File("gameState");
+                if(file.exists()) {
+                    file.delete();
+                }
+                subjAssist.triggerUpdate(
+                        new Game.ResultInfo(getWinner())
+                );
+            }
         }
-
-        board.setPos(x, y, movingPlayer.getSymbol());
-
-        // TODO If the game is over, nextPlayer should become null.
-        Player nextPlayer = (movingPlayer != player1 ? player1 : player2);
-        currentPlayer = nextPlayer;
-
-        subjAssist.triggerUpdate(
-                SubjectMode.MoveMade,
-                new MoveInfo(x, y, nextPlayer, movingPlayer));
-        subjAssist.triggerUpdate(
-                SubjectMode.TurnChange,
-                new TurnInfo(nextPlayer, movingPlayer)
-        );
-
-
-        /*
-        // If we use this implamentation, we have to do it this way because board is not in the scope of PlayerBehavior
-        // If the Type is NPC, the xy values will be discarded.
-        if(player.pb instanceof HPC) {
-            board.setPos(x,y,player.getSymbol());
-        }
-        else if(player.pb instanceof NPCEasy) {
-            // Some random choice function
-            Pair<Integer,Integer> pair = random();
-            board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
-        }
-        else if(player.pb instanceof NPCHard) {
-            // Use AI
-            Pair<Integer,Integer> pair= minimax_helper(board);
-            board.setPos(pair.getKey(),pair.getValue(),player.getSymbol());
-
-        }
-        */
-
     }
 
+    /**
+     * Let the observer know that something happened with one of its subjects.
+     *
+     * @param eventInfo Whatever the subject decides to share about the event.
+     * @author Daniel Edwards
+     */
+    @Override
+    public void update(Object eventInfo) {
+        if(eventInfo instanceof Player.MoveInfo) {
+            Player.MoveInfo info = (Player.MoveInfo) eventInfo;
+
+            //System.out.println(info.getSource().getName());
+
+            makePlay(info.getSource(), info.getX(), info.getY());
+        }
+    }
+
+    public boolean gameOver() {
+
+        // We'll assume that the game has ended until proven otherwise.
+        boolean ended = true;
+
+        // If someone has won, the game has certainly ended.
+        if(getWinner() == null) {
+
+            // Someone hasn't won yet; we need to check if the board is full.
+            // If a single space is empty, then the game hasn't ended yet.
+            // Note that we abort early if we find that the game hasn't ended,
+            // i.e. there's an empty space.
+            for(int x = 0; x < board.BOARD_SIZE_X && ended; x++) {
+                for (int y = 0; y < board.BOARD_SIZE_Y && ended; y++) {
+
+                    if (board.getPos(x, y) == board.DEFAULT_VALUE) {
+                        ended = false;
+                    }
+                }
+            }
+        }
+
+        return ended;
+    }
+
+    /**
+     * Figures out who's the current winner. Returns null if there is no winner
+     * yet.
+     * @return The winner or null if there is none.
+     */
+    public Player getWinner() {
+        // TODO This needs to figure out who the current winner is.
+        //      See the javadoc.
+
+        int winVal = evalBoard(board, player1.getSymbol(),player2.getSymbol());
+        if(winVal==10){
+            return player1;
+        }
+        else if(winVal ==-10) {
+            return player2;
+        }
+        return null;
+    }
+
+
+    //***************************************************************************
+    Integer evalBoard(Board b, char player1Char, char player2Char) {
+        Integer rowWim = checkRowWin(b,player1Char,player2Char);
+        if (rowWim != null) return rowWim;
+        Integer colWin = checkColWin(b,player1Char,player2Char);
+        if (colWin != null) return colWin;
+        Integer digWin = checkDig(b,player1Char,player2Char);
+        if (digWin != null) return digWin;
+        return 0;
+    }
+    //***************************************************************************
+
+
+
+    //***************************************************************************
+    Integer checkDig(Board b, char player1Char, char player2Char) {
+        // Check dig's
+        char[][] array = b.getBoardArray();
+        if(array[0][0] == array[1][1] && array[1][1] == array[2][2]) {
+            if(array[0][0] == player1Char) {
+                return 10;
+            }
+            else if(array[0][0] == player2Char) {
+                return -10;
+            }
+        }
+        if(array[0][2]==array[1][1] && array[1][1] == array[2][0]) {
+            if(array[0][2] == player1Char) {
+                return 10;
+            }
+            else if(array[0][2] == player2Char) {
+                return -10;
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+
+
+    //***************************************************************************
+    private Integer checkColWin(Board b, char player1Char, char player2Char) {
+        // CheckWinCol
+        char[][] array = b.getBoardArray();
+        for(int j = 0; j < b.BOARD_SIZE_Y ;j++) {
+            if(array[0][j] == array[1][j] && array[1][j] == array[2][j]) {
+                if(array[0][j] == player1Char) {
+                    return 10;
+                }
+                else if(array[0][j] == player2Char) {
+                    return -10;
+                }
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+    //***************************************************************************
+    private Integer checkRowWin(Board b, char player1Char, char player2Char) {
+        // CheckWin Rows
+        char[][] array = b.getBoardArray();
+        for(int i = 0; i < b.BOARD_SIZE_X; i++) {
+            if(array[i][0] == array[i][1] && array[i][1] ==array [i][2]) {
+                if(array[i][0] == player1Char) {
+                    return 10;
+                }
+                else if(array[i][0] == player2Char){
+                    return -10;
+                }
+            }
+        }
+        return null;
+    }
+    //***************************************************************************
+    
+    
     Pair<Integer,Integer> minimax_helper (Board b) {
 
         minimax();
@@ -412,68 +592,14 @@ public class Game implements ISubject<Game.SubjectMode> {
         return new Pair<>(x,y);
     }
 
-
-    //region ISubject *************************************************************
-
-    /**
-     * Subscribes the given observer, causing its update function to be called
-     * for the given event. As there can be a variety of modes, subjects are
-     * expected to implement some kind of object (e.g. an enum) to allow
-     * subscribers to select what kind of events they are interested in.
-     * <p>
-     * If an observer attempts to subscribe itself more than once, the first
-     * subscription should be replaced. (Unless they are with differenct
-     * modes, of course.)
-     *
-     * @param observer The observer which will be subscribed.
-     * @param mode     The subject-specific mode.
-     * @author Daniel Edwards
-     */
     @Override
-    public void subscribe(IObserver observer, SubjectMode mode) {
-        // TODO Maybe needed for serializable?
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant<>();
-        }
-
-        subjAssist.subscribe(observer, mode);
+    public String toString() {
+        return "Game{" +
+                "player1=" + player1 +
+                ", player2=" + player2 +
+                ", board=" + board +
+                ", nextPlayer=" + nextPlayer +
+                ", subjAssist=" + subjAssist +
+                '}';
     }
-
-    /**
-     * Unsubscribes the given observer so that they will no longer receive
-     * updates for the given event. Nothing should happen if the observer
-     * isn't subscribed.
-     *
-     * @param observer Observer to be unsubscribed.
-     * @param mode     The subject-specific mode.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void unsubscribe(IObserver observer, SubjectMode mode) {
-        // TODO Maybe needed for serializable?
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant<>();
-        }
-
-        subjAssist.unsubscribe(observer, mode);
-    }
-
-    /**
-     * Unsubcribes the given observer entirely, causing them to no longer
-     * recieve any updates from the subject.
-     *
-     * @param observer Observer to be unsubscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void unsubscribeAll(IObserver observer) {
-        // TODO Maybe needed for serializable?
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant<>();
-        }
-
-        subjAssist.unsubscribeAll(observer);
-    }
-
-    //endregion ISubject ***********************************************************
 }

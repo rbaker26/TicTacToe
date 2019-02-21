@@ -37,40 +37,6 @@ public class BoardTest {
     //***************************************************************************
 
     //***************************************************************************
-    private class TestObserver implements IObserver {
-        public Board.ChangedInfo actualInfo;
-
-        public TestObserver() {
-        }
-
-        @Override
-        public void update(Object eventInfo) {
-            if(eventInfo instanceof Board.ChangedInfo) {
-                actualInfo = (Board.ChangedInfo) eventInfo;
-            }
-        }
-    }
-
-    @Test public void testBoardChangedSignal() {
-        Board b = new Board();
-        TestObserver observer = new TestObserver();
-
-        b.subscribe(observer, Board.SubjectMode.changed);
-
-        b.setPos(0, 0, 'a');
-        assertEquals(observer.actualInfo, new Board.ChangedInfo(0, 0, 'a'));
-
-        b.setPos(2, 2, 'm');
-        assertEquals(observer.actualInfo, new Board.ChangedInfo(2, 2, 'm'));
-
-        b.unsubscribe(observer, Board.SubjectMode.changed);
-
-        b.setPos(0, 1, 'n');
-        assertEquals(observer.actualInfo, new Board.ChangedInfo(2, 2, 'm'));
-    }
-    //***************************************************************************
-
-    //***************************************************************************
     @Test public void testGetBoardArray() {
         Board b = new Board();
 
@@ -169,5 +135,19 @@ public class BoardTest {
     //***************************************************************************
 
 
+    //***************************************************************************
+    @Test public void testNumEmptySpaces() {
+        Board b = new Board();
+        int spaceCount = b.BOARD_SIZE_X * b.BOARD_SIZE_Y;
+
+        for(int i = 0; i < b.BOARD_SIZE_X; i ++) {
+            for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                assertTrue(b.numEmptySpaces() == spaceCount);
+                b.setPos(i,j,'X');
+                spaceCount--;
+            }
+        }
+    }
+    //***************************************************************************
 
 }
