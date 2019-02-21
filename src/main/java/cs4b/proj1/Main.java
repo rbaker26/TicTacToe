@@ -2,13 +2,18 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.IObserver;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.concurrent.Callable;
+import java.io.File;
 
 /*
         // This will just set up a basic, AI v. AI mode. In the end, this setup will be handled
@@ -59,7 +64,22 @@ public class Main extends Application implements IObserver {
         if(eventInfo instanceof Game) {
 
             Game game = (Game)eventInfo;
+            MenuBar menuBar = new MenuBar();
+            Menu menu = new Menu("Menu");
+            MenuItem quitGame = new MenuItem("Quit Game");
+            menu.getItems().add(quitGame);
+            quitGame.setOnAction(event -> {
+                File file = new File("gameState");
+                if(file.exists()) {
+                    file.delete();
+                }
+                primaryStage.setScene(startScene);
+            });
+
+            menuBar.getMenus().add(menu);
+            VBox vbox = new VBox();
             board = new BoardGUI();
+            vbox.getChildren().addAll(menuBar, board);
             // This sets up the UI stuff
             if(game.getPlayer1().getPb() instanceof HPCLocal) {
                 board.addSubscriber((HPCLocal) game.getPlayer1().getPb());
@@ -73,7 +93,7 @@ public class Main extends Application implements IObserver {
 
             // TODO Make BoardGUI show
             board.requestFocus();
-            boardScene = new Scene(board, 300, 300);
+            boardScene = new Scene(vbox, 300, 320);
             primaryStage.setScene(boardScene);
 
             // Last function to call when everything is ready
