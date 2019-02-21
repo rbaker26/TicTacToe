@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.Objects;
 
@@ -197,7 +199,10 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
             alert.setTitle("Game Results!");
             alert.setHeaderText(null);
             alert.setContentText(winner);
+            alert.setResizable(true);
             alert.showAndWait();
+            File file = new File("gameState");
+            file.delete();
             subjAssist.triggerUpdate(new BoardGUI.Finished());
         }
     }

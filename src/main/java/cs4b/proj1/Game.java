@@ -270,6 +270,21 @@ public class Game implements ISubject, IObserver {
     private Player nextPlayer;       // Used to track who's turn it is.
     private SubjectAssistant subjAssist = new SubjectAssistant();
 
+    public Game() {
+        player1 = new Player('X', "Blank", new HPCLocal());
+        player2 = new Player('O', "Blank", new HPCLocal());
+        nextPlayer = player1;
+
+        this.board = new Board();
+    }
+
+    public Game(Player p1, Player p2, Player nextPlayer, Board board) {
+        this.player1 = p1;
+        this.player2 = p2;
+        this.nextPlayer = nextPlayer;
+        this.board = board;
+    }
+
     public Game(Player p1, Player p2) {
         player1 = p1;
         player2 = p2;
@@ -285,6 +300,14 @@ public class Game implements ISubject, IObserver {
 
     public Player getPlayer2() {
         return player2;
+    }
+
+    public Player getNextPlayer() {
+        return nextPlayer;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     /**

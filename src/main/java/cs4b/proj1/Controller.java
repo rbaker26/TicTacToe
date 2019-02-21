@@ -118,8 +118,6 @@ public class Controller implements ISubject {
         Player p2 = new Player('O', getPlayer2(), new HPCLocal());
         Game game = new Game(p1, p2);
 
-        game.loadGameState();
-
         triggerUpdate(game);
     }
 
