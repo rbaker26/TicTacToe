@@ -65,11 +65,21 @@ public class Controller implements ISubject {
 
     //endregion ISubject ***********************************************************
 
+    public static Controller getInstance() {
+        //System.out.println(instance);
+        return instance;
+    }
+    private static Controller instance;
+
 
     //On Mouse Click Options:
 
     //If the player wants to compete against another player
     //button1Click() will be incorporated.
+
+    public Controller() {
+        instance = this;
+    }
 
     @FXML
     private TextField player1txt;
@@ -100,16 +110,20 @@ public class Controller implements ISubject {
 
 
         Player p1 = new Player('X', player1, new HPCLocal());
-        Player p2 = new Player('O', player2, new HPCLocal());
+        //Player p2 = new Player('O', player2, new HPCLocal());
+        Player p2 = new Player('O', player2, new NPCHard('X', 'O'));
+
 
         Game game = new Game(p1, p2);
 
-
-        subjAssist.triggerUpdate(game);
-
-
-
-
+        try {
+            System.out.println(subjAssist);
+            triggerUpdate(game);
+        }
+        catch(RuntimeException ex) {
+            System.out.println(ex.getCause());
+            throw ex;
+        }
     }
 
     //If the player wants to compete against the AI in an easy level,

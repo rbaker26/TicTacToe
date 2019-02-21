@@ -259,6 +259,7 @@ public class Game implements ISubject, IObserver {
         subjAssist.removeSubscriber(observer);
     }
 
+
     //endregion ISubject ***********************************************************
 
 
@@ -268,7 +269,7 @@ public class Game implements ISubject, IObserver {
 
     private Player nextPlayer;       // Used to track who's turn it is.
 
-    private SubjectAssistant subjAssist;
+    private SubjectAssistant subjAssist = new SubjectAssistant();
 
 
     public Game(Player p1, Player p2) {
@@ -299,7 +300,6 @@ public class Game implements ISubject, IObserver {
         player1.addSubscriber(this);
         player2.addSubscriber(this);
 
-        // TODO
         subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
         nextPlayer.makeMove(board);
     }
