@@ -16,6 +16,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+
+		// Actually construct our players. This is where we can choose which ones
+        // are humans and which ones are AI.
+        Player p1 = new Player('X', "Human1", new HPCLocal());
+        //Player p1 = new Player('X', "AI1", new NPCHard('X', 'O'));
+
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
           BoardGUI board = new BoardGUI();
 
@@ -24,6 +30,7 @@ public class Main extends Application {
 
 
        // ImageView imgObject = new ImageView("img\\gameImage.jpg");
+
 
        // imgObject.fitWidthProperty().bind(primaryStage.widthProperty());
 
