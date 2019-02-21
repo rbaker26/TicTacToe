@@ -2,6 +2,8 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.*;
 
+import java.util.Objects;
+
 public class HPCLocal implements PlayerBehavior, ISubject, IObserver {
 
     //region ISubject *************************************************************
@@ -81,6 +83,25 @@ public class HPCLocal implements PlayerBehavior, ISubject, IObserver {
                     new PlayerBehavior.MoveInfo(info.getX(), info.getY())
             );
         }
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HPCLocal hpcLocal = (HPCLocal) o;
+        return Objects.equals(subjAssist, hpcLocal.subjAssist);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(subjAssist);
+    }
+
+    @Override
+    public String toString() {
+        return "HPCLocal{" +
+                "subjAssist=" + subjAssist +
+                '}';
     }
 }
