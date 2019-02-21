@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cs4b.proj1.observer.SubjectAssistantTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-02-21T10:15:35" hostname="DESKTOP-EUK8SOJ" time="0.006">
+  <properties/>
+  <testcase name="testUnsubscribe" classname="cs4b.proj1.observer.SubjectAssistantTest" time="0.001"/>
+  <testcase name="testDuplicateSubscribe" classname="cs4b.proj1.observer.SubjectAssistantTest" time="0.001"/>
+  <testcase name="testSubscribe" classname="cs4b.proj1.observer.SubjectAssistantTest" time="0.001"/>
+  <testcase name="subscribeNull" classname="cs4b.proj1.observer.SubjectAssistantTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

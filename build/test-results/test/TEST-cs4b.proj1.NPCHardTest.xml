@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cs4b.proj1.NPCHardTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-02-21T10:15:34" hostname="DESKTOP-EUK8SOJ" time="0.166">
+  <properties/>
+  <testcase name="isBoardFullTest" classname="cs4b.proj1.NPCHardTest" time="0.029"/>
+  <testcase name="evalBoardTest" classname="cs4b.proj1.NPCHardTest" time="0.062"/>
+  <testcase name="checkDig" classname="cs4b.proj1.NPCHardTest" time="0.0"/>
+  <testcase name="getMoveTest" classname="cs4b.proj1.NPCHardTest" time="0.073"/>
+  <system-out><![CDATA[--------------------------------------------
+isBoardFull Test
+--------------------------------------------
+Board 0:	 Is Full?	false
+XOO
+OOX
+O X
+
+Board 1:	 Is Full?	true
+XOO
+OOX
+OXX
+
+Board 2:	 Is Full?	false
+   
+   
+   
+
+--------------------------------------------
+
+
+--------------------------------------------
+Board Winner Evaluation Test
+--------------------------------------------
+Actual	Expected
+10	10
+10	10
+-10	-10
+-10	-10
+10	10
+10	10
+10	10
+-10	-10
+-10	-10
+-10	-10
+10	10
+10	10
+10	10
+-10	-10
+-10	-10
+-10	-10
+--------------------------------------------
+
+
+X  
+   
+   
+
+Suggested Move:	Col 	Row
+Move Value:	6	0		1
+Move Value:	6	0		2
+Move Value:	6	1		0
+Move Value:	6	1		1
+Move Value:	6	1		2
+Move Value:	6	2		0
+Move Value:	6	2		1
+Move Value:	6	2		2
+*****************************************
+Suggested Move:	Col 	Row
+Suggested Move:	2		2
+*****************************************
+X  
+   
+   
+
+X  
+   
+   
+
+End Test
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

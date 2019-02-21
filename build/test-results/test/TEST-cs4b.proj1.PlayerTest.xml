@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cs4b.proj1.PlayerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-02-21T10:15:35" hostname="DESKTOP-EUK8SOJ" time="0.001">
+  <properties/>
+  <testcase name="testMakeMove" classname="cs4b.proj1.PlayerTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
