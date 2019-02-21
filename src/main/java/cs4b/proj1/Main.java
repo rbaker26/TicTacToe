@@ -15,7 +15,7 @@ public class Main extends Application {
 		// Actually construct our players. This is where we can choose which ones
         // are humans and which ones are AI.
         Player p1 = new Player('X', "Human1", new HPCLocal());
-        //Player p1 = new Player('X', "AI1", new NPCEasy());
+        //Player p1 = new Player('X', "AI1", new NPCHard('X', 'O'));
 
         //Player p2 = new Player('O', "Human2", new HPCLocal());
         Player p2 = new Player('O', "AI2", new NPCHard('X', 'O'));

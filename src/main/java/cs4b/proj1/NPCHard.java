@@ -3,7 +3,11 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.IObserver;
 import cs4b.proj1.observer.SubjectAssistant;
+import javafx.util.Pair;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class NPCHard implements PlayerBehavior {
@@ -146,7 +150,7 @@ public class NPCHard implements PlayerBehavior {
 //
 //        System.out.println("Best Move:\t" + xPos + " " + yPos );
 //        triggerUpdate(new PlayerBehavior.MoveInfo(xPos, yPos));
-      getMove2(b,token);
+      getMove3(b,token);
 
     }
     //***************************************************************************
@@ -336,13 +340,19 @@ public class NPCHard implements PlayerBehavior {
 //        else {
 //            score += b.numEmptySpaces();
 //        }
-        System.out.println(score);
+      //  System.out.println(score);
        // System.out.println("Eval Result:\t" + score);
 
-        if(isBoardFull(b)) {
-            return 0;
-        }
+//        if(isBoardFull(b)) {
+//            return evalBoard(b);
+//        }
 
+        if(score == 10) {
+            return score;
+        }
+        else if (score == -10){
+            return score;
+        }
         if(isMax) {
             int best = -1000;
             for (int i = 0; i<3; i++) {
@@ -353,7 +363,7 @@ public class NPCHard implements PlayerBehavior {
                         b.setPos(i,j,player2Char);
 
                         best = Integer.max( best,
-                                minimax2(b, depth+1, !isMax) - b.numEmptySpaces());
+                                minimax2(b, depth+1, !isMax)-b.numEmptySpaces() );
 
                         b.setPos(i,j,b.DEFAULT_VALUE);
                     }
@@ -369,11 +379,11 @@ public class NPCHard implements PlayerBehavior {
                     // Check if cell is empty
                     if (b.getPos(i,j)==b.DEFAULT_VALUE) {
                         // Make the move
-                       b.setPos(i,j,player1Char);
+                       b.setPos(i,j,player2Char);
 
 
                         best = Integer.min(best,
-                                minimax2(b, depth+1, !isMax) + b.numEmptySpaces() );
+                                minimax2(b, depth+1, !isMax)+b.numEmptySpaces() );
 
                         // Undo the move
                         b.setPos(i,j,b.DEFAULT_VALUE);
@@ -414,20 +424,25 @@ public class NPCHard implements PlayerBehavior {
                     // If the value of the current move is
                     // more than the best value, then update
                     // best/
-                    if(isP1sTurn) {
-                        if (moveVal < bestVal) {
-                            xBest = i;
-                            yBest = j;
-                            bestVal = moveVal;
-                        }
+                    if (moveVal > bestVal) {
+                        xBest = i;
+                        yBest = j;
+                        bestVal = moveVal;
                     }
-                    else{
-                        if (moveVal > bestVal) {
-                            xBest = i;
-                            yBest = j;
-                            bestVal = moveVal;
-                        }
-                    }
+//                    if(isP1sTurn) {
+//                        if (moveVal < bestVal) {
+//                            xBest = i;
+//                            yBest = j;
+//                            bestVal = moveVal;
+//                        }
+//                    }
+//                    else{
+//                        if (moveVal > bestVal) {
+//                            xBest = i;
+//                            yBest = j;
+//                            bestVal = moveVal;
+//                        }
+//                    }
 
                 }
             }
@@ -441,5 +456,95 @@ public class NPCHard implements PlayerBehavior {
     //***************************************************************************
 
 
+
+    private int minimax3(Board b, int depth, boolean isMax) {
+        int score = evalBoard(b);
+
+        if(score == MAX_SCORE) {
+            return score-depth;
+        }
+        if(score == MIN_SCORE) {
+            return score+depth;
+        }
+
+        if(isBoardFull(b)) {
+            return 0;
+        }
+
+        if(isMax) {
+            int best = -1000;
+            for(int i =0; i < b.BOARD_SIZE_X; i++) {
+                for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                    if(b.getPos(i,j) == b.DEFAULT_VALUE) {
+                        b.setPos(i,j,player1Char);
+
+                        best = Integer.max(best, minimax3(b,depth+1, !isMax));
+
+                        b.setPos(i,j,b.DEFAULT_VALUE);
+                    }
+                }
+            }
+            return best;
+        }
+        else {
+            int best = 1000;
+            for(int i =0; i < b.BOARD_SIZE_X; i++) {
+                for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                    if(b.getPos(i,j) == b.DEFAULT_VALUE) {
+                       b.setPos(i,j,player2Char);
+                       best = Integer.min(best,minimax3(b,depth+1, !isMax));
+                       b.setPos(i,j,b.DEFAULT_VALUE);
+                    }
+                }
+            }
+            return best;
+
+        }
+    }
+
+
+    public void getMove3(Board b, char token) {
+        boolean isMax = false;
+        int bestVal = -1000;
+        int xBest = -1;
+        int yBest = -1;
+        if(token == player2Char) {
+            isMax = true;
+        }
+        System.out.println("Suggested Move:\t" + "Col " + "\t" + "Row");
+
+        Map<Integer, Pair<Integer,Integer>> moveMap = new TreeMap<>();
+        for(int i = 0; i < b.BOARD_SIZE_X; i++) {
+            for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                if(b.getPos(i,j) == b.DEFAULT_VALUE) {
+                    // Make Move
+                    b.setPos(i,j,token);
+
+                    // get mov val
+                    int moveVal = minimax3(b,0,isMax);
+                    moveMap.put(moveVal,new Pair(i,j));
+                    System.out.println("Move Value:\t"+moveVal + "\t" +i +"\t\t"+ j);
+
+                    // undo move
+                    b.setPos(i,j,b.DEFAULT_VALUE);
+
+                    if(moveVal > bestVal) {
+                        //TODO check xy for correctness
+                       xBest = i;
+                       yBest = j;
+                    }
+                }
+            }
+        }
+        int i =  ((TreeMap<Integer, Pair<Integer, Integer>>) moveMap).firstEntry().getValue().getKey();
+        int j =  ((TreeMap<Integer, Pair<Integer, Integer>>) moveMap).firstEntry().getValue().getValue();
+        System.out.println("*****************************************");
+        System.out.println("Suggested Move:\t" + "Col " + "\t" + "Row");
+        System.out.println("Suggested Move:\t" + xBest + "\t\t" + yBest);
+        System.out.println("Suggested Move:\t" + i + "\t\t" + j);
+        System.out.println("*****************************************");
+        triggerUpdate(new PlayerBehavior.MoveInfo(i, j));
+        System.out.println(b);
+    }
 
 }
