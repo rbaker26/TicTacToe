@@ -135,5 +135,19 @@ public class BoardTest {
     //***************************************************************************
 
 
+    //***************************************************************************
+    @Test public void testNumEmptySpaces() {
+        Board b = new Board();
+        int spaceCount = b.BOARD_SIZE_X * b.BOARD_SIZE_Y;
+
+        for(int i = 0; i < b.BOARD_SIZE_X; i ++) {
+            for(int j = 0; j < b.BOARD_SIZE_Y; j++) {
+                assertTrue(b.numEmptySpaces() == spaceCount);
+                b.setPos(i,j,'X');
+                spaceCount--;
+            }
+        }
+    }
+    //***************************************************************************
 
 }
