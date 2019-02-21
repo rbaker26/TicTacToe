@@ -4,6 +4,7 @@ import cs4b.proj1.observer.IObserver;
 import cs4b.proj1.observer.ISubject;
 import cs4b.proj1.observer.SubjectAssistant;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Objects;
  * @author Daniel Edwards
  * @author Bob Baker
  */
-public class Player implements IObserver, ISubject {
+public class Player implements IObserver, ISubject, Serializable {
 
     //region ISubject *************************************************************
 

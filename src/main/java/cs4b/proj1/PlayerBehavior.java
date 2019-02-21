@@ -2,6 +2,7 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.ISubject;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Objects;
  *
  * @author Daniel Edwards
  */
-public interface PlayerBehavior extends ISubject {
+public interface PlayerBehavior extends ISubject, Serializable {
 
     /**
      * When this player behavior comes up with a move, this gets sent

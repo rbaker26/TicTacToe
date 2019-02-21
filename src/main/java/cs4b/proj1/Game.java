@@ -2,6 +2,7 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.*;
 import javafx.util.Pair;
+import java.io.*;
 
 import java.sql.Time;
 import java.util.*;
@@ -265,12 +266,24 @@ public class Game implements ISubject, IObserver {
 
     private Player player1;
     private Player player2;
-    Board board;
-
+    private Board board;
     private Player nextPlayer;       // Used to track who's turn it is.
-
     private SubjectAssistant subjAssist = new SubjectAssistant();
 
+    public Game() {
+        player1 = new Player('X', "Blank", new HPCLocal());
+        player2 = new Player('O', "Blank", new HPCLocal());
+        nextPlayer = player1;
+
+        this.board = new Board();
+    }
+
+    public Game(Player p1, Player p2, Player nextPlayer, Board board) {
+        this.player1 = p1;
+        this.player2 = p2;
+        this.nextPlayer = nextPlayer;
+        this.board = board;
+    }
 
     public Game(Player p1, Player p2) {
         player1 = p1;
@@ -289,6 +302,14 @@ public class Game implements ISubject, IObserver {
         return player2;
     }
 
+    public Player getNextPlayer() {
+        return nextPlayer;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
     /**
      * Call this once everything is set up. This may get deprecated/deleted
      * if we force everything to be properly configured in the constructor.
@@ -304,6 +325,58 @@ public class Game implements ISubject, IObserver {
         nextPlayer.makeMove(board);
     }
 
+    void writeGameState() throws IOException{
+        System.out.println("top of method");
+        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("gameState"));
+        output.writeObject(player1);
+        output.writeObject(player2);
+        output.writeObject(nextPlayer);
+        output.writeObject(board);
+        output.close();
+        System.out.println("Game State Saved!");
+    }
+
+    /**
+     * Reads in the game state from a binary file.  The game state includes the board state, the player
+     * information, as well as whose turn it is
+     * @author Keane Kaiser
+     */
+    void loadGameState() {
+        try {
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream("gameState"));
+            boolean eof = false;
+            while(!eof) {
+                try {
+                    this.player1 = (Player)input.readObject();
+                    this.player2 = (Player)input.readObject();
+                    this.nextPlayer = (Player)input.readObject();
+                    this.board = (Board)input.readObject();
+                    // The following code outputs tests
+                    System.out.println("Player 1 info:");
+                    System.out.println(player1);
+                    System.out.println("Player 2 info:");
+                    System.out.println(player2);
+                    System.out.println("Current Player:");
+                    if(nextPlayer.equals(player1)) {
+                        System.out.println("player 1");
+                    } else {
+                        System.out.println("player 2");
+                    }
+                    System.out.println("Board state:");
+                    System.out.println(board);
+                }
+                catch(EOFException ex) {
+                    eof = true;
+                }
+            }
+
+        }
+        catch(Exception ex) {
+            System.out.println("Failed load");
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * Puts down the given player's symbol.
      *
@@ -352,10 +425,22 @@ public class Game implements ISubject, IObserver {
             );
 
             if(!gameIsOver) {
-
+                System.out.println("right spot");
+                try {
+                    this.writeGameState();
+                }
+                catch(Exception ex) {
+                    // shit balls
+                    System.out.println("shit balls: ");
+                    ex.printStackTrace();
+                }
                 nextPlayer.makeMove(board);
             }
             else {
+                File file = new File("gameState");
+                if(file.exists()) {
+                    file.delete();
+                }
                 subjAssist.triggerUpdate(
                         new Game.ResultInfo(getWinner())
                 );
@@ -481,8 +566,6 @@ public class Game implements ISubject, IObserver {
         return null;
     }
     //***************************************************************************
-
-
     //***************************************************************************
     private Integer checkRowWin(Board b, char player1Char, char player2Char) {
         // CheckWin Rows
@@ -541,7 +624,4 @@ public class Game implements ISubject, IObserver {
                 ", subjAssist=" + subjAssist +
                 '}';
     }
-
-
-
 }

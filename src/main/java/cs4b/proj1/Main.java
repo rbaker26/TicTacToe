@@ -7,12 +7,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.Callable;
 import java.io.File;
 
 /*
@@ -50,6 +52,7 @@ public class Main extends Application implements IObserver {
     Scene startScene;
     Scene boardScene;
     BoardGUI board;
+    File file = new File("gameState");
 
     //Controller controlObject;
 
@@ -60,7 +63,6 @@ public class Main extends Application implements IObserver {
     @Override
     public void update(Object eventInfo) {
 
-        //System.out.println("HII");
         if(eventInfo instanceof Game) {
 
             Game game = (Game)eventInfo;
@@ -91,7 +93,6 @@ public class Main extends Application implements IObserver {
             board.addSubscriber(this);
             game.addSubscriber(board);
 
-            // TODO Make BoardGUI show
             board.requestFocus();
             boardScene = new Scene(vbox, 300, 320);
             primaryStage.setScene(boardScene);
@@ -103,13 +104,12 @@ public class Main extends Application implements IObserver {
         if(eventInfo instanceof BoardGUI.Finished) {
             primaryStage.setScene(startScene);
         }
-
-
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+
 
         this.primaryStage = primaryStage;
         Controller.getInstance().addSubscriber(this);
@@ -117,17 +117,49 @@ public class Main extends Application implements IObserver {
         startScene = new Scene(root, 360, 450);
 
 
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
 
         primaryStage.setScene(startScene);
 
         primaryStage.show();
 
-
-
-
-
-
+        Game game = new Game();
+        if(file.exists()) {
+            Alert resume = new Alert(Alert.AlertType.CONFIRMATION);
+            resume.setTitle("Old Game Found");
+            resume.setHeaderText(null);
+            resume.setContentText("Resume old game?");
+            resume.getDialogPane().setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+            resume.setResizable(true);
+            Optional<ButtonType> result = resume.showAndWait();
+            if(result.get() == ButtonType.OK) {
+                game.loadGameState();
+                Player p1;
+                Player p2;
+                Player next;
+                p1 = new Player(game.getPlayer1().getSymbol(), game.getPlayer1().getName(), new HPCLocal());
+                if(game.getPlayer2().getPb() instanceof HPCLocal) {
+                    p2 = new Player(game.getPlayer2().getSymbol(), game.getPlayer2().getName(), new HPCLocal());
+                }
+                else if(game.getPlayer1().getPb() instanceof NPCEasy){
+                    p2 = new Player(game.getPlayer2().getSymbol(), game.getPlayer2().getName(), new NPCEasy());
+                }
+                else {
+                    p2 = new Player(game.getPlayer2().getSymbol(), game.getPlayer2().getName(), new NPCHard(p1.getSymbol(), game.getPlayer2().getSymbol()));
+                }
+                if(game.getNextPlayer().getSymbol() == 'X') {
+                    next = p1;
+                }
+                else {
+                    next = p2;
+                }
+                game = new Game(p1, p2, next, game.getBoard());
+                this.update(game);
+            }
+            else {
+                file.delete();
+            }
+        }
     }
 }
 

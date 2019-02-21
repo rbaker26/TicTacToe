@@ -1,8 +1,9 @@
 package cs4b.proj1;
 
 import cs4b.proj1.observer.*;
-
+import java.io.Serializable;
 import java.util.Objects;
+
 
 public class HPCLocal implements PlayerBehavior, ISubject, IObserver {
 
