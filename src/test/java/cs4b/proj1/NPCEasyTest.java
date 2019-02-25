@@ -56,7 +56,7 @@ public class NPCEasyTest {
         EventContainer<PlayerBehavior.MoveInfo> observer = new EventContainer<>(PlayerBehavior.MoveInfo.class);
         char token = 'X';
 
-        behavior.addSubscriber(observer);
+        SubjectController.addObserver(behavior, observer);
 
 
         HashMap<Pair<Integer,Integer>, Integer> matches = prepareMatchMap(testBoard);

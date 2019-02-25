@@ -15,6 +15,7 @@ import java.util.*;
  *
  * @author Daniel Edwards
  */
+@Deprecated
 public final class SubjectAssistant implements ISubject, Serializable {
 
     /**
@@ -62,7 +63,6 @@ public final class SubjectAssistant implements ISubject, Serializable {
      * @throws NullPointerException If newObserver is null.
      * @author Daniel Edwards
      */
-    @Override
     public void addSubscriber(IObserver newObserver) {
 
         if(newObserver == null) {
@@ -82,7 +82,6 @@ public final class SubjectAssistant implements ISubject, Serializable {
      * @throws NullPointerException If newObserver is null.
      * @author Daniel Edwards
      */
-    @Override
     public void removeSubscriber(IObserver oldObserver) {
 
         if(oldObserver == null) {

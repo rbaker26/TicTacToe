@@ -2,6 +2,7 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.DebugObserver;
 import cs4b.proj1.observer.EventContainer;
+import cs4b.proj1.observer.SubjectController;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -33,7 +34,8 @@ public class GameTest {
         Game g = new Game(p1, p2);
 
         EventContainer<Game.MoveInfo> obs = new EventContainer<>(Game.MoveInfo.class);
-        g.addSubscriber(obs);
+        //g.addSubscriber(obs);
+        SubjectController.addObserver(g, obs);
 
         g.startGame();
 

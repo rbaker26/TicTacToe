@@ -217,50 +217,6 @@ public class Game implements ISubject, IObserver {
                     '}';
         }
     }
-
-
-    /**
-     * Subscribes the given observer, causing its update function to be called
-     * for the given event. As there can be a variety of modes, subjects are
-     * expected to implement some kind of object (e.g. an enum) to allow
-     * subscribers to select what kind of events they are interested in.
-     * <p>
-     * If an observer attempts to addSubscriber itself more than once, the first
-     * subscription should be replaced. (Unless they are with differenct
-     * modes, of course.)
-     *
-     * @param observer The observer which will be subscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void addSubscriber(IObserver observer) {
-        // TODO Maybe needed for serializable?
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant();
-        }
-
-        subjAssist.addSubscriber(observer);
-    }
-
-    /**
-     * Unsubscribes the given observer so that they will no longer receive
-     * updates for the given event. Nothing should happen if the observer
-     * isn't subscribed.
-     *
-     * @param observer Observer to be unsubscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void removeSubscriber(IObserver observer) {
-        // TODO Maybe needed for serializable?
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant();
-        }
-
-        subjAssist.removeSubscriber(observer);
-    }
-
-
     //endregion ISubject ***********************************************************
 
 
@@ -268,7 +224,6 @@ public class Game implements ISubject, IObserver {
     private Player player2;
     private Board board;
     private Player nextPlayer;       // Used to track who's turn it is.
-    private SubjectAssistant subjAssist = new SubjectAssistant();
 
     public Game() {
         player1 = new Player('X', "Blank", new HPCLocal());
@@ -318,10 +273,13 @@ public class Game implements ISubject, IObserver {
     public void startGame() {
 
         // This is so that we can hear when the players decide their moves.
-        player1.addSubscriber(this);
-        player2.addSubscriber(this);
+        //player1.addSubscriber(this);
+        //player2.addSubscriber(this);
+        SubjectController.addObserver(player1, this);
+        SubjectController.addObserver(player2, this);
 
-        subjAssist.triggerUpdate(new TurnInfo(nextPlayer, null, board));
+        SubjectController.triggerUpdate(this, new TurnInfo(nextPlayer, null, board));
+
         nextPlayer.makeMove(board);
     }
 
@@ -417,11 +375,11 @@ public class Game implements ISubject, IObserver {
                 nextPlayer = (movingPlayer != player1 ? player1 : player2);
             }
 
-            subjAssist.triggerUpdate(
-                    new Game.TurnInfo(nextPlayer, movingPlayer, board)
+            SubjectController.triggerUpdate(
+                    this, new Game.TurnInfo(nextPlayer, movingPlayer, board)
             );
-            subjAssist.triggerUpdate(
-                    new Game.MoveInfo(x, y, nextPlayer, movingPlayer, board)
+            SubjectController.triggerUpdate(
+                    this, new Game.MoveInfo(x, y, nextPlayer, movingPlayer, board)
             );
 
             if(!gameIsOver) {
@@ -441,8 +399,8 @@ public class Game implements ISubject, IObserver {
                 if(file.exists()) {
                     file.delete();
                 }
-                subjAssist.triggerUpdate(
-                        new Game.ResultInfo(getWinner())
+                SubjectController.triggerUpdate(
+                        this, new Game.ResultInfo(getWinner())
                 );
             }
         }
@@ -621,7 +579,6 @@ public class Game implements ISubject, IObserver {
                 ", player2=" + player2 +
                 ", board=" + board +
                 ", nextPlayer=" + nextPlayer +
-                ", subjAssist=" + subjAssist +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.IObserver;
 import cs4b.music.MusicPlayer;
+import cs4b.proj1.observer.SubjectController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -85,14 +86,19 @@ public class Main extends Application implements IObserver {
             vbox.getChildren().addAll(menuBar, board);
             // This sets up the UI stuff
             if(game.getPlayer1().getPb() instanceof HPCLocal) {
-                board.addSubscriber((HPCLocal) game.getPlayer1().getPb());
+                SubjectController.addObserver(
+                        board, (HPCLocal) game.getPlayer1().getPb()
+                );
             }
             if(game.getPlayer2().getPb() instanceof HPCLocal) {
-                board.addSubscriber((HPCLocal) game.getPlayer2().getPb());
+                SubjectController.addObserver(
+                        board, (HPCLocal) game.getPlayer2().getPb()
+                );
             }
-            board.addSubscriber(game);
-            board.addSubscriber(this);
-            game.addSubscriber(board);
+
+            SubjectController.addObserver(board, game);
+            SubjectController.addObserver(board, this);
+            SubjectController.addObserver(game, board);
 
             board.requestFocus();
             boardScene = new Scene(vbox, 300, 320);
@@ -114,7 +120,8 @@ public class Main extends Application implements IObserver {
 
 
         this.primaryStage = primaryStage;
-        Controller.getInstance().addSubscriber(this);
+        //Controller.getInstance().addSubscriber(this);
+        SubjectController.addObserver(Controller.getInstance(), this);
 
         startScene = new Scene(root, 360, 450);
 
