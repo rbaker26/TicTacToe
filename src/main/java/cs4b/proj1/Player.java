@@ -2,7 +2,6 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.IObserver;
 import cs4b.proj1.observer.ISubject;
-import cs4b.proj1.observer.SubjectAssistant;
 import cs4b.proj1.observer.SubjectController;
 
 import java.io.Serializable;

@@ -1,11 +1,8 @@
 package cs4b.proj1;
 
-import cs4b.proj1.observer.IObserver;
-import cs4b.proj1.observer.SubjectAssistant;
 import cs4b.proj1.observer.SubjectController;
 import javafx.util.Pair;
 
-import java.util.Objects;
 import java.util.Random;
 import java.util.ArrayList;
 

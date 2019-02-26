@@ -22,6 +22,14 @@ final public class SubjectController {
      * @param observer
      */
     static public void addObserver(ISubject subject, IObserver observer) {
+
+        if(subject == null) {
+            throw new NullPointerException("Subject is null");
+        }
+        else if (observer == null) {
+            throw new NullPointerException("Observer is null");
+        }
+
         Set<IObserver> specificObservers = subjMap.get(subject);
         if(specificObservers == null) {
             specificObservers = createObserverSet();
@@ -34,11 +42,18 @@ final public class SubjectController {
     /**
      * Remove an observer from the list associated with the subject.
      * The observer will no longer recieve updates from the subject.
-     * Does nothing in the case of nulls or unassociated connections.
      * @param subject Subject which is currently observed.
      * @param observer Observer which is being observed.
      */
     static public void removeObserver(ISubject subject, IObserver observer) {
+
+        if(subject == null) {
+            throw new NullPointerException("Subject is null");
+        }
+        else if (observer == null) {
+            throw new NullPointerException("Observer is null");
+        }
+
         Set<IObserver> specificObservers = subjMap.get(subject);
         if(specificObservers != null) {
             specificObservers.remove(observer);
@@ -57,6 +72,10 @@ final public class SubjectController {
      * @param eventInfo The event to send to observers.
      */
     static public void triggerUpdate(ISubject subject, Object eventInfo) {
+        if(subject == null) {
+            throw new NullPointerException("Subject is null");
+        }
+
         Set<IObserver> specificObservers = subjMap.get(subject);
         if(specificObservers != null) {
             for(IObserver obs : specificObservers) {
@@ -72,6 +91,10 @@ final public class SubjectController {
      * @param subject Subject to remove observers from.
      */
     static public void clearObservers(ISubject subject) {
+        if(subject == null) {
+            throw new NullPointerException("Subject is null");
+        }
+
         subjMap.remove(subject);
     }
 
@@ -81,6 +104,10 @@ final public class SubjectController {
      * @return Returns true if the subject has observers; false otherwise.
      */
     static public boolean hasObservers(ISubject subject) {
+        if(subject == null) {
+            throw new NullPointerException("Subject is null");
+        }
+
         Set<IObserver> specificObservers = subjMap.get(subject);
         return specificObservers != null && !specificObservers.isEmpty();
     }

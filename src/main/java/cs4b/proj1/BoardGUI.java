@@ -88,8 +88,6 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
             System.out.println("File not found");
         }
 
-        //subjAssist = new SubjectAssistant();
-
         for (int row = 0; row < MAX_SIZE; row++) {
             for (int col = 0; col < MAX_SIZE; col++) {
                 Pane space = new Pane();

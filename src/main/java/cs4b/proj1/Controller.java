@@ -1,14 +1,8 @@
 package cs4b.proj1;
 
-import cs4b.proj1.observer.IObserver;
 import cs4b.proj1.observer.ISubject;
-import cs4b.proj1.observer.SubjectAssistant;
 import cs4b.proj1.observer.SubjectController;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 
 public class Controller implements ISubject {
