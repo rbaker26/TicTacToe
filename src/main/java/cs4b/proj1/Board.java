@@ -1,13 +1,7 @@
 package cs4b.proj1;
 
-import cs4b.proj1.observer.IObserver;
-import cs4b.proj1.observer.ISubject;
-import cs4b.proj1.observer.SubjectAssistant;
-import javafx.util.Pair;
-
 import java.io.Serializable;
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * A Board class the holds the data necessary to display a board.

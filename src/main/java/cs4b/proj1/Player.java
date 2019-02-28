@@ -2,7 +2,7 @@ package cs4b.proj1;
 
 import cs4b.proj1.observer.IObserver;
 import cs4b.proj1.observer.ISubject;
-import cs4b.proj1.observer.SubjectAssistant;
+import cs4b.proj1.observer.SubjectController;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -72,47 +72,6 @@ public class Player implements IObserver, ISubject, Serializable {
         }
     }
 
-    private SubjectAssistant subjAssist;
-
-    /**
-     * Subscribes the given observer, causing its update function to be called
-     * for the given event. As there can be a variety of modes, subjects are
-     * expected to implement some kind of object (e.g. an enum) to allow
-     * subscribers to select what kind of events they are interested in.
-     * <p>
-     * If an observer attempts to addSubscriber itself more than once, the first
-     * subscription should be replaced. (Unless they are with differenct
-     * modes, of course.)
-     *
-     * @param observer The observer which will be subscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void addSubscriber(IObserver observer) {
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant();
-        }
-
-        subjAssist.addSubscriber(observer);
-    }
-
-    /**
-     * Unsubscribes the given observer so that they will no longer receive
-     * updates for the given event. Nothing should happen if the observer
-     * isn't subscribed.
-     *
-     * @param observer Observer to be unsubscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void removeSubscriber(IObserver observer) {
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant();
-        }
-
-        subjAssist.removeSubscriber(observer);
-    }
-
     //endregion ISubject ***********************************************************
 
 
@@ -161,13 +120,15 @@ public class Player implements IObserver, ISubject, Serializable {
 
     public void setPb(PlayerBehavior pb) {
         if(this.pb != null) {
-            this.pb.removeSubscriber(this);
+            //this.pb.removeSubscriber(this);
+            SubjectController.removeObserver(this.pb, this);
         }
 
         this.pb = pb;
 
         if(this.pb != null) {
-            this.pb.addSubscriber(this);
+            //this.pb.addSubscriber(this);
+            SubjectController.addObserver(this.pb, this);
         }
     }
 
@@ -180,17 +141,15 @@ public class Player implements IObserver, ISubject, Serializable {
     @Override
     public void update(Object eventInfo) {
 
-        if(subjAssist == null) {
-            subjAssist = new SubjectAssistant();
-        }
-
-        if(!subjAssist.hasSubscribers()) {
+        if(!SubjectController.hasObservers(this)) {
             System.out.println(getName() + " has no subscribers");
         }
         else if(eventInfo instanceof PlayerBehavior.MoveInfo) {
 
             PlayerBehavior.MoveInfo origMoveInfo = (PlayerBehavior.MoveInfo) eventInfo;
-            subjAssist.triggerUpdate(new Player.MoveInfo(this, origMoveInfo.getX(), origMoveInfo.getY()));
+            SubjectController.triggerUpdate(
+                    this, new Player.MoveInfo(this, origMoveInfo.getX(), origMoveInfo.getY())
+            );
         }
     }
 
@@ -200,21 +159,19 @@ public class Player implements IObserver, ISubject, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
         return getSymbol() == player.getSymbol() &&
-                Objects.equals(subjAssist, player.subjAssist) &&
                 Objects.equals(getName(), player.getName()) &&
                 Objects.equals(getPb(), player.getPb());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subjAssist, getName(), getSymbol(), getPb());
+        return Objects.hash(getName(), getSymbol(), getPb());
     }
 
     @Override
     public String toString() {
         return "Player{" +
-                "subjAssist=" + subjAssist +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", symbol=" + symbol +
                 ", pb=" + pb +
                 '}';

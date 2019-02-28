@@ -75,7 +75,6 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
     private Image xImg;
     private Image oImg;
     private Image emptyImg;
-    private SubjectAssistant subjAssist;
 
     private boolean xTurn = true;
 
@@ -88,8 +87,6 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
         catch(Exception ex) {
             System.out.println("File not found");
         }
-
-        subjAssist = new SubjectAssistant();
 
         for (int row = 0; row < MAX_SIZE; row++) {
             for (int col = 0; col < MAX_SIZE; col++) {
@@ -104,13 +101,12 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
                     if(event.getButton() == MouseButton.SECONDARY) {
                         this.resetBoard();
                     } else {
-                        //this.toggleToken((Node)event.getSource());
-                        subjAssist.triggerUpdate(
-                            new SelectedSpaceInfo(
+
+                        Object eventInfo = new SelectedSpaceInfo(
                                 GridPane.getColumnIndex((Node)event.getSource()),
                                 GridPane.getRowIndex((Node)event.getSource())
-                            )
                         );
+                        SubjectController.triggerUpdate(this, eventInfo);
                     }
                 });
                 this.add(space, col, row);
@@ -203,42 +199,8 @@ public class BoardGUI extends GridPane implements ISubject, IObserver {
             alert.showAndWait();
             File file = new File("gameState");
             file.delete();
-            subjAssist.triggerUpdate(new BoardGUI.Finished());
+            //subjAssist.triggerUpdate(new BoardGUI.Finished());
+            SubjectController.triggerUpdate(this, new BoardGUI.Finished());
         }
     }
-
-    //region ISubject *************************************************************
-
-    /**
-     * Subscribes the given observer, causing its update function to be called
-     * for the given event. As there can be a variety of modes, subjects are
-     * expected to implement some kind of object (e.g. an enum) to allow
-     * subscribers to select what kind of events they are interested in.
-     * <p>
-     * If an observer attempts to addSubscriber itself more than once, the first
-     * subscription should be replaced. (Unless they are with differenct
-     * modes, of course.)
-     *
-     * @param observer The observer which will be subscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void addSubscriber(IObserver observer) {
-        subjAssist.addSubscriber(observer);
-    }
-
-    /**
-     * Unsubscribes the given observer so that they will no longer receive
-     * updates for the given event. Nothing should happen if the observer
-     * isn't subscribed.
-     *
-     * @param observer Observer to be unsubscribed.
-     * @author Daniel Edwards
-     */
-    @Override
-    public void removeSubscriber(IObserver observer) {
-        subjAssist.removeSubscriber(observer);
-    }
-
-    //endregion ISubject ***********************************************************
 }

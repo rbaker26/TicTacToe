@@ -12,7 +12,8 @@ public class PlayerTest {
 
         Board b = new Board();
 
-        testPlayer.addSubscriber(container);
+        //testPlayer.addSubscriber(container);
+        SubjectController.addObserver(testPlayer, container);
         testPlayer.makeMove(b);
         assertEquals(container.getEventInfo().getSource(), testPlayer);
         //System.out.println(container.getEventInfo());
